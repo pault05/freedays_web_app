@@ -38,7 +38,7 @@ class UserFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
             'deleted_at' => null,
-            'hired_at' => now(),
+            'hired_at' => null,
             ];
     }
 

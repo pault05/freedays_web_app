@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_admin')->default(false);
             $table->foreignId('company_id')->references('id')->on('companies'); //->onDelete('cascade');
             $table->integer('free_days');
-            $table->timestamp('hired_at');
+            $table->timestamp('hired_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

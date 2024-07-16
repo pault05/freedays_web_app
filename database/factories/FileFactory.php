@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\File>
  */
-class CompanyFactory extends Factory
+class FileFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +17,8 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company(),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'type'=>$this->faker->fileExtension(),
+            'path'=>$this->faker->filePath(),//va primi in timp fisieruls
         ];
     }
 }

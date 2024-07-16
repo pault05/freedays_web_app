@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
+use App\Models\File;
+use App\Models\OfficialHoliday;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserFile;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +17,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+//        User::factory()->create([
+//            'first_name' => 'Test User',
+//            'email' => 'test@example.com',
+//        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        Company::factory(10)->create();
+        User::factory(10)->create();
+        OfficialHoliday::factory(10)->create();
+        File::factory(10)->create();
+        UserFile::factory(10)->create();
     }
 }

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use function Laravel\Prompts\table;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -24,12 +25,21 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ];
+            'company_id' => fake()->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), //TODO
+            'position' => fake()->jobTitle(),
+            'phone' => fake()->phoneNumber(),
+            'is_admin' => fake()->boolean(),
+            'free_days' => fake()->randomElement([10, 15, 21, 25]),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'deleted_at' => null,
+            'hired_at' => now(),
+            ];
     }
 
     /**

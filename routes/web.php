@@ -7,27 +7,27 @@ Route::get('/', function () {
 });
 
 // acc creation serban din post in get
-Route::post('/accountCreation', function ()
+Route::post('/account-creation', function ()
 {
-    return view('account-creation');
+    return view('account_creation');
 });
 
 // user profile edina
-Route::get('/userProfile', function ()
+Route::get('/user-profile', function ()
 {
-    return view('user-profile');
+    return view('user_profile');
 });
 
 // holiday req georgiana
-Route::post('/holidayRequest', function ()
+Route::post('/free-day-request', function ()
 {
-   return view('holiday-request');
+   return view('free_day_request');
 });
 
 // admin view on hol req
-Route::get('/adminView', function ()
+Route::get('/admin-view', function ()
 {
-    return view('admin-view');
+    return view('admin_view');
 });
 
 // home page paul   / sau /home

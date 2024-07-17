@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Free_daysRequest>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FreeDaysRequest>
  */
 class FreeDaysRequestFactory extends Factory
 {
@@ -17,7 +17,9 @@ class FreeDaysRequestFactory extends Factory
     public function definition(): array
     {
         return [
-
+            'user_id' => $this->faker->numberBetween(1, 10),
+            'category'=> fake()->word(),
+            'status' => fake()->word(),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use App\Models\File;
+use App\Models\FreeDaysRequest;
 use App\Models\OfficialHoliday;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         Company::factory(10)->create();
         User::factory(10)->create();
         OfficialHoliday::factory(10)->create();
+        FreeDaysRequest::factory(10)->create();
         File::factory(10)->create();
         UserFile::factory(10)->create();
     }

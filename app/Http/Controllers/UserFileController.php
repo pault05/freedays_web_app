@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User_file;
+use App\Models\UserFile;
 use App\Http\Requests\StoreUser_filesRequest;
 use App\Http\Requests\UpdateUser_filesRequest;
 
@@ -35,7 +35,7 @@ class UserFileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User_file $user_files)
+    public function show(UserFile $user_files)
     {
         //
     }
@@ -43,7 +43,7 @@ class UserFileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User_file $user_files)
+    public function edit(UserFile $user_files)
     {
         //
     }
@@ -51,7 +51,7 @@ class UserFileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUser_filesRequest $request, User_file $user_files)
+    public function update(UpdateUser_filesRequest $request, UserFile $user_files)
     {
         //
     }
@@ -59,7 +59,7 @@ class UserFileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User_file $user_files)
+    public function destroy(UserFile $user_files)
     {
         //
     }

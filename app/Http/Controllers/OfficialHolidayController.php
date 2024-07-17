@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Official_holiday;
+
 use App\Http\Requests\StoreOfficial_holidaysRequest;
 use App\Http\Requests\UpdateOfficial_holidaysRequest;
+use App\Models\OfficialHoliday;
 
 class OfficialHolidayController extends Controller
 {
@@ -35,7 +36,7 @@ class OfficialHolidayController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Official_holiday $official_holidays)
+    public function show(OfficialHoliday $official_holidays)
     {
         //
     }
@@ -43,7 +44,7 @@ class OfficialHolidayController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Official_holiday $official_holidays)
+    public function edit(OfficialHoliday $official_holidays)
     {
         //
     }
@@ -51,7 +52,7 @@ class OfficialHolidayController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOfficial_holidaysRequest $request, Official_holiday $official_holidays)
+    public function update(UpdateOfficial_holidaysRequest $request, OfficialHoliday $official_holidays)
     {
         //
     }
@@ -59,7 +60,7 @@ class OfficialHolidayController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Official_holiday $official_holidays)
+    public function destroy(OfficialHoliday $official_holidays)
     {
         //
     }

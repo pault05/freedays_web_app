@@ -22,8 +22,5 @@ Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'in
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'index']);
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index'])->name('user.profile');
 
-<<<<<<< Updated upstream
 
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
-=======
->>>>>>> Stashed changes

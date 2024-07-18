@@ -9,6 +9,13 @@ use App\Models\OfficialHoliday;
 
 class OfficialHolidayController extends Controller
 {
+
+    public function getHolidays()
+    {
+        $holidays = OfficialHoliday::all();
+        return response()->json($holidays);
+    }
+
     /**
      * Display a listing of the resource.
      */

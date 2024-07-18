@@ -20,7 +20,8 @@ class OfficialHolidayFactory extends Factory
         return [
             'name' => fake()->name(), //doar pt seeder
            // 'date' => $this->faker->date(),
-            'date' => fake()->dateTimeBetween('2024-07-15', '2026-12-31')->format('Y-m-d'),
+            'starting_date' => fake()->dateTimeBetween('2024-07-15', '2026-12-31')->format('Y-m-d'),
+            'ending_date' => fake()->dateTimeBetween('2024-07-15', '2026-12-31')->format('Y-m-d'),
             'created_at' => now(),
             'updated_at' => now(),
         ];

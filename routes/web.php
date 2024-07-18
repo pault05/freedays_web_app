@@ -15,7 +15,7 @@ Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'in
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
-
+Route::get('/holidays', [\App\Http\Controllers\OfficialHolidayController::class, 'getHolidays']);
 Route::get('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'index']);
 
 

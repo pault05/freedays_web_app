@@ -96,7 +96,7 @@
 
             .fc-holiday {
                 background-color: #ffdddd; /* Light red background */
-                border: 1px solid #ff0000; /* Red border */
+                border: 1px solid #4326ac; /* Red border */
             }
 
         </style>

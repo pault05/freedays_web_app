@@ -18,9 +18,8 @@ class OfficialHolidayFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->colorName(), //doar pt seeder
-            // 'date' => $this->faker->date($format = 'Y-m-d'),
-            'date' => $this->faker->dateTimeBetween($startDate = 'now', $endDate = '2026-12-31'),
+            'name' => fake()->name(), //doar pt seeder
+            'date' => $this->faker->date(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

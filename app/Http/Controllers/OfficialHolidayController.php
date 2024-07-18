@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Official_holiday;
+use App\Models\OfficialHoliday;
 use App\Http\Requests\StoreOfficial_holidaysRequest;
 use App\Http\Requests\UpdateOfficial_holidaysRequest;
 
@@ -13,7 +13,8 @@ class OfficialHolidayController extends Controller
      */
     public function index()
     {
-        //
+        $officialHolidays = OfficialHoliday::all();
+        return view('official_holiday', ['officialHolidays' => $officialHolidays]);
     }
 
     /**

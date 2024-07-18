@@ -8,6 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class OfficialHoliday extends Model
 {
     use HasFactory;
-
-
 }

@@ -8,7 +8,7 @@ class UserProfileController extends Controller
 {
 public function index()
 {
-// Mock user data (replace with your logic)
+
 $user = [
 'first_name' => 'John',
 'last_name' => 'Doe',

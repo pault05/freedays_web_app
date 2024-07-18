@@ -11,4 +11,8 @@ class AccountCreationController extends Controller
     {
         return view('account_creation');
     }
+
+    public function save(){
+
+    }
 }

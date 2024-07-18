@@ -11,6 +11,7 @@ Route::get('/home', function () {
 
 Route::get('/free-day-request', [FreeDaysRequestController::class, 'index']);
 Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
+Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'save']);
 Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'index']);
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);

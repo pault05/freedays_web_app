@@ -1,0 +1,63 @@
+/* Global body styling with soft gradient background */
+body {
+    background: linear-gradient(to bottom right, #cfd8dc, #e0e0e0); /* Soft gradient background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font family */
+    padding-top: 20px; /* Add padding to the top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Styling for the profile container */
+.profile-container {
+    background-color: #ffffff; /* White background */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    padding: 30px; /* Padding inside the container */
+    max-width: 800px; /* Adjusted max-width for better readability on larger screens */
+    width: 100%; /* Take full width of its container */
+    margin: auto; /* Center align horizontally */
+}
+
+/* Centered title styling with animation */
+.title {
+    font-size: 3rem; /* Larger font size for title */
+    color: #0d6efd; /* Primary Bootstrap blue */
+    animation: scale 0.5s ease-out; /* Scale animation */
+}
+
+/* Rounded input fields styling */
+.rounded-input {
+    border-radius: 12px; /* Slightly larger rounded corners for input fields */
+    font-size: 1.2rem; /* Larger font size for input fields */
+    padding: 12px; /* Increased padding for input fields */
+}
+
+/* Button styling with rounded corners */
+.btn-rounded {
+    border-radius: 20px; /* Rounded corners for buttons */
+    padding: 12px 24px; /* Increased padding inside buttons */
+    font-size: 1.2rem; /* Larger font size for buttons */
+    margin-top: 20px; /* Increased top margin for buttons */
+}
+
+/* Animation keyframes for scaling effect */
+@keyframes scale {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Icon for password visibility toggle */
+.password-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d; /* Icon color */
+}

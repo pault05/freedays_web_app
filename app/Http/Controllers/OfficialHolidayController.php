@@ -13,8 +13,7 @@ class OfficialHolidayController extends Controller
      */
     public function index()
     {
-        $officialHolidays = OfficialHoliday::all();
-        return view('official_holiday', ['officialHolidays' => $officialHolidays]);
+        //
     }
 
     /**

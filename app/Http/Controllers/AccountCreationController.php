@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountCreationController extends Controller
 {
@@ -19,12 +20,13 @@ class AccountCreationController extends Controller
         $email = $request->input('email');
         $position = $request->input('position');
         $phone = $request->input('phone');
-        $company_id = 1;
+        $company_id = Auth::user()->company_id;
         $free_days = $request->input('free_days');
         $hired_at = $request->input('hired_at');
         $password = $request->input('password');
 
-        User::create([
+        $user = new User();
+        $user->create([
             'first_name' => $first_name,
             'last_name' => $last_name,
             'email' => $email,

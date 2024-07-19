@@ -104,7 +104,7 @@
     </div>
 
     <footer>
-        <div class="d-flex container justify-content-end" style="width: 54vw">
+        <div class="d-flex container justify-content-end" style="width: 99%">
             <button class="btn btn-primary ms-3">Contact</button>
             <button class="btn btn-primary ms-3">Internal Conduit</button>
         </div>

@@ -19,11 +19,16 @@ Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'in
 Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
 Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
 
+
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'index']);
+Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
+
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
+Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('user-profile.update');
 
 Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
-Route::post('/official-holiday/store', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');
+Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');
+
 Route::delete('/official-holiday/deleteAll', [\App\Http\Controllers\OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
+
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);

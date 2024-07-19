@@ -71,9 +71,8 @@
                                 </div>
                             </div>
                     </div>
-
                     <div class="row ms-1 mt-4">
-                            <div class="d-flex justify-content-end" style="width: 70vw">
+                            <div class="d-flex justify-content-end" style="margin-left: 5.5%">
                                 <a href="/home" type="button" class="btn btn-primary">Back</a>
                                 <button type="submit" class="btn btn-primary ms-3">Submit</button>
                             </div>

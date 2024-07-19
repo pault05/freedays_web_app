@@ -9,5 +9,4 @@ class OfficialHoliday extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'date'];
-
 }

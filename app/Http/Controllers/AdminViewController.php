@@ -21,7 +21,7 @@ class AdminViewController extends Controller
         $request->status = 'approved';
         $request->save();
 
-        return redirect()->back()->with('success', 'Request approved successfully.');
+        return redirect()->back()->with('success', 'Success');
     }
 
     public function deny($id)
@@ -30,6 +30,6 @@ class AdminViewController extends Controller
         $request->status = 'denied';
         $request->save();
 
-        return redirect()->back()->with('success', 'Request denied successfully.');
+        return redirect()->back()->with('success', 'Success');
     }
 }

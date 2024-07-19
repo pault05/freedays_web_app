@@ -11,11 +11,27 @@
 </head>
 <body>
 
-
-<div class="container">
-    @yield('content')
+<div class="main-container d-flex">
+    <div class="left-container d-flex flex-column flex-shrink-0 p-3 text-white bg-dark align-items-center" style="height: 100vh; color: #1a202c; width: 12%; background-color: #1a202c;">
+        <ul class="nav nav-pills flex-column align-items-center justify-content-center mt-5 w-100">
+            <li class="nav-item mb-3 w-100">
+                <a href="#" class="nav-link text-white text-center">Home</a>
+            </li>
+            <li class="nav-item mb-3 w-100">
+                <a href="#" class="nav-link text-white text-center">About</a>
+            </li>
+            <li class="nav-item mb-3 w-100">
+                <a href="#" class="nav-link text-white text-center">Services</a>
+            </li>
+            <li class="nav-item mb-3 w-100">
+                <a href="#" class="nav-link text-white text-center">Contact</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        @yield('content')
+    </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

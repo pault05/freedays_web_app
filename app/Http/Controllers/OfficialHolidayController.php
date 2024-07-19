@@ -37,7 +37,7 @@ class OfficialHolidayController extends Controller
 
         $officialHoliday = new OfficialHoliday();
         $officialHoliday->name = $request->name;
-        $officialHoliday->date = now();
+        $officialHoliday->date = $request->date;
         $officialHoliday->save();
 
         return redirect()->back()->with('success', 'successfully.');

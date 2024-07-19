@@ -31,6 +31,7 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'hired_at',
+        'color',
         'password',
         'deleted_at'
     ];

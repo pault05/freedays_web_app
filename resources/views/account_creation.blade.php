@@ -213,7 +213,7 @@
                 <div class="row g-5">
                     <div class="col-md-7 col-lg-8">
                         <h4 class="mb-3">Add a Profile for user </h4>
-                        <form class="needs-validation" novalidate>
+                        <form class="needs-validation" action="home.blade.php" method="POST">
                             <div class="row g-3">
                                 <div class="col-sm-6">
                                     <label for="firstName" class="form-label">First name</label>
@@ -234,7 +234,7 @@
 
                                 <div class="col-12">
                                     <label for="email" class="form-label">Email </label>
-                                    <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
                                     <div class="invalid-feedback">
                                         Please enter a valid email address for shipping updates.
                                     </div>

@@ -37,6 +37,11 @@ class UserFactory extends Factory
             'free_days' => fake()->randomElement([10, 15, 21, 25]),
             'created_at' => now(),
             'updated_at' => now(),
+            'color' => fake()->randomElement([
+                '#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#A1FF33', '#33A1FF',
+                '#FF3380', '#80FF33', '#3380FF', '#FF8333', '#33FF83', '#8333FF',
+                '#FF3333', '#33FF33', '#3333FF'
+            ]),
             'deleted_at' => null,
             'hired_at' => null,
             ];

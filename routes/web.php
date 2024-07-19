@@ -11,6 +11,7 @@ Route::get('/home', function () {
 
 Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index']);
 Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
+Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'create']);
 Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);

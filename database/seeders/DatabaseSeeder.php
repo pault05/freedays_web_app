@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Company;
 use App\Models\File;
 use App\Models\FreeDaysRequest;
@@ -24,10 +25,12 @@ class DatabaseSeeder extends Seeder
 //        ]);
 
         Company::factory(10)->create();
+        Category::factory(4)->create();
         User::factory(10)->create();
         OfficialHoliday::factory(10)->create();
         FreeDaysRequest::factory(10)->create();
         File::factory(10)->create();
-        UserFile::factory(10)->create();
+        UserFile::factory(  10)->create();
+
     }
 }

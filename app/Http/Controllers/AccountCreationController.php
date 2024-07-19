@@ -44,6 +44,6 @@ class AccountCreationController extends Controller
                 '#FF3333', '#33FF33', '#3333FF']),
         ]);
 
-        dd($request->all());
+        return redirect('/home');
     }
 }

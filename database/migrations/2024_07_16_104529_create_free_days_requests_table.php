@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('starting_date');
             $table->date('ending_date');
             $table->string('description')->nullable();
+            $table->softDeletes();
             //$table->foreignId()
         });
     }

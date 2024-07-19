@@ -12,6 +12,7 @@ class FreeDaysRequestController extends Controller
     {
         return view('free_day_request');
     }
+
     public function save()
     {
         dd(1);

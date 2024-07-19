@@ -182,11 +182,11 @@
         </ul>
     </div>
 
-    <h1 style="padding: 10px; text-align: center" >Welcome to Vacation Vault!</h1>
-    <main class="form-signin m-auto" style="width: 45%" >
+    <h1 style="padding-top: 80px; text-align: center; padding-bottom: 20px"  >Welcome to Vacation Vault!</h1>
+    <main class="form-signin m-auto" style="width: 45%">
         <form method="POST" action="/login" style="text-align: center">
             @csrf
-            <img class="mb-4" src="/resources/views/Components/login_logo.png" alt="" width="293" height="52">
+            <img class="mb-4" src="{{ asset('images/login_logo.png') }}" alt="" width="293" height="52">
             <h1 class="h3 mb-3 fw-normal" style="padding: 10px">Please Log In</h1>
 
             <div class="form-floating" style="padding: 2px">

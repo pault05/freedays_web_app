@@ -20,7 +20,7 @@ class OfficialHolidayController extends Controller
     public function getHolidays()
     {
         $holidays = OfficialHoliday::all()->map(function($holiday) {
-            return $holiday->only(['name', 'starting_date', 'ending_date']);
+            return $holiday->only(['name', 'date']);
         });
         return response()->json($holidays);
     }

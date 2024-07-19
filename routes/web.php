@@ -18,7 +18,8 @@ Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])
 Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
 
 
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'index']);
+Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
+Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
 
 Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');

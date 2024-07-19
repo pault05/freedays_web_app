@@ -15,6 +15,6 @@ class FreeDaysRequestController extends Controller
 
     public function save()
     {
-        dd(1);
+        dd(request()->all());
     }
 }

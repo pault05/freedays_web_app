@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OfficialHoliday;
 use App\Http\Requests\StoreOfficial_holidaysRequest;
 use App\Http\Requests\UpdateOfficial_holidaysRequest;
-
+use Illuminate\Http\Request;
 class OfficialHolidayController extends Controller
 {
     /**
@@ -20,7 +20,7 @@ class OfficialHolidayController extends Controller
     public function getHolidays()
     {
         $holidays = OfficialHoliday::all()->map(function($holiday) {
-            return $holiday->only(['name', 'date']);
+            return $holiday->only(['name', 'starting_date', 'ending_date']);
         });
         return response()->json($holidays);
     }
@@ -30,13 +30,22 @@ class OfficialHolidayController extends Controller
      */
     public function create()
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $officialHoliday = new OfficialHoliday();
+        $officialHoliday->name = $request->name;
+        $officialHoliday->date = now();
+        $officialHoliday->save();
+
+        return redirect()->back()->with('success', 'successfully.');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOfficial_holidaysRequest $request)
+    public function store(Request $request)
     {
         //
     }

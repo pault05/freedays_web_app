@@ -120,22 +120,23 @@
                     }
                     return [];
                 },
-                events: {
-                    url: '/holidays', // URL to fetch holidays from
-                    method: 'GET',
-                    failure: function() {
-                        alert('There was an error while fetching holidays!');
-                    },
-                    success: function(data) {
-                        data.forEach(function(holiday) {
-                            calendar.addEvent({
+                events: function(fetchInfo, successCallback, failureCallback) {
+                    fetch('/holidays') // URL to fetch holidays from
+                        .then(response => response.json())
+                        .then(data => {
+                            const events = data.map(holiday => ({
                                 title: holiday.name,
-                                start: holiday.date,
-                                display: 'background',
+                                start: holiday.starting_date,
+                                end: holiday.ending_date ? holiday.ending_date : holiday.starting_date,
+                                display: 'block',
                                 classNames: ['fc-holiday']
-                            });
+                            }));
+                            successCallback(events);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching holidays:', error);
+                            failureCallback(error);
                         });
-                    }
                 }
             });
             calendar.render();

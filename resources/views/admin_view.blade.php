@@ -31,8 +31,18 @@
                         <td>{{ $view->status }}</td>
                         <td>{{ $view->created_at }}</td>
                         <td>{{ $view->updated_at }}</td>
-                        <td><button type="button" class="btn btn-success">Approve</button></td>
-                        <td><button type="button" class="btn btn-danger">Deny</button></td>
+                        <td>
+                            <form action="{{ route('admin-view.approve', $view->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Approve</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ route('admin-view.deny', $view->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Deny</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

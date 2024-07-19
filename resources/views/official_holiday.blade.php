@@ -6,10 +6,11 @@
             <h1 style="text-shadow: 2px 2px 4px black">Official Holidays</h1>
         </div>
 
-        <form action="" class="card shadow-sm rounded mt-3 p-5 mb-5 col-12 col-md-6">
+        <form action="{{ route('official-holiday.store') }}" method="POST" class="card shadow-sm rounded mt-3 p-5 mb-5 col-12 col-md-6">
+            @csrf
             <div class="mb-3">
                 <label for="holiday-name" class="form-label">Holiday Name</label>
-                <input id="holiday-name" name="holiday-name" type="text" class="form-control form-control-lg" placeholder="Enter Holiday Name">
+                <input id="holiday-name" name="name" type="text" class="form-control form-control-lg" placeholder="Enter Holiday Name">
             </div>
 
             <div class="row">
@@ -29,7 +30,7 @@
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary btn-lg" type="button">Submit</button>
+                <button class="btn btn-primary btn-lg" type="submit">Submit</button>
             </div>
         </form>
 

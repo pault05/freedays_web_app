@@ -19,103 +19,105 @@
 <div class="profile-text">
     <h1 class="title">User Profile</h1>
 </div>
-<div class="container">
-    <div class="profile-container mx-auto">
-        <div class="profile-header text-center">
-            <div>
-                <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="Profile Image">
-                <label for="file-input" class="custom-file-upload">
-                    <i class="fas fa-upload"></i> Upload Photo
-                </label>
-                <input type="file" id="file-input" style="display: none;" onchange="previewImage(event)">
-            </div>
-        </div>
-
-        <form id="profile-form">
-            <div class="form-group">
-                <label for="first-name">First Name</label>
-                <input type="text" class="form-control rounded-input" id="first-name" value="{{ $user['first_name'] }}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="last-name">Last Name</label>
-                <input type="text" class="form-control rounded-input" id="last-name" value="{{ $user['last_name'] }}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control rounded-input" id="email" value="{{ $user['email'] }}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" class="form-control rounded-input" id="phone" value="{{ $user['phone'] }}" disabled>
-            </div>
-            <div class="form-group mt-4">
-                <label for="days-off">Days Off Left</label>
-                <input type="text" class="form-control rounded-input" id="days-off" value="{{ $user['days_off_left'] }}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="employed-at">Hired At</label>
-                <input type="text" class="form-control rounded-input" id="employed-at" value="{{ $user['hired_at'] }}" disabled>
-            </div>
-
-            <div class="text-center mt-4">
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <button type="button" class="btn btn-edit btn-rounded w-100" id="edit-btn" onclick="enableEditing()">Edit</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="button" class="btn btn-change-password btn-rounded w-100" data-toggle="modal" data-target="#changePasswordModal">Change Password</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button type="button" class="btn btn-save btn-rounded w-100" id="save-btn" onclick="saveChanges()" style="display: none;">Save</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="button" class="btn btn-cancel btn-rounded w-100" id="cancel-btn" onclick="cancelEditing()" style="display: none;">Cancel</button>
-                    </div>
+<form method="POST" action="/user-profile" >
+    @csrf
+    <div class="container">
+        <div class="profile-container mx-auto">
+            <div class="profile-header">
+                <div>
+                    <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="Profile Image">
+                    <label for="file-input" class="custom-file-upload">
+                        <i class="fas fa-upload"></i> Upload Photo
+                    </label>
+                    <input type="file" id="file-input" style="display: none;" onchange="previewImage(event)">
                 </div>
             </div>
-        </form>
-    </div>
 
-    <!-- Change Password Modal -->
-    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" class="form-control rounded-input" id="first-name" name="first_name" value="{{ $user['first_name'] }}" >
                 </div>
-                <div class="modal-body">
-                    <form id="change-password-form">
-                        <div class="form-group">
-                            <label for="new-password">New Password</label>
-                            <input type="password" class="form-control" id="new-password" required>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" class="form-control rounded-input" id="last-name" name="last_name" value="{{ $user['last_name'] }}" >
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control rounded-input" id="email" name="email" value="{{ $user['email'] }}" >
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" class="form-control rounded-input" id="phone" name="phone"value="{{ $user['phone'] }}" >
+                </div>
+                <div class="form-group mt-4">
+                    <label for="days-off">Days Off Left</label>
+                    <input type="text" class="form-control rounded-input" id="days-off" value="{{ $user['days_off_left'] }}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="hired_at">Hired At</label>
+                    <input type="date" class="form-control rounded-input" id="hired_at" value="{{ $user['hired_at'] }}" disabled>
+                </div>
+
+                <div class="text-center mt-4">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-edit btn-rounded w-100" id="edit-btn" onclick="enableEditing()">Edit</button>
                         </div>
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm New Password</label>
-                            <input type="password" class="form-control" id="confirm-password" required>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-change-password btn-rounded w-100" data-toggle="modal" data-target="#changePasswordModal">Change Password</button>
                         </div>
-                        <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
-                        <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>
-                        <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
-                    </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-save btn-rounded w-100" id="save-btn" onclick="saveChanges()" style="display: none;">Save</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel btn-rounded w-100" id="cancel-btn" onclick="cancelEditing()" style="display: none;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="change-password-form">
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input type="password" class="form-control" id="new-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirm-password" required>
+                            </div>
+                            <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
+                            <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>
+                            <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <footer class="footer">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+            <div class="help-footer">
+                <a href="#">Regulament</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </footer>
     </div>
-
-    <footer class="footer">
-        <p>&copy; 2023 Your Company. All rights reserved.</p>
-        <div class="help-footer">
-            <a href="#">Regulament</a>
-            <a href="#">Contact Support</a>
-        </div>
-    </footer>
-</div>
-
+</form>
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

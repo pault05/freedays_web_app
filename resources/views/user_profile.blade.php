@@ -9,13 +9,28 @@
     <title>User Profile</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 </head>
 <body>
+
+<div class="profile-text">
+    <h1 class="title">User Profile</h1>
+</div>
 <div class="container">
-    <div class="profile-container mx-auto p-4">
-        <h1 class="title text-center mb-4">User Profile</h1>
+    <div class="profile-container mx-auto">
+        <div class="profile-header">
+            <div>
+                <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="Profile Image">
+                <label for="file-input" class="custom-file-upload">
+                    <i class="fas fa-upload"></i> Upload Photo
+                </label>
+                <input type="file" id="file-input" style="display: none;" onchange="previewImage(event)">
+            </div>
+        </div>
+
         <form id="profile-form">
             <div class="form-group">
                 <label for="first-name">First Name</label>
@@ -33,128 +48,146 @@
                 <label for="phone">Phone Number</label>
                 <input type="tel" class="form-control rounded-input" id="phone" value="{{ $user['phone'] }}" disabled>
             </div>
-            <div class="card mt-4">
-                <div class="card-header">Change Password</div>
-                <div class="card-body">
-                    <div class="form-group position-relative">
-                        <label for="password">Current Password</label>
-                        <input type="password" class="form-control rounded-input" id="password" value="********" disabled>
-                        <i class="far fa-eye password-icon" onclick="togglePasswordVisibility('password')"></i>
-                    </div>
-                    <div class="form-group">
-                        <label for="new-password">New Password</label>
-                        <input type="password" class="form-control rounded-input" id="new-password">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm-password">Confirm New Password</label>
-                        <input type="password" class="form-control rounded-input" id="confirm-password">
-                    </div>
-                </div>
-            </div>
             <div class="form-group mt-4">
                 <label for="days-off">Days Off Left</label>
-                <input type="text" class="form-control non-editable rounded-input" id="days-off" value="{{ $user['days_off_left'] }}" disabled>
+                <input type="text" class="form-control rounded-input" id="days-off" value="{{ $user['days_off_left'] }}" disabled>
             </div>
             <div class="form-group">
                 <label for="employed-at">Hired At</label>
-                <input type="text" class="form-control non-editable rounded-input" id="employed-at" value="{{ $user['hired_at'] }}" disabled>
+                <input type="text" class="form-control rounded-input" id="employed-at" value="{{ $user['hired_at'] }}" disabled>
             </div>
+
             <div class="text-center mt-4">
-                <button type="button" class="btn btn-primary btn-rounded" id="edit-btn" onclick="enableEditing()">Edit</button>
-                <button type="button" class="btn btn-success btn-rounded" id="save-btn" onclick="saveChanges()" style="display: none;">Save</button>
-                <button type="button" class="btn btn-danger btn-rounded" id="cancel-btn" onclick="cancelEditing()" style="display: none;">Cancel</button>
-            </div>
-            <div class="text-center mt-3">
-                <button type="button" class="btn btn-primary btn-rounded" id="confirm-password-btn" onclick="confirmPassword()">Confirm Password Change</button>
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-edit btn-rounded w-100" id="edit-btn" onclick="enableEditing()">Edit</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-change-password btn-rounded w-100" data-toggle="modal" data-target="#changePasswordModal">Change Password</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-save btn-rounded w-100" id="save-btn" onclick="saveChanges()" style="display: none;">Save</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel btn-rounded w-100" id="cancel-btn" onclick="cancelEditing()" style="display: none;">Cancel</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="change-password-form">
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" class="form-control" id="new-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm-password" required>
+                        </div>
+                        <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
+                        <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>
+                        <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+        <div class="help-footer">
+            <a href="#">Regulament</a>
+            <a href="#">Contact Support</a>
+        </div>
+    </footer>
 </div>
 
+<!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!-- Custom JS -->
 <script>
-    function enableEditing() {
-        document.getElementById('first-name').disabled = false;
-        document.getElementById('last-name').disabled = false;
-        document.getElementById('email').disabled = false;
-        document.getElementById('phone').disabled = false;
-        document.getElementById('password').disabled = false;
-        document.getElementById('new-password').disabled = false;
-        document.getElementById('confirm-password').disabled = false;
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('profile-img');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
 
+    function enableEditing() {
+        document.querySelectorAll('#profile-form input:not(#days-off, #employed-at)').forEach(input => {
+            input.disabled = false;
+        });
         document.getElementById('edit-btn').style.display = 'none';
-        document.getElementById('save-btn').style.display = 'inline-block';
-        document.getElementById('cancel-btn').style.display = 'inline-block';
+        document.getElementById('save-btn').style.display = 'block';
+        document.getElementById('cancel-btn').style.display = 'block';
     }
 
     function saveChanges() {
-        const firstName = document.getElementById('first-name').value;
-        const lastName = document.getElementById('last-name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const newPassword = document.getElementById('new-password').value;
-
-        alert('Password changed successfully!');
-
-        document.getElementById('first-name').disabled = true;
-        document.getElementById('last-name').disabled = true;
-        document.getElementById('email').disabled = true;
-        document.getElementById('phone').disabled = true;
-        document.getElementById('password').disabled = true;
-        document.getElementById('new-password').disabled = true;
-        document.getElementById('confirm-password').disabled = true;
-
-        document.getElementById('edit-btn').style.display = 'inline-block';
+        document.querySelectorAll('#profile-form input').forEach(input => {
+            input.disabled = true;
+        });
+        document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
+        // Optionally, submit the form here
     }
 
     function cancelEditing() {
-        document.getElementById('first-name').disabled = true;
-        document.getElementById('last-name').disabled = true;
-        document.getElementById('email').disabled = true;
-        document.getElementById('phone').disabled = true;
-        document.getElementById('password').disabled = true;
-        document.getElementById('new-password').disabled = true;
-        document.getElementById('confirm-password').disabled = true;
-
-        document.getElementById('edit-btn').style.display = 'inline-block';
+        document.querySelectorAll('#profile-form input').forEach(input => {
+            input.disabled = true;
+        });
+        document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
     }
 
-    function togglePasswordVisibility(id) {
-        const passwordInput = document.getElementById(id);
-        const icon = document.querySelector('.password-icon');
+    document.getElementById('change-password-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-
-    function confirmPassword() {
-        const currentPassword = document.getElementById('password').value;
+        // Get the password values
         const newPassword = document.getElementById('new-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
 
-        if (newPassword !== confirmPassword) {
-            alert('Passwords do not match! Please re-enter.');
-            document.getElementById('new-password').value = '';
-            document.getElementById('confirm-password').value = '';
-            return;
-        }
+        const feedbackElement = document.getElementById('password-feedback');
 
-        saveChanges();
-    }
+        if (newPassword === confirmPassword) {
+            // Simulate successful password change
+            feedbackElement.className = 'alert alert-success';
+            feedbackElement.textContent = 'Password changed successfully.';
+            feedbackElement.style.display = 'block';
+
+            // Perform the password change (e.g., via AJAX or form submission)
+            // document.getElementById('change-password-form').submit(); // Uncomment if submitting form
+
+            // Hide the modal after a delay for demonstration purposes
+            setTimeout(() => {
+                $('#changePasswordModal').modal('hide');
+            }, 2000);
+        } else {
+            // Display error message
+            feedbackElement.className = 'alert alert-danger';
+            feedbackElement.textContent = 'Passwords do not match. Please try again.';
+            feedbackElement.style.display = 'block';
+        }
+    });
 </script>
 </body>
 </html>

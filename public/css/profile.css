@@ -1,63 +1,142 @@
-/* Global body styling with soft gradient background */
+/* Base colors */
+:root {
+    --primary-color: #003A66; /* Dark Blue */
+    --secondary-color: #1A7766; /* Teal */
+    --accent-color: #97BCD9;   /* Light Blue */
+    --background-color: #EAEAC2; /* Light Beige */
+    --text-color: #524E41;     /* Dark Beige */
+}
+
+/* Body and Container */
 body {
-    background: linear-gradient(to bottom right, #cfd8dc, #e0e0e0); /* Soft gradient background */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font family */
-    padding-top: 20px; /* Add padding to the top */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-/* Styling for the profile container */
+.container {
+    margin-top: 20px;
+}
+.profile-text{
+    text-align: center;
+}
+/* Profile Container */
 .profile-container {
-    background-color: #ffffff; /* White background */
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    padding: 30px; /* Padding inside the container */
-    max-width: 800px; /* Adjusted max-width for better readability on larger screens */
-    width: 100%; /* Take full width of its container */
-    margin: auto; /* Center align horizontally */
+    max-width: 400px; /* Reduced width of the profile container */
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    background-color: #fff;
 }
 
-/* Centered title styling with animation */
-.title {
-    font-size: 3rem; /* Larger font size for title */
-    color: #0d6efd; /* Primary Bootstrap blue */
-    animation: scale 0.5s ease-out; /* Scale animation */
+/* Profile Image Section */
+.profile-img-container {
+    position: relative;
+    width: 80px; /* Reduced width */
+    height: 80px; /* Reduced height */
+    margin: 0 auto;
+    border-radius: 50%; /* Ensures the container is circular */
+    overflow: hidden; /* Hides any overflow to maintain circular shape */
+    border: 3px solid var(--accent-color); /* Adjust border width if needed */
+    background: var(--background-color); /* Background color of the container */
 }
 
-/* Rounded input fields styling */
-.rounded-input {
-    border-radius: 12px; /* Slightly larger rounded corners for input fields */
-    font-size: 1.2rem; /* Larger font size for input fields */
-    padding: 12px; /* Increased padding for input fields */
+.profile-img {
+    width: 50%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover; /* Ensures the image covers the container without distortion */
+    display: block;
+    border-radius: 50px;
 }
 
-/* Button styling with rounded corners */
-.btn-rounded {
-    border-radius: 20px; /* Rounded corners for buttons */
-    padding: 12px 24px; /* Increased padding inside buttons */
-    font-size: 1.2rem; /* Larger font size for buttons */
-    margin-top: 20px; /* Increased top margin for buttons */
-}
-
-/* Animation keyframes for scaling effect */
-@keyframes scale {
-    0% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* Icon for password visibility toggle */
-.password-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
+.custom-file-upload {
+    border: 2px solid var(--primary-color);
+    background: var(--background-color);
+    color: var(--primary-color);
+    display: inline-block;
+    padding: 6px 12px; /* Reduced padding */
     cursor: pointer;
-    color: #6c757d; /* Icon color */
+    border-radius: 5px;
+    text-align: center;
+}
+
+.custom-file-upload:hover {
+    background: #f0f0f0;
+}
+
+/* Form Styles */
+.form-control {
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+}
+
+.rounded-input {
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+}
+
+/* Buttons */
+.btn-rounded {
+    border-radius: 5px;
+}
+
+.btn-edit {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background-color: #155D5A;
+}
+
+.btn-change-password {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-change-password:hover {
+    background-color: #002E53;
+}
+
+.btn-save {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-save:hover {
+    background-color: #218838;
+}
+
+.btn-cancel {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background-color: #c82333;
+}
+
+/* Footer Styles */
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: var(--primary-color);
+    color: #fff;
+    margin-top: 20px;
+}
+
+.footer a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.help-footer {
+    margin-top: 10px;
 }

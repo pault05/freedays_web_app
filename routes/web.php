@@ -22,7 +22,9 @@ Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
+
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
+Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('user-profile.update');
 
 Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
 Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');

@@ -190,7 +190,8 @@
             <h1 class="h3 mb-3 fw-normal" style="padding: 10px">Please Log In</h1>
 
             <div class="form-floating" style="padding: 2px">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" :value="old('email')"required>
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email"
+                       value="{{old('email')}}" required>
                 <label for="floatingInput">Email address</label>
             </div>
             <div class="form-floating" style="padding: 2px">

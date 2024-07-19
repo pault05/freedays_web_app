@@ -16,9 +16,11 @@ class FreeDaysRequestFactory extends Factory
      */
     public function definition(): array
     {
+        $k=1;
+        $k++;
         return [
             'user_id' => $this->faker->numberBetween(1, 10),
-            'category'=> fake()->word(),
+            'category_id'=> $k%4,
             'status' => fake()->word(),
             'starting_date' => fake()->dateTimeBetween('2024-07-15', '2026-12-31')->format('Y-m-d'),
             'ending_date' => fake()->dateTimeBetween('2024-07-15', '2026-12-31')->format('Y-m-d'),

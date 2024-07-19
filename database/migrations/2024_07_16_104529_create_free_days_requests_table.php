@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users');
-            $table->string('category');
+            $table->foreignId('category_id')->references('id')->on('categories');
             $table->string('status');
             $table->boolean('half_day')->default(false);
             $table->date('starting_date');
             $table->date('ending_date');
             $table->string('description')->nullable();
             $table->softDeletes();
-            //$table->foreignId()
         });
     }
 

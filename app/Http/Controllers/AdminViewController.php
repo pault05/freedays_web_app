@@ -14,4 +14,22 @@ class AdminViewController extends Controller
         $adminView = FreeDaysRequest::all();
         return view('admin_view', ['adminView' => $adminView]);
     }
+
+    public function approve($id)
+    {
+        $request = FreeDaysRequest::findOrFail($id);
+        $request->status = 'approved';
+        $request->save();
+
+        return redirect()->back()->with('success', 'Request approved successfully.');
+    }
+
+    public function deny($id)
+    {
+        $request = FreeDaysRequest::findOrFail($id);
+        $request->status = 'denied';
+        $request->save();
+
+        return redirect()->back()->with('success', 'Request denied successfully.');
+    }
 }

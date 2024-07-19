@@ -1,25 +1,25 @@
 <?php
 
-use App\Http\Controllers\FreeDaysRequestController;
+use App\Http\Controllers\FreeDayRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
+use App\Http\Controllers\OfficialHolidayController;
 
-Route::get('/home', function () {
-    return view('home');
+Route::get('/', function () {
+    return view('welcome');
 });
 
 
 Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index']);
 Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
+
 Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
-Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
+Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
+Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
+
+
+Route::post('/login', [\App\Http\Controllers\LoginController::class, 'index']);
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
-Route::get('/holidays', [\App\Http\Controllers\OfficialHolidayController::class, 'getHolidays']);
-Route::get('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'index']);
 
-
-
-
-
-
+Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
+Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');

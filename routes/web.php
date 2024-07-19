@@ -12,6 +12,7 @@ Route::get('/home', function () {
 
 Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index']);
 Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
+Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'create']);
 
 Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
 Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');

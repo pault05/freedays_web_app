@@ -126,8 +126,7 @@
                         .then(data => {
                             const events = data.map(holiday => ({
                                 title: holiday.name,
-                                start: holiday.starting_date,
-                                end: holiday.ending_date ? holiday.ending_date : holiday.starting_date,
+                                start: holiday.date,
                                 display: 'block',
                                 classNames: ['fc-holiday']
                             }));

@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\FreeDayRequestController;
+use App\Http\Controllers\FreeDaysRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/home', function () {
+    return view('home');
 });
 
 
@@ -23,3 +23,5 @@ Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class,
 
 Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
 Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');
+
+Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);

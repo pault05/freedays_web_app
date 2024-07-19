@@ -21,7 +21,7 @@
 </div>
 <div class="container">
     <div class="profile-container mx-auto">
-        <div class="profile-header">
+        <div class="profile-header text-center">
             <div>
                 <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="Profile Image">
                 <label for="file-input" class="custom-file-upload">

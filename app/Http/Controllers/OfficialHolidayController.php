@@ -28,10 +28,11 @@ class OfficialHolidayController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'date' => 'required|date',
         ]);
 
         $officialHoliday = new OfficialHoliday();
@@ -42,17 +43,11 @@ class OfficialHolidayController extends Controller
         return redirect()->back()->with('success', 'successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function deleteAll(){
+        OfficialHoliday::truncate();
+        return redirect()->back()->with('success', 'successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(OfficialHoliday $official_holidays)
     {
         //
@@ -79,6 +74,6 @@ class OfficialHolidayController extends Controller
      */
     public function destroy(OfficialHoliday $official_holidays)
     {
-        //
+
     }
 }

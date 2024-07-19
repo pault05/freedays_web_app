@@ -103,6 +103,13 @@
         </div>
     </div>
 
+    <footer>
+        <div class="container">
+            <button class="btn btn-primary ms-3">Contact</button>
+            <button class="btn btn-primary ms-3">Internal Conduit</button>
+        </div>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');

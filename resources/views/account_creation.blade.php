@@ -1,33 +1,3 @@
-{{--<!doctype html>--}}
-{{--<html lang="en">--}}
-{{--<head>--}}
-{{--    <meta charset="UTF-8">--}}
-{{--    <meta name="viewport"--}}
-{{--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">--}}
-{{--    <meta http-equiv="X-UA-Compatible" content="ie=edge">--}}
-{{--    <title>Acount Creation</title>--}}
-{{--</head>--}}
-{{--<body>--}}
-{{--<form>--}}
-{{--    <div class="form-group">--}}
-{{--        <label for="exampleInputEmail1">Email address</label>--}}
-{{--        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">--}}
-{{--        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>--}}
-{{--    </div>--}}
-{{--    <div class="first_name_form">--}}
-{{--        <label for="first_name_txt">First Name</label>--}}
-{{--        <br>--}}
-{{--        <input type="text" class="first_name_input" id="first_name_txt" placeholder="First Name">--}}
-{{--    </div>--}}
-{{--    <div class="form-check">--}}
-{{--        <input type="checkbox" class="form-check-input" id="exampleCheck1">--}}
-{{--        <label class="form-check-label" for="exampleCheck1">Check me out</label>--}}
-{{--    </div>--}}
-{{--    <button type="submit" class="btn btn-primary">Submit</button>--}}
-{{--</form>--}}
-{{--</body>--}}
-{{--</html>--}}
-
 @extends('components.layout')
 
 @section('content')
@@ -122,7 +92,7 @@
                 .btn-bd-primary {
                     --bd-violet-bg: #712cf9;
                     --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
+                    --bs-white: #ffffff;
                     --bs-btn-font-weight: 600;
                     --bs-btn-color: var(--bs-white);
                     --bs-btn-bg: var(--bd-violet-bg);
@@ -213,19 +183,21 @@
                 <div class="row g-5">
                     <div class="col-md-7 col-lg-8">
                         <h4 class="mb-3">Add a Profile for user </h4>
-                        <form class="needs-validation" action="home.blade.php" method="POST">
+                        <form method="POST" action="/account-creation" >
+                            @csrf
+
                             <div class="row g-3">
                                 <div class="col-sm-6">
-                                    <label for="firstName" class="form-label">First name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                    <label for="firstName" class="form-label">First name*</label>
+                                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="" value="" required>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label for="lastName" class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                                    <label for="lastName" class="form-label">Last name*</label>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="" value="" required>
                                     <div class="invalid-feedback">
                                         Valid last name is required.
                                     </div>
@@ -233,8 +205,8 @@
 
 
                                 <div class="col-12">
-                                    <label for="email" class="form-label">Email </label>
-                                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                                    <label for="email" class="form-label">Email*</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
                                     <div class="invalid-feedback">
                                         Please enter a valid email address for shipping updates.
                                     </div>
@@ -242,7 +214,7 @@
 
                                 <div class="col-12">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="phone" required>
+                                    <input type="text" class="form-control" id="phone" name="phone">
                                     <div class="invalid-feedback">
                                         Please enter the phone number.
                                     </div>
@@ -250,23 +222,23 @@
 
                                 <div class="col-12">
                                     <label for="position" class="form-label">Position</label>
-                                    <input type="text" class="form-control" id="position" required>
+                                    <input type="text" class="form-control" id="position" name="position">
                                     <div class="invalid-feedback">
                                         Please enter the position.
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="free_days" class="form-label">Free days</label>
-                                    <input type="number" class="form-control" id="free_days" required>
+                                    <label for="free_days" class="form-label">Free days*</label>
+                                    <input type="number" class="form-control" id="free_days" name="free_days" required>
                                     <div class="invalid-feedback">
                                         Please enter the number of free days.
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="hired_date" class="form-label">Hired date</label>
-                                    <input type="date" class="form-control" id="hired_date" required>
+                                    <label for="hired_at" class="form-label">Hired date</label>
+                                    <input type="date" class="form-control" id="hired_at" name="hired_at">
                                     <div class="invalid-feedback">
                                         Please enter the date of hired.
                                     </div>
@@ -275,20 +247,36 @@
 
                                 <div class="col-md-4">
                                     <br>
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                                    <label for="password" class="form-label">Password*</label>
+                                    <input type="password" class="form-control" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                                     <div class="invalid-feedback">
                                         Please provide a strong password.
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="password_confirmation" class="form-label">Password confirmation</label>
-                                    <input type="password" class="form-control" id="password_confirmation"pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                                    <label for="confirm_password" class="form-label">Password confirmation*</label>
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                                         <div class="invalid-feedback">
                                         The passwords are not the same.
                                     </div>
                                 </div>
+
+                                <script>
+                                    var password = document.getElementById("password");
+                                    var confirm_password = document.getElementById("confirm_password");
+
+                                    function validatePassword(){
+                                        if(password.value !== confirm_password.value){
+                                            confirm_password.setCustomValidity("Passwords Don't Match");
+                                        }else{
+                                            confirm_password.setCustomValidity('');
+                                        }
+                                    }
+
+                                    password.onchange = validatePassword;
+                                    confirm_password.onkeyup = validatePassword;
+                                </script>
                             </div>
 
                             <hr class="my-4">

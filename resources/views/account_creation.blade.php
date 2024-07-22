@@ -1,50 +1,14 @@
 @extends('components.layout')
 
 @section('content')
-    <div class="container-main d-flex flex-column justify-content-center align-items-center">
-    <div class="card p-3 shadow-sm mb-5 w-50 mt-3 text-center ">
+    <div class="card p-3 shadow-sm mb-5">
         <h1>Account Creation</h1>
     </div>
     <!-- /.card -->
 
-    <div class="card p-3 shadow mb-5 text-center">
-        <!doctype html>
-        <html lang="en" data-bs-theme="auto">
-        <head><script src="/docs/5.3/assets/js/color-modes.js"></script>
-
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <meta name="description" content="">
-            <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-            <meta name="generator" content="Hugo 0.122.0">
-            <title>Checkout example · Bootstrap v5.3</title>
-
-            <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/checkout/">
-
-
-
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
-            <link href="/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-            <!-- Favicons -->
-            <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-            <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-            <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-            <link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
-            <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
-            <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
-            <meta name="theme-color" content="#712cf9">
-
+    <div class="card p-5 shadow mb-5 w-75">
 
             <style>
-
-                /*label{*/
-                /*    text-align: left;*/
-                /*}*/
-
-
-
                 .bd-placeholder-img {
                     font-size: 1.125rem;
                     text-anchor: middle;
@@ -121,9 +85,6 @@
                 .bd-mode-toggle .dropdown-menu .active .bi {
                     display: block !important;
                 }
-                #submit_button{
-                    margin-bottom: 30px;
-                }
             </style>
 
 
@@ -147,7 +108,7 @@
             </symbol>
         </svg>
 
-        <div class="dropdown position-fixed bottom-0 end-0 mb-5 bd-mode-toggle">
+        <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
             <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
                     id="bd-theme"
                     type="button"
@@ -184,24 +145,21 @@
 
 
         <div class="container">
-            <main>
-{{--                <div class="py-5 text-center">--}}
+            <div class="py-5 text-center">
 {{--                    <img class="d-block mx-auto mb-4" id="account_creation_account" src="image_account_creation.png" alt="Account Creation Image">--}}
-{{--                    <h2>Account Creation Form</h2>--}}
+                    <h2>Account Creation Form</h2>
 {{--                    <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>--}}
-{{--                </div>--}}
+                </div>
 
-                    <div class="col-md-5 col-lg-8 mx-auto">
-{{--                        <h4 class="mb-3">Add a Profile for user </h4>--}}
+                <div class="row g-5">
+                    <div class="col-md-7 col-lg-8">
+                        <h4 class="mb-3">Add a Profile for user </h4>
                         <form method="POST" action="/account-creation" >
                             @csrf
 
-{{--                            <style>--}}
-{{--                                label{text-align:left;}--}}
-{{--                            </style>--}}
                             <div class="row g-3">
                                 <div class="col-sm-6">
-                                    <label for="firstName" class="form-label text-start w-100">First name*</label>
+                                    <label for="firstName" class="form-label">First name*</label>
                                     <input type="text" class="form-control" id="firstName" name="first_name" placeholder="" value="" required>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
@@ -209,7 +167,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label for="lastName" class="form-label text-start w-100">Last name*</label>
+                                    <label for="lastName" class="form-label">Last name*</label>
                                     <input type="text" class="form-control" id="lastName" name="last_name" placeholder="" value="" required>
                                     <div class="invalid-feedback">
                                         Valid last name is required.
@@ -218,7 +176,7 @@
 
 
                                 <div class="col-12">
-                                    <label for="email" class="form-label text-start w-100">Email*</label>
+                                    <label for="email" class="form-label">Email*</label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
                                     <div class="invalid-feedback">
                                         Please enter a valid email address for shipping updates.
@@ -226,7 +184,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="phone" class="form-label text-start w-100">Phone</label>
+                                    <label for="phone" class="form-label">Phone</label>
                                     <input type="text" class="form-control" id="phone" name="phone">
                                     <div class="invalid-feedback">
                                         Please enter the phone number.
@@ -234,7 +192,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="position" class="form-label text-start w-100">Position</label>
+                                    <label for="position" class="form-label">Position</label>
                                     <input type="text" class="form-control" id="position" name="position">
                                     <div class="invalid-feedback">
                                         Please enter the position.
@@ -242,7 +200,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="free_days" class="form-label text-start w-100">Free days*</label>
+                                    <label for="free_days" class="form-label">Free days*</label>
                                     <input type="number" class="form-control" id="free_days" name="free_days" required>
                                     <div class="invalid-feedback">
                                         Please enter the number of free days.
@@ -250,7 +208,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="hired_at" class="form-label text-start w-100">Hired date</label>
+                                    <label for="hired_at" class="form-label">Hired date</label>
                                     <input type="date" class="form-control" id="hired_at" name="hired_at">
                                     <div class="invalid-feedback">
                                         Please enter the date of hired.
@@ -258,17 +216,17 @@
                                 </div>
 
 
-                                <div class="col-12">
+                                <div class="col-md-4">
                                     <br>
-                                    <label for="password" class="form-label text-start w-100">Password*</label>
+                                    <label for="password" class="form-label">Password*</label>
                                     <input type="password" class="form-control" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                                     <div class="invalid-feedback">
                                         Please provide a strong password.
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <label for="confirm_password" class="form-label text-start w-100">Password confirmation*</label>
+                                <div class="col-md-3">
+                                    <label for="confirm_password" class="form-label">Password confirmation*</label>
                                     <input type="password" class="form-control" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                                         <div class="invalid-feedback">
                                         The passwords are not the same.
@@ -294,25 +252,21 @@
 
                             <hr class="my-4">
 
-                            <button class="w-100 btn btn-primary btn-lg" id="submit_button" type="submit" >Create User Profile</button>
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">Create User Profile</button>
                         </form>
                     </div>
-            </main>
-
-{{--            <footer class="my-5 pt-5 text-body-secondary text-center text-small">--}}
-{{--                <p class="mb-1">&copy; 2017–2024 Company Name</p>--}}
-{{--                <ul class="list-inline">--}}
-{{--                    <li class="list-inline-item"><a href="#">Privacy</a></li>--}}
-{{--                    <li class="list-inline-item"><a href="#">Terms</a></li>--}}
-{{--                    <li class="list-inline-item"><a href="#">Support</a></li>--}}
-{{--                </ul>--}}
-{{--            </footer>--}}
+                </div>
+            <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+                <p class="mb-1">&copy; 2017–2024 Company Name</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms</a></li>
+                    <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+            </footer>
         </div>
         <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-        <script src="checkout.js"></script></body>
-        </html>
-    </div>
+        <script src="checkout.js"></script></dic>
     </div>
 @endsection
 

@@ -55,10 +55,17 @@
                 flex: 1;
                 padding: 20px;
                 overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
             #calendar {
                 width: 100%;
                 height: 100%;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adding shadow around the calendar */
+                border-radius: 8px; /* Adding rounded corners */
+                padding: 20px; /* Adding padding to match the heading */
+                background: white; /* White background for the calendar */
             }
 
             .fc-day-sat, .fc-day-sun {

@@ -12,7 +12,7 @@
 <body>
 
 <div class="main-container d-flex">
-    <div class="left-container d-flex flex-column flex-shrink-0 p-3 text-white bg-dark align-items-center" style="height: 100vh; color: #1a202c; width: 12%; background-color: #1a202c; position: fixed;">
+    <div class="left-container d-flex flex-column flex-shrink-0 p-3 text-white bg-dark align-items-center navbar-nav-scroll" style="height: 100vh; color: #1a202c; width: 12%; background-color: #1a202c; position: sticky;">
         <ul class="nav nav-pills flex-column align-items-center justify-content-center mt-5 w-100">
             <li class="nav-item mb-3 w-100">
                 <a href="/home" class="nav-link text-white text-center">Home</a>

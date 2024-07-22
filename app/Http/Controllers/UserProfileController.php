@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
@@ -60,5 +61,19 @@ class UserProfileController extends Controller
 
         // Redirecționarea
         return redirect('/home');
+    }
+
+    public function changePassword(Request $request){
+        $user = Auth::user();
+//        dd($request->all());
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+        else{
+            $user->password = Hash::make($request->input('new_password'));
+            $user->save();
+
+            return redirect()->back()->with('status', 'Password changed successfully!');
+        }
     }
 }

@@ -12,6 +12,10 @@ Route::get('/home', function () {
 
 Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index'])->name('free_day_request');
 Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);
+Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index']);
+Route::post('/free-day-request', [FreeDaysRequestController::class, 'save']);
+Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
+
 Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
 Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
 
@@ -19,12 +23,12 @@ Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'in
 Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
 Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
 
-
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
 
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
 Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'save']);
+Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'changePassword']);
 
 Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
 Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');

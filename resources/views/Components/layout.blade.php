@@ -30,7 +30,10 @@
             @yield('content')
         </div>
     </div>
+</div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous">
     </script>

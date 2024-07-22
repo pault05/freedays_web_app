@@ -129,13 +129,19 @@
                                 fetch('/free-days-request-json')
                                     .then(response => response.json())
                                     .then(additionalData => {
-                                        const additionalEvents = additionalData.map(event => ({
-                                            title: event.employee_name,
-                                            start: event.starting_date,
-                                            end: event.ending_date,
-                                            display: 'block',
-                                            classNames: ['fc-additional-event'],
-                                        }));
+                                        const additionalEvents = additionalData.map(event => {
+                                            // Parse the ending date and add one day !!!!!
+                                            const endDate = new Date(event.ending_date);
+                                            endDate.setDate(endDate.getDate() + 1);
+
+                                            return {
+                                                title: event.employee_name,
+                                                start: event.starting_date,
+                                                end: endDate.toISOString().split('T')[0],
+                                                display: 'block',
+                                                classNames: ['fc-additional-event'],
+                                            };
+                                        });
 
                                         // Merge holiday and additional events
                                         const allEvents = holidayEvents.concat(additionalEvents);

@@ -130,7 +130,7 @@
                                     .then(response => response.json())
                                     .then(additionalData => {
                                         const additionalEvents = additionalData.map(event => ({
-                                            title: event.user_id,
+                                            title: event.employee_name,
                                             start: event.starting_date,
                                             end: event.ending_date,
                                             display: 'block',

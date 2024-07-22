@@ -3,8 +3,8 @@
 @section('content')
 
     <div class="container-main d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3">
-            <h1 class="text-center w-auto">Admin View Requests</h1>
+        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
+            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Admin View Requests</h1>
         </div>
         <!-- /.card -->
 
@@ -12,11 +12,12 @@
             <table class = "table table-progressive table-bordered">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>User ID</th>
+                    <th style="width: 9%">Request ID</th>
+                    <th>User Name</th>
+                    <th>Starting Date</th>
+                    <th>Ending Date</th>
+                    <th>Category</th>
                     <th style="width: 100px;">Status</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -24,10 +25,21 @@
                 @foreach ($adminView as $view)
                     <tr>
                         <td>{{ $view->id }}</td>
-                        <td>{{ $view->user_id }}</td>
-                        <td><span class="bg-warning badge status-label">{{ $view->status }} </span></td>
-                        <td>{{ \Carbon\Carbon::parse($view->created_at)->format('d/m/y') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($view->updated_at)->format('d/m/y') }}</td>
+                        <td>{{ $view->user->first_name }} {{ $view->user->last_name }}</td>
+                        <td>{{ \Carbon\Carbon::parse($view->starting_date)->format('d/m/y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($view->ending_date)->format('d/m/y') }}</td>
+                        <td>{{$view->category->name}}</td>
+                        @php
+                            $statusColor = '';
+                            if($view->status == 'Approved'){
+                                $statusColor = '#28a745';
+                            } elseif($view->status == 'Denied'){
+                                $statusColor = '#bd2130';
+                            }else{
+                                $statusColor = '#d39e00';
+                            }
+                        @endphp
+                        <td><span class="badge status-label" style="background-color: {{ $statusColor }};">{{ $view->status }} </span></td>
                         <td style="width: 15%">
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,26 +74,26 @@
     </div>
     <!-- /.container-main -->
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let approveBtns = document.querySelectorAll('.btn-approve');
-            let denyBtns = document.querySelectorAll('.btn-deny');
+{{--    <script>--}}
+{{--        document.addEventListener('DOMContentLoaded', () => {--}}
+{{--            let approveBtns = document.querySelectorAll('.btn-approve');--}}
+{{--            let denyBtns = document.querySelectorAll('.btn-deny');--}}
 
-            approveBtns.forEach(button => {
-                button.addEventListener('click', () => {
-                    let status = document.querySelector('.status-label');
-                    status.style.color = 'green';
-                    status.classList.remove('bg-warning');
-                    status.classList.add('bg-success');
-                });
-            });
+{{--            approveBtns.forEach(button => {--}}
+{{--                button.addEventListener('click', () => {--}}
+{{--                    let status = document.querySelector('.status-label');--}}
+{{--                    status.style.color = 'green';--}}
+{{--                    status.classList.remove('bg-warning');--}}
+{{--                    status.classList.add('bg-success');--}}
+{{--                });--}}
+{{--            });--}}
 
-            denyBtns.forEach(button => {
-                button.addEventListener('click', () => {
-                    let status = document.querySelector('.status-label');
-                    status.style.color = 'red';
-                });
-            });
-        });
-    </script>
+{{--            denyBtns.forEach(button => {--}}
+{{--                button.addEventListener('click', () => {--}}
+{{--                    let status = document.querySelector('.status-label');--}}
+{{--                    status.style.color = 'red';--}}
+{{--                });--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
 @endsection

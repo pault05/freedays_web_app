@@ -1,11 +1,11 @@
 @extends('Components.layout')
 
 @section('content')
-
-    <div class="card p-3 shadow-sm mb-5 text-center">
+    <div class="container-main d-flex flex-column justify-content-center align-items-center">
+        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 text-center">
         <h1>Home Page</h1>
     </div>
-
+    </div>
 
     <head>
         <meta charset="UTF-8">
@@ -90,7 +90,7 @@
         </div>
 
     <footer>
-        <div class="d-flex container justify-content-end" style="width: 99%">
+        <div class="d-flex container justify-content-end" style="width: 99%; margin-bottom: 30px" >
             <button class="btn btn-primary ms-3">Contact</button>
             <button class="btn btn-primary ms-3">Internal Conduit</button>
         </div>
@@ -161,7 +161,6 @@
 
 
     </body>
-
 
 @endsection
 

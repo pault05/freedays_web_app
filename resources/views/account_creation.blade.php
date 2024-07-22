@@ -1,7 +1,8 @@
 @extends('components.layout')
 
 @section('content')
-    <div class="card p-3 shadow-sm mb-5 text-center">
+    <div class="container-main d-flex flex-column justify-content-center align-items-center">
+    <div class="card p-3 shadow-sm mb-5 w-50 mt-3 text-center ">
         <h1>Account Creation</h1>
     </div>
     <!-- /.card -->
@@ -311,6 +312,7 @@
 
         <script src="checkout.js"></script></body>
         </html>
+    </div>
     </div>
 @endsection
 

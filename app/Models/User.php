@@ -58,4 +58,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function freeDays() {
+        return $this->hasMany(FreeDaysRequest::class, 'user_id');
+    }
 }

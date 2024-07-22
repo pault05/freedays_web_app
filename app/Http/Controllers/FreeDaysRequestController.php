@@ -21,7 +21,16 @@ class FreeDaysRequestController extends Controller
         $ending_date = $request->input('ending_date');
         $half_day = $request->input('half_day');
         $description = $request->input('description');
-
+        $user = Auth::user();
+        //dd($user->freeDays);
+        $approved = 0;
+        if (count($user->freeDays)) {
+            foreach ($user->freeDays as $day) {
+                if ($day->status == 'Approved') {
+                    $approved++;
+                }
+            }
+        }
         $request_leave = [
             'user_id' => $user_id,
             'category_id' => $category_id,
@@ -30,9 +39,9 @@ class FreeDaysRequestController extends Controller
             'ending_date' => $ending_date,
             'half_day' => $half_day,
             'description '=> $description,
-
+            'approved' => $approved
         ];
-        return view('free_day_request');
+        return view('free_day_request', compact('request_leave'));
     }
 
     public function save(request $request)

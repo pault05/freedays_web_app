@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-sm-1 col-md-2 col-lg-3 mb-3">
                         <label for="days-left">Days off left</label>
-                        <p class="ms-1">5</p>
+                        <p class="ms-1">{{ 21 - $request_leave['approved'] }}</p>
                     </div>
                 </div>
                 <div class="row">

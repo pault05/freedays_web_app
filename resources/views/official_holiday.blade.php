@@ -47,11 +47,11 @@
                         <td>{{$day->name}}</td>
                         <td>{{$day->date}}</td>
                         <td class="d-flex justify-content-center align-items-center text-center">
-                            <a href="#" id="editBtn"><img class="w-50" title="Edit" src="https://img.icons8.com/?size=100&id=21076&format=png&color=000000" alt=""></a>
+{{--                            <a href="#" id="editBtn"><img class="w-50" title="Edit" src="https://img.icons8.com/?size=100&id=21076&format=png&color=000000" alt=""></a>--}}
                             <form action="{{route('official-holiday.destroy', $day->id)}}" method="POST" id="destroyBtn">
                                 @csrf
                                 @method('DELETE')
-                            <button type="submit" style="border: none; background-color: white"><img class="w-75" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt=""></button>
+                            <button type="submit" style="border: none; background-color: white"><img class="w-50" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt=""></button>
                             </form>
                         </td>
                     </tr>

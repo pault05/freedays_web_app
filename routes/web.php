@@ -32,3 +32,4 @@ Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayControlle
 Route::delete('/official-holiday/deleteAll', [\App\Http\Controllers\OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
 
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
+Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);

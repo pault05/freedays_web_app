@@ -77,6 +77,10 @@
                 background-color: #ffdddd;
                 border: 1px solid #ff0000;
             }
+            .fc-additional-event {
+                background-color: #cee65a;
+                border: 1px solid #000000;
+            }
         </style>
     </head>
     <body>
@@ -92,44 +96,68 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                firstDay: 1, // Set Monday as the first day of the week
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                dayCellClassNames: function(arg) {
-                    if (arg.date.getDay() === 0 || arg.date.getDay() === 6) {
-                        return ['fc-day-weekend'];
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    firstDay: 1, // Set Monday as the first day of the week
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    dayCellClassNames: function(arg) {
+                        if (arg.date.getDay() === 0 || arg.date.getDay() === 6) {
+                            return ['fc-day-weekend'];
+                        }
+                        return [];
+                    },
+                    events: function(fetchInfo, successCallback, failureCallback) {
+                        // Fetch holidays
+                        fetch('/holidays')
+                            .then(response => response.json())
+                            .then(holidayData => {
+                                const holidayEvents = holidayData.map(holiday => ({
+                                    title: holiday.name,
+                                    start: holiday.date,
+                                    display: 'block',
+                                    classNames: ['fc-holiday']
+                                }));
+
+                                // Fetch additional events
+                                fetch('/free-days-request-json')
+                                    .then(response => response.json())
+                                    .then(additionalData => {
+                                        const additionalEvents = additionalData.map(event => ({
+                                            title: event.user_id,
+                                            start: event.starting_date,
+                                            end: event.ending_date,
+                                            display: 'block',
+                                            classNames: ['fc-additional-event'],
+                                        }));
+
+                                        // Merge holiday and additional events
+                                        const allEvents = holidayEvents.concat(additionalEvents);
+
+                                        // Pass the merged events to the calendar
+                                        successCallback(allEvents);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching free days:', error);
+                                        failureCallback(error);
+                                    });
+                            })
+                            .catch(error => {
+                                console.error('Error fetching holidays:', error);
+                                failureCallback(error);
+                            });
                     }
-                    return [];
-                },
-                events: function(fetchInfo, successCallback, failureCallback) {
-                    fetch('/holidays') // URL to fetch holidays from
-                        .then(response => response.json())
-                        .then(data => {
-                            const events = data.map(holiday => ({
-                                title: holiday.name,
-                                start: holiday.date,
-                                display: 'block',
-                                classNames: ['fc-holiday']
-                            }));
-                            successCallback(events);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching holidays:', error);
-                            failureCallback(error);
-                        });
-                }
+                });
+                calendar.render();
             });
-            calendar.render();
-        });
-    </script>
+        </script>
+
 
 
     </body>

@@ -24,10 +24,10 @@ class FreeDaysRequestController extends Controller
         $user = Auth::user();
         //dd($user->freeDays);
         $approved = 0;
-        if (count($user->freeDays)) {
+        if (isset($user->freeDays) && count($user->freeDays)) {
             foreach ($user->freeDays as $day) {
                 if ($day->status == 'Approved') {
-                    $approved++;
+                    $approved += $day->days;
                 }
             }
         }
@@ -53,8 +53,8 @@ class FreeDaysRequestController extends Controller
         $starting_date = $request->input('start-date');
         $ending_date = $request->input('end-date');
         $half_day = ($request->input('half-day')) ? 1 : 0;
+        $days = $request->input('days');
         $description = $request->input('description');
-
 
         $user = Auth::user();
 
@@ -67,6 +67,7 @@ class FreeDaysRequestController extends Controller
         $freeDayRequest->starting_date = $starting_date;
         $freeDayRequest->ending_date = $ending_date;
         $freeDayRequest->half_day = $half_day;
+        $freeDayRequest->days = $days;
         $freeDayRequest->description = $description;
 
         //salvam cererea in baza de date

@@ -52,8 +52,10 @@
                     </div>
                     <div class="col-sm-1 col-md-2 col-lg-3 mb-2">
                         <label for="days-left">Selected leave days</label>
-                        <input type="text" class="form-control" name="days-left" id="days-left"
-                               value="{{ session('days_left', 'N/A') }}" placeholder="Selected leave days" readonly>
+                        <input type="text" class="form-control"
+                               value="{{ session('days_left', '0') }}" id="days-left" placeholder="Selected leave days" readonly>
+                        <input type="hidden" class="form-control" name="days" id="days"
+                               value="{{ session('days_left', '0') }}" placeholder="Selected leave days">
                     </div>
                     <div class="col-sm-1 col-md-2 col-lg-3 form-check mt-1 mb-2 ">
                         <br>
@@ -115,8 +117,9 @@
                 var diffInDays = end.diff(start, 'days') + 1; // +1 pentru a include ultima zi
 
                 $('#days-left').val(diffInDays);
+                $('#days').val(diffInDays); // Setează valoarea în câmpul ascuns
 
-                // verifica dacă startDate este egal cu endDate și actualizează checkbox-ul
+                // Verifica dacă startDate este egal cu endDate și actualizează checkbox-ul
                 if (startDate === endDate) {
                     halfDay.prop('checked', true);
                 } else {
@@ -124,12 +127,14 @@
                 }
             } else {
                 $('#days-left').val('');
+                $('#days').val('');
                 halfDay.prop('checked', false);
             }
         }
 
         // Atașează funcția de calcul la evenimentele de schimbare a câmpurilor
         $('#start-date, #end-date').on('change', calculateDays);
+
     </script>
 
 @endsection

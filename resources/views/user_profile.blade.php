@@ -1,6 +1,20 @@
 @extends('components.layout')
 
 @section('content')
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+</head>
+<body>
 
 <div class="profile-text">
     <h1 class="title">User Profile</h1>
@@ -11,7 +25,7 @@
         <div class="profile-container mx-auto">
             <div class="profile-header">
                 <div>
-                    <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="Profile Image">
+                    <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="">
                     <label for="file-input" class="custom-file-upload">
                         <i class="fas fa-upload"></i> Upload Photo
                     </label>

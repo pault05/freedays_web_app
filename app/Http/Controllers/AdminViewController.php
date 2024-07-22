@@ -18,7 +18,7 @@ class AdminViewController extends Controller
     public function approve($id)
     {
         $request = FreeDaysRequest::findOrFail($id);
-        $request->status = 'approved';
+        $request->status = 'Approved';
         $request->save();
 
         return redirect()->back()->with('success', 'Success');
@@ -27,7 +27,7 @@ class AdminViewController extends Controller
     public function deny($id)
     {
         $request = FreeDaysRequest::findOrFail($id);
-        $request->status = 'denied';
+        $request->status = 'Denied';
         $request->save();
 
         return redirect()->back()->with('success', 'Success');

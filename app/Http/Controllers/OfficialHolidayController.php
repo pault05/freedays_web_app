@@ -48,6 +48,12 @@ class OfficialHolidayController extends Controller
         return redirect()->back()->with('success', 'successfully.');
     }
 
+    public function destroy($id){
+        $ans = OfficialHoliday::find($id);
+        $ans->delete();
+        return redirect()->back()->with('success', 'successfully.');
+    }
+
     public function show(OfficialHoliday $official_holidays)
     {
         //
@@ -72,8 +78,4 @@ class OfficialHolidayController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OfficialHoliday $official_holidays)
-    {
-
-    }
 }

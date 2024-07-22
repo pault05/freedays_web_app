@@ -30,6 +30,7 @@ Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->na
 Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');
 
 Route::delete('/official-holiday/deleteAll', [\App\Http\Controllers\OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
+Route::delete('/official-holiday/destroy/{id}', [\App\Http\Controllers\OfficialHolidayController::class, 'destroy'])->name('official-holiday.destroy');
 
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
 Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);

@@ -11,7 +11,7 @@ class AdminViewController extends Controller
     // admin view on hol req
     public function index()
     {
-        $adminView = FreeDaysRequest::with('user')->get();
+        $adminView = FreeDaysRequest::with('user')->paginate(10);
         return view('admin_view', ['adminView' => $adminView]);
     }
 

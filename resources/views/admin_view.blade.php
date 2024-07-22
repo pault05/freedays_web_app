@@ -11,6 +11,12 @@
         <div class="card p-5 shadow w-100">
             <table class = "table table-progressive table-bordered">
                 <thead>
+                <form action="search_data" method="GET">
+                    <div class="d-flex w-100 justify-content-center mb-3">
+                        <input type="text" name="search" class="form-control w-75 me-1">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
                 <tr>
                     <th style="width: 9%">Request ID</th>
                     <th>User Name</th>
@@ -63,13 +69,15 @@
                                     </li>
                                 </ul>
                             </div>
-
-                            </div>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            <div class="paginator d-flex w-100 justify-content-end">
+                {{$adminView->links()}}
+            </div>
+            <!-- /.paginator -->
         </div>
     </div>
     <!-- /.container-main -->

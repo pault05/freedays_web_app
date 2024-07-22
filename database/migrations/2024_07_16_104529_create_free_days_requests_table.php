@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->string('status')->default('Pending');
             $table->boolean('half_day')->default(false);
+            $table->integer('days')->default(0);
             $table->date('starting_date');
             $table->date('ending_date');
             $table->string('description')->nullable();

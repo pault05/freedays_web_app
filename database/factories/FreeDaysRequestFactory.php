@@ -26,6 +26,7 @@ class FreeDaysRequestFactory extends Factory
             'ending_date' => fake()->dateTimeBetween('2024-07-15', '2024-12-31')->format('Y-m-d'),
             'half_day' => fake()->boolean,
             'description' => fake()->colorName(),
+            'days' => fake()->numberBetween(1, 3),
             #'deleted_at' => now(),
         ];
     }

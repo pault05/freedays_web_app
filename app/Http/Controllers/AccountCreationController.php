@@ -20,7 +20,11 @@ class AccountCreationController extends Controller
         $email = $request->input('email');
         $position = $request->input('position');
         $phone = $request->input('phone');
-        $company_id = Auth::user()->company_id;
+        if (Auth::user()) {
+            $company_id = Auth::user()->company_id;
+        } else {
+            $company_id = null;
+        }
         $free_days = $request->input('free_days');
         $hired_at = $request->input('hired_at');
         $password = $request->input('password');

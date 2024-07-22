@@ -28,7 +28,7 @@
                         <td>{{ $view->user->first_name }} {{ $view->user->last_name }}</td>
                         <td>{{ \Carbon\Carbon::parse($view->starting_date)->format('d/m/y') }}</td>
                         <td>{{ \Carbon\Carbon::parse($view->ending_date)->format('d/m/y') }}</td>
-                        <td>{{$view->category->name}}</td>
+                        <td>{{($view->category->name) ?? 'Fara Categorie'}}</td>
                         @php
                             $statusColor = '';
                             if($view->status == 'Approved'){

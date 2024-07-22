@@ -10,8 +10,8 @@ Route::get('/home', function () {
 });
 
 
-Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index']);
-Route::post('/free-day-request', [FreeDaysRequestController::class, 'save']);
+Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index'])->name('free_day_request');
+Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);
 Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
 Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
 

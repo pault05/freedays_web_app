@@ -1,7 +1,7 @@
-@extends('components.layout')
+@extends('Components.layout')
 
 @section('content')
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,13 +19,14 @@
 <div class="profile-text">
     <h1 class="title">User Profile</h1>
 </div>
-<form method="POST" action="/user-profile" >
+<form method="POST" action="/user-profile">
     @csrf
     <div class="container">
         <div class="profile-container mx-auto">
             <div class="profile-header">
                 <div>
-                    <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="Profile Image">
+                    <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img"
+                         alt="Profile Image">
                     <label for="file-input" class="custom-file-upload">
                         <i class="fas fa-upload"></i> Upload Photo
                     </label>
@@ -36,44 +37,58 @@
             <form id="profile-form">
                 <div class="form-group">
                     <label for="first-name">First Name</label>
-                    <input type="text" class="form-control rounded-input" id="first-name" name="first_name" value="{{ $user['first_name'] }}" >
+                    <input type="text" class="form-control rounded-input" id="first-name" name="first_name"
+                           value="{{ $user['first_name'] }}">
                 </div>
                 <div class="form-group">
                     <label for="last-name">Last Name</label>
-                    <input type="text" class="form-control rounded-input" id="last-name" name="last_name" value="{{ $user['last_name'] }}" >
+                    <input type="text" class="form-control rounded-input" id="last-name" name="last_name"
+                           value="{{ $user['last_name'] }}">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control rounded-input" id="email" name="email" value="{{ $user['email'] }}" >
+                    <input type="email" class="form-control rounded-input" id="email" name="email"
+                           value="{{ $user['email'] }}">
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" class="form-control rounded-input" id="phone" name="phone"value="{{ $user['phone'] }}" >
+                    <input type="tel" class="form-control rounded-input" id="phone" name="phone"
+                           value="{{ $user['phone'] }}">
                 </div>
                 <div class="form-group mt-4">
                     <label for="days-off">Days Off Left</label>
-                    <input type="text" class="form-control rounded-input" id="days-off" value="{{ $user['days_off_left'] }}" disabled>
+                    <input type="text" class="form-control rounded-input" id="days-off"
+                           value="{{ $user['days_off_left'] }}" disabled>
                 </div>
                 <div class="form-group">
                     <label for="hired_at">Hired At</label>
-                    <input type="date" class="form-control rounded-input" id="hired_at" value="{{ $user['hired_at'] }}" disabled>
+                    <input type="date" class="form-control rounded-input" id="hired_at" value="{{ $user['hired_at'] }}"
+                           disabled>
                 </div>
 
                 <div class="text-center mt-4">
                     <div class="row mb-2">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-edit btn-rounded w-100" id="edit-btn" onclick="enableEditing()">Edit</button>
+                            <button type="button" class="btn btn-edit btn-rounded w-100" id="edit-btn"
+                                    onclick="enableEditing()">Edit
+                            </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-change-password btn-rounded w-100" data-toggle="modal" data-target="#changePasswordModal">Change Password</button>
+                            <button type="button" class="btn btn-change-password btn-rounded w-100" data-toggle="modal"
+                                    data-target="#changePasswordModal">Change Password
+                            </button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-save btn-rounded w-100" id="save-btn" onclick="saveChanges()" style="display: none;">Save</button>
+                            <button type="submit" class="btn btn-save btn-rounded w-100" id="save-btn"
+                                    onclick="saveChanges()" style="display: none;">Save
+                            </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-cancel btn-rounded w-100" id="cancel-btn" onclick="cancelEditing()" style="display: none;">Cancel</button>
+                            <button type="button" class="btn btn-cancel btn-rounded w-100" id="cancel-btn"
+                                    onclick="cancelEditing()" style="display: none;">Cancel
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -81,7 +96,8 @@
         </div>
 
         <!-- Change Password Modal -->
-        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog"
+             aria-labelledby="changePasswordModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -102,7 +118,8 @@
                             </div>
                             <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
                             <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>
-                            <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -126,7 +143,7 @@
 <script>
     function previewImage(event) {
         var reader = new FileReader();
-        reader.onload = function() {
+        reader.onload = function () {
             var output = document.getElementById('profile-img');
             output.src = reader.result;
         };
@@ -161,7 +178,7 @@
         document.getElementById('cancel-btn').style.display = 'none';
     }
 
-    document.getElementById('change-password-form').addEventListener('submit', function(event) {
+    document.getElementById('change-password-form').addEventListener('submit', function (event) {
         event.preventDefault();
 
         // Get the password values

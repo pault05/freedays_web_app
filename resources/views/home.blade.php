@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="card p-3 shadow-sm mb-5">
+    <div class="card p-3 shadow-sm mb-5 text-center">
         <h1>Home Page</h1>
     </div>
 
@@ -10,7 +10,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Scrollable List</title>
+        <title></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
@@ -74,34 +74,9 @@
     </head>
     <body>
 
-    <div class="container-fluid">
-        <div id="list-example" class="list-group">
-            <form class="list-group-item list-group-item-action" method="get" action="/user-profile">
-                <button type="submit" class="btn btn-link">User Profile</button>
-            </form>
-            <form class="list-group-item list-group-item-action" method="get" action="/free-day-request">
-                <button type="submit" class="btn btn-link">Free Day Request</button>
-            </form>
-            <form class="list-group-item list-group-item-action" method="get" action="/account-creation">
-                <button type="submit" class="btn btn-link">Create A New Account</button>
-            </form>
-            <form class="list-group-item list-group-item-action" method="get" action="/admin-view">
-                <button type="submit" class="btn btn-link">Admin Dashboard</button>
-            </form>
-            <form class="list-group-item list-group-item-action" method="get" action="/official-holiday">
-                <button type="submit" class="btn btn-link">Official Holiday</button>
-            </form>
-            <form class="list-group-item list-group-item-action" method="get" action="/login">
-                <button type="submit" class="btn btn-link">Login</button>
-            </form>
-        </div>
-
-
-
         <div id="calendar-container">
             <div id='calendar'></div>
         </div>
-    </div>
 
     <footer>
         <div class="d-flex container justify-content-end" style="width: 99%">

@@ -15,16 +15,25 @@
     <div class="left-container d-flex flex-column flex-shrink-0 p-3 text-white bg-dark align-items-center" style="height: 100vh; color: #1a202c; width: 12%; background-color: #1a202c; position: fixed;">
         <ul class="nav nav-pills flex-column align-items-center justify-content-center mt-5 w-100">
             <li class="nav-item mb-3 w-100">
-                <a href="#" class="nav-link text-white text-center">Home</a>
+                <a href="/home" class="nav-link text-white text-center">Home</a>
             </li>
             <li class="nav-item mb-3 w-100">
-                <a href="#" class="nav-link text-white text-center">About</a>
+                <a href="/user-profile" class="nav-link text-white text-center">User Profile</a>
             </li>
             <li class="nav-item mb-3 w-100">
-                <a href="#" class="nav-link text-white text-center">Services</a>
+                <a href="/free-day-request" class="nav-link text-white text-center">Free Day Request</a>
             </li>
             <li class="nav-item mb-3 w-100">
-                <a href="#" class="nav-link text-white text-center">Contact</a>
+                <a href="/account-creation" class="nav-link text-white text-center">Create A New Account</a>
+            </li>
+            <li class="nav-item mb-3 w-100">
+                <a href="/admin-view" class="nav-link text-white text-center">Admin Dashboard</a>
+            </li>
+            <li class="nav-item mb-3 w-100">
+                <a href="/official-holiday" class="nav-link text-white text-center">Official Holiday</a>
+            </li>
+            <li class="nav-item mb-3 w-100">
+                <a href="/login" class="nav-link text-white text-center">Login</a>
             </li>
         </ul>
     </div>

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class UserProfileController extends Controller
 {
@@ -60,7 +61,7 @@ class UserProfileController extends Controller
         $user->save();
 
         // Redirecționarea
-        return redirect('/home');
+        return redirect('/user-profile');
     }
 
     public function changePassword(Request $request){
@@ -70,10 +71,17 @@ class UserProfileController extends Controller
             return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
         else{
-            $user->password = Hash::make($request->input('new_password'));
-            $user->save();
+            if ($request->input('new_password') == $request->input('current_password')) {
+                return redirect()->back()->withErrors(['new_password' => 'The new password cannot be the same as current password.']);
+            }
+            else{
+                $user->password = Hash::make($request->input('new_password'));
+                $user->save();
+                return redirect()->back()->with('status', 'Password changed successfully!');
+            }
 
-            return redirect()->back()->with('status', 'Password changed successfully!');
+
         }
+
     }
 }

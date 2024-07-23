@@ -96,12 +96,16 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="change-password-form" method="POST" action="/user-profile">
+                        <form id="change-password-form" method="POST" action="/user-profile/change-password">
                             @csrf
                             <div class="form-group">
                                 <label for="current_password">Current Password</label>
                                 <input type="password" class="form-control" id="current_password" name="current_password" required>
                                 @error('current_password')
+                                    The current password is incorrect.
+                                @enderror
+                                @error('new_password')
+                                    The new password cannot be the same as current password.
                                 <div class="invalid-feedback">The current password is incorrect.</div>
                                 @enderror
                             </div>
@@ -117,18 +121,23 @@
                             </div>
                             <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
                             <script>
-                                var password = document.getElementById("new_password");
+
+                                var new_password = document.getElementById("new_password");
                                 var confirm_password = document.getElementById("confirm_password");
 
                                 function validatePassword(){
                                     if(password.value !== confirm_password.value){
+
+                                    if(new_password.value !== confirm_password.value){
                                         confirm_password.setCustomValidity("Passwords Don't Match");
                                     } else {
+                                    }
+                                    else{
                                         confirm_password.setCustomValidity('');
                                     }
                                 }
 
-                                password.onchange = validatePassword;
+                                new_password.onchange = validatePassword;
                                 confirm_password.onkeyup = validatePassword;
                             </script>
                             <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>

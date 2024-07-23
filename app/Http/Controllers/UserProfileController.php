@@ -18,6 +18,7 @@ class UserProfileController extends Controller
         $phone= Auth::user()->phone;
         $free_days= Auth::user()->free_days;
         $hired_at= Auth::user()->hired_at;
+        $color=Auth::user()->color;
 
         $user = [
             'first_name' =>$first_name,
@@ -26,6 +27,7 @@ class UserProfileController extends Controller
             'phone' => $phone,
             'days_off_left' => $free_days,
             'hired_at' => $hired_at,
+            'color' => $color,
         ];
 
         return view('user_profile', compact('user'));
@@ -39,11 +41,13 @@ class UserProfileController extends Controller
 //            'phone' => 'nullable|string|max:20',
 //        ]);
 
+//        dd($request->all());
         // Preluarea datelor
         $first_name = $request->input('first_name');
         $last_name = $request->input('last_name');
         $email = $request->input('email');
         $phone = $request->input('phone');
+        $color = $request->input('selected_color');
 
         // Afișarea datelor pentru debugging
 //        dd($request->all());
@@ -56,6 +60,9 @@ class UserProfileController extends Controller
         $user->last_name = $last_name;
         $user->email = $email;
         $user->phone = $phone;
+        if($color!=null){
+            $user->color = $color;
+        }
 
         // Salvarea modificărilor
         $user->save();

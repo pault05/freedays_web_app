@@ -53,16 +53,12 @@
                     <label for="hired_at">Hired At</label>
                     <input type="date" class="form-control rounded-input" id="hired_at" value="{{ $user['hired_at'] }}" disabled>
                 </div>
-
-                <!-- Color Picker -->
                 <div class="form-group">
-                    <label for="profile-color">Profile Color</label>
-                    <div class="position-relative">
-                        <!-- Removed color swatch -->
-                        <div id="color-picker"></div>
-                        <input type="hidden" id="profile-color" name="profile_color" value="{{ $user['profile_color'] ?? '#ffffff' }}">
-                    </div>
+                    <label for="selected_color">Profile Color</label>
+                    <br>
+                    <input type="color" value="{{ $user['color'] }}" id="selected_color" name="selected_color"/>
                 </div>
+
 
                 <div class="text-center mt-4">
                     <div class="row mb-2">
@@ -130,7 +126,6 @@
 
                                     if(new_password.value !== confirm_password.value){
                                         confirm_password.setCustomValidity("Passwords Don't Match");
-                                    } else {
                                     }
                                     else{
                                         confirm_password.setCustomValidity('');
@@ -177,7 +172,6 @@
         document.querySelectorAll('#profile-form input').forEach(input => {
             input.disabled = false;
         });
-        document.getElementById('profile-color').disabled = false;
         document.getElementById('edit-btn').style.display = 'none';
         document.getElementById('save-btn').style.display = 'block';
         document.getElementById('cancel-btn').style.display = 'block';
@@ -187,7 +181,6 @@
         document.querySelectorAll('#profile-form input').forEach(input => {
             input.disabled = true;
         });
-        document.getElementById('profile-color').disabled = true;
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
@@ -197,43 +190,10 @@
         document.querySelectorAll('#profile-form input').forEach(input => {
             input.disabled = true;
         });
-        document.getElementById('profile-color').disabled = true;
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const pickr = Pickr.create({
-            el: '#color-picker',
-            theme: 'classic',
-            swatches: [
-                '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF'
-            ],
-            components: {
-                preview: true,
-                opacity: false,
-                hue: false,
-                interaction: {
-                    hex: false,
-                    input: false,
-                    clear: false,
-                    save: false
-                }
-            }
-        });
-
-        pickr.on('change', (color) => {
-            const colorValue = color.toHEXA().toString();
-            document.getElementById('profile-color').value = colorValue;
-            document.getElementById('profile-color').dispatchEvent(new Event('change'));
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!document.getElementById('color-picker').contains(event.target)) {
-                document.getElementById('color-picker').classList.add('d-none');
-            }
-        });
-    });
 </script>
 @endsection

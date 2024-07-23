@@ -2,9 +2,12 @@
 
 @section('content')
 
-    <div class="card p-3 shadow-sm mb-5 text-center">
-        <h1>Home Page</h1>
+    <div class="container-main d-flex flex-column justify-content-center align-items-center">
+        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
+            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Home Page</h1>
+        </div>
     </div>
+
 {{--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">--}}
         <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>

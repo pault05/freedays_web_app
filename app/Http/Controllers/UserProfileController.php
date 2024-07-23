@@ -19,6 +19,7 @@ class UserProfileController extends Controller
         $free_days= Auth::user()->free_days;
         $hired_at= Auth::user()->hired_at;
         $color=Auth::user()->color;
+        $position=Auth::user()->position;
 
         $user = [
             'first_name' =>$first_name,
@@ -28,6 +29,7 @@ class UserProfileController extends Controller
             'days_off_left' => $free_days,
             'hired_at' => $hired_at,
             'color' => $color,
+            'position' => $position,
         ];
 
         return view('user_profile', compact('user'));

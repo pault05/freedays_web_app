@@ -191,6 +191,7 @@
 
                             <hr class="my-4">
 
+
                             <button class="w-100 btn btn-primary btn-lg" type="submit">Create User Profile</button>
                         </form>
                     </div>

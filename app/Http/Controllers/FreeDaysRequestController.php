@@ -84,6 +84,7 @@ class FreeDaysRequestController extends Controller
                 return [$user->id => [
                     'name' => $user->first_name . ' ' . $user->last_name,
                     'color' => $user->color,
+                    'is_admin' => $user->is_admin,
                     ]];
             });
 
@@ -92,7 +93,8 @@ class FreeDaysRequestController extends Controller
                 $userDetails = $users[$userId] ?? ['name' => 'Unknown', 'color' => '#CEE65A'];
                 return array_merge($freeDays, [
                     'employee_name' => $userDetails['name'],
-                    'color' => $userDetails['color']
+                    'color' => $userDetails['color'],
+                    'is_admin' => $userDetails['is_admin'],
                 ]);
             });
 

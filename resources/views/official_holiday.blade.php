@@ -4,12 +4,12 @@
     <div
         class="holidays-main-container d-flex flex-column align-items-center justify-content-center p-3 h-auto rounded w-100"
         style="min-height: 100vh;">
-        <div class="card bg-primary shadow rounded p-3 mb-3 text-light w-50 text-center">
+        <div class="card bg-primary shadow rounded p-3 mb-3 text-light w-100 text-center">
             <h1 style="text-shadow: 2px 2px 4px black">Official Holidays</h1>
         </div>
 
         <form action="{{ route('official-holiday.store') }}" method="POST"
-              class="card shadow-sm rounded mt-3 p-5 mb-5 col-12 col-md-6">
+              class="card shadow-sm rounded mt-3 p-5 mb-5 col-12">
             @csrf
             <div class="mb-3">
                 <label for="holiday-name" class="form-label">Holiday Name</label>
@@ -29,7 +29,7 @@
             </div>
         </form>
 
-        <div class="card p-3 shadow mt-5 col-12 col-md-6" style="min-height: 300px">
+        <div class="card p-3 shadow mt-5 col-12" style="min-height: 300px">
             <table class="table table-responsive table-bordered">
                 <thead>
                 <div class="icons d-flex justify-content-end mb-3">
@@ -58,10 +58,7 @@
                                   id="destroyBtn">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="border: none; background-color: white"><img class="w-50"
-                                                                                                         title="Delete"
-                                                                                                         src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252"
-                                                                                                         alt="">
+                                <button type="submit" style="border: none; background-color: rgba(0, 0, 0, 0)"><img class="w-25" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt="" style="background-color: rgba(255, 255, 255, 0);">
                                 </button>
                             </form>
                         </td>

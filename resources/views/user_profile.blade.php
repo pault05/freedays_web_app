@@ -21,7 +21,7 @@
 <div class="profile-text">
     <h1 class="title">User Profile</h1>
 </div>
-<form method="POST" action="/user-profile" >
+<form method="POST" action="/user-profile">
     @csrf
     <div class="container">
         <div class="profile-container mx-auto">
@@ -38,19 +38,19 @@
             <form id="profile-form">
                 <div class="form-group">
                     <label for="first-name">First Name</label>
-                    <input type="text" class="form-control rounded-input" id="first-name" name="first_name" value="{{ $user['first_name'] }}" >
+                    <input type="text" class="form-control rounded-input" id="first-name" name="first_name" value="{{ $user['first_name'] }}">
                 </div>
                 <div class="form-group">
                     <label for="last-name">Last Name</label>
-                    <input type="text" class="form-control rounded-input" id="last-name" name="last_name" value="{{ $user['last_name'] }}" >
+                    <input type="text" class="form-control rounded-input" id="last-name" name="last_name" value="{{ $user['last_name'] }}">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control rounded-input" id="email" name="email" value="{{ $user['email'] }}" >
+                    <input type="email" class="form-control rounded-input" id="email" name="email" value="{{ $user['email'] }}">
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" class="form-control rounded-input" id="phone" name="phone"value="{{ $user['phone'] }}" >
+                    <input type="tel" class="form-control rounded-input" id="phone" name="phone" value="{{ $user['phone'] }}">
                 </div>
                 <div class="form-group mt-4">
                     <label for="days-off">Days Off Left</label>
@@ -64,8 +64,18 @@
                 <!-- Color Picker -->
                 <div class="form-group">
                     <label for="profile-color">Profile Color</label>
-                    <input type="text" id="profile-color" name="profile_color" class="form-control" readonly>
-                    <div id="color-picker"></div>
+                    <div class="position-relative">
+                        <div id="color-swatch" class="color-swatch" style="background-color: {{ $user['profile_color'] ?? '#ffffff' }};"></div>
+                        <button type="button" id="color-picker-btn" aria-label="Pick Color">
+                            <i class="fas fa-palette"></i>
+                        </button>
+                        <div id="color-picker"></div>
+                        <input type="hidden" id="profile-color" name="profile_color" value="{{ $user['profile_color'] ?? '#ffffff' }}">
+                        <!-- Hidden HEX code -->
+                        <input type="hidden" id="color-hex-code" value="{{ $user['profile_color'] ?? '#ffffff' }}">
+                        <!-- Label for HEX code visibility -->
+                        <div id="hex-code-label" class="d-none">HEX Code: <span id="hex-code-value"></span></div>
+                    </div>
                 </div>
 
                 <div class="text-center mt-4">
@@ -161,25 +171,25 @@
         </footer>
     </div>
 </form>
+
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Pickr JS -->
 <script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
-<!-- Custom JS -->
 <script>
     function previewImage(event) {
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = function() {
-            var output = document.getElementById('profile-img');
+            const output = document.getElementById('profile-img');
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
     }
 
     function enableEditing() {
-        document.querySelectorAll('#profile-form input:not(#days-off, #employed-at)').forEach(input => {
+        document.querySelectorAll('#profile-form input').forEach(input => {
             input.disabled = false;
         });
         document.getElementById('profile-color').disabled = false;
@@ -207,6 +217,7 @@
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
+        // Optionally, reset the color picker value
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -218,25 +229,38 @@
                 '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF'
             ],
             components: {
-                // Main components
                 preview: true,
-                opacity: true,
-                hue: true,
-
-                // Input / output Options
+                opacity: false,
+                hue: false,
                 interaction: {
-                    hex: true,
-                    rgba: true,
-                    hsla: true,
-                    input: true,
-                    clear: true,
-                    save: true
+                    hex: true, // Show HEX code in color picker
+                    input: false,
+                    clear: false,
+                    save: false
                 }
             }
         });
 
+        // Show/hide color picker
+        document.getElementById('color-picker-btn').addEventListener('click', () => {
+            document.getElementById('color-picker').classList.toggle('d-none');
+        });
+
         pickr.on('change', (color) => {
-            document.getElementById('profile-color').value = color.toHEXA().toString();
+            const colorValue = color.toHEXA().toString();
+            document.getElementById('profile-color').value = colorValue;
+            document.getElementById('color-swatch').style.backgroundColor = colorValue;
+            document.getElementById('color-hex-code').value = colorValue; // Update hidden HEX code
+            document.getElementById('hex-code-label').classList.remove('d-none');
+            document.getElementById('hex-code-value').textContent = colorValue;
+        });
+
+        // Hide color picker when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!document.getElementById('color-picker').contains(event.target) && !document.getElementById('color-picker-btn').contains(event.target)) {
+                document.getElementById('color-picker').classList.add('d-none');
+                document.getElementById('hex-code-label').classList.add('d-none'); // Hide HEX code label
+            }
         });
     });
 

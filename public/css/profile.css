@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    background-color: #EAEAC2;
+    background-color: white; /* Set background color to white */
     font-family: 'Arial', sans-serif;
     color: #524E41;
     margin: 0;
@@ -25,7 +25,7 @@ body {
 
 /* Profile Container */
 .profile-container {
-    background-color: #97BCD9;
+    background-color: #FFFFFF; /* Set profile container background to white */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

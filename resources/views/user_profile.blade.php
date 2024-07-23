@@ -11,6 +11,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Pickr CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@simonwep/pickr/dist/themes/classic.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 </head>
@@ -25,7 +27,7 @@
         <div class="profile-container mx-auto">
             <div class="profile-header">
                 <div>
-                    <img src="{{ asset('images/default-profile.jpg') }}" id="profile-img" class="profile-img" alt="">
+                    <img src="{{ asset('images/default.jpg') }}" id="profile-img" class="profile-img" alt="">
                     <label for="file-input" class="custom-file-upload">
                         <i class="fas fa-upload"></i> Upload Photo
                     </label>
@@ -57,6 +59,13 @@
                 <div class="form-group">
                     <label for="hired_at">Hired At</label>
                     <input type="date" class="form-control rounded-input" id="hired_at" value="{{ $user['hired_at'] }}" disabled>
+                </div>
+
+                <!-- Color Picker -->
+                <div class="form-group">
+                    <label for="profile-color">Profile Color</label>
+                    <input type="text" id="profile-color" name="profile_color" class="form-control" readonly>
+                    <div id="color-picker"></div>
                 </div>
 
                 <div class="text-center mt-4">
@@ -97,22 +106,18 @@
                                 <label for="current_password">Current Password</label>
                                 <input type="password" class="form-control" id="current_password" name="current_password" required>
                                 @error('current_password')
-                                    The current password is incorrect.
+                                <div class="invalid-feedback">The current password is incorrect.</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="new_password">New Password</label>
                                 <input type="password" class="form-control" id="new_password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                <div class="invalid-feedback">
-                                    Please provide a strong password.
-                                </div>
+                                <div class="invalid-feedback">Please provide a strong password.</div>
                             </div>
                             <div class="form-group">
                                 <label for="confirm_password">Confirm New Password</label>
                                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                <div class="invalid-feedback">
-                                    The passwords are not the same.
-                                </div>
+                                <div class="invalid-feedback">The passwords do not match.</div>
                             </div>
                             <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
                             <script>
@@ -120,10 +125,9 @@
                                 var confirm_password = document.getElementById("confirm_password");
 
                                 function validatePassword(){
-
                                     if(password.value !== confirm_password.value){
                                         confirm_password.setCustomValidity("Passwords Don't Match");
-                                    }else{
+                                    } else {
                                         confirm_password.setCustomValidity('');
                                     }
                                 }
@@ -132,7 +136,6 @@
                                 confirm_password.onkeyup = validatePassword;
                             </script>
                             <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>
-
                             <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
                         </form>
                     </div>
@@ -153,6 +156,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Pickr JS -->
+<script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
 <!-- Custom JS -->
 <script>
     function previewImage(event) {
@@ -168,6 +173,7 @@
         document.querySelectorAll('#profile-form input:not(#days-off, #employed-at)').forEach(input => {
             input.disabled = false;
         });
+        document.getElementById('profile-color').disabled = false;
         document.getElementById('edit-btn').style.display = 'none';
         document.getElementById('save-btn').style.display = 'block';
         document.getElementById('cancel-btn').style.display = 'block';
@@ -177,6 +183,7 @@
         document.querySelectorAll('#profile-form input').forEach(input => {
             input.disabled = true;
         });
+        document.getElementById('profile-color').disabled = true;
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
@@ -187,43 +194,46 @@
         document.querySelectorAll('#profile-form input').forEach(input => {
             input.disabled = true;
         });
+        document.getElementById('profile-color').disabled = true;
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
     }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Pickr
+        const pickr = Pickr.create({
+            el: '#color-picker',
+            theme: 'classic', // or 'monolith', or 'nano'
+            swatches: [
+                '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF'
+            ],
+            components: {
+                // Main components
+                preview: true,
+                opacity: true,
+                hue: true,
+
+                // Input / output Options
+                interaction: {
+                    hex: true,
+                    rgba: true,
+                    hsla: true,
+                    input: true,
+                    clear: true,
+                    save: true
+                }
+            }
+        });
+
+        pickr.on('change', (color) => {
+            document.getElementById('profile-color').value = color.toHEXA().toString();
+        });
+    });
+
     @error('current_password')
-        $('#changePasswordModal').modal('show');
+    $('#changePasswordModal').modal('show');
     @enderror
-    // document.getElementById('change-password-form').addEventListener('submit', function(event) {
-    //     event.preventDefault();
-    //
-    //     // Get the password values
-    //     const newPassword = document.getElementById('new-password').value;
-    //     const confirmPassword = document.getElementById('confirm-password').value;
-    //
-    //     const feedbackElement = document.getElementById('password-feedback');
-    //
-    //     if (newPassword === confirmPassword) {
-    //         // Simulate successful password change
-    //         feedbackElement.className = 'alert alert-success';
-    //         feedbackElement.textContent = 'Password changed successfully.';
-    //         feedbackElement.style.display = 'block';
-    //
-    //         // Perform the password change (e.g., via AJAX or form submission)
-    //         // document.getElementById('change-password-form').submit(); // Uncomment if submitting form
-    //
-    //         // Hide the modal after a delay for demonstration purposes
-    //         setTimeout(() => {
-    //             $('#changePasswordModal').modal('hide');
-    //         }, 2000);
-    //     } else {
-    //         // Display error message
-    //         feedbackElement.className = 'alert alert-danger';
-    //         feedbackElement.textContent = 'Passwords do not match. Please try again.';
-    //         feedbackElement.style.display = 'block';
-    //     }
-    // });
 </script>
 
 @endsection

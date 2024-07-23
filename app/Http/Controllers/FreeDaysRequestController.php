@@ -85,15 +85,21 @@ class FreeDaysRequestController extends Controller
             });
 
             $users = User::all()->mapWithKeys(function($user) {
-                return [$user->id => $user->first_name . ' ' . $user->last_name];
+                return [$user->id => [
+                    'name' => $user->first_name . ' ' . $user->last_name,
+                    'color' => $user->color,
+                    ]];
             });
 
-            $freeDaysWithUserNames = $freeDays->map(function($freeDays) use ($users) {
-               $userId = $freeDays['user_id'];
-               $userName = $users[$userId] ?? 'Unknown';
-               return array_merge($freeDays, ['employee_name' => $userName]);
+            $freeDaysWithUserDetails = $freeDays->map(function($freeDays) use ($users) {
+                $userId = $freeDays['user_id'];
+                $userDetails = $users[$userId] ?? ['name' => 'Unknown', 'color' => '#CEE65A'];
+                return array_merge($freeDays, [
+                    'employee_name' => $userDetails['name'],
+                    'color' => $userDetails['color']
+                ]);
             });
 
-            return response()->json($freeDaysWithUserNames);
+            return response()->json($freeDaysWithUserDetails);
         }
 }

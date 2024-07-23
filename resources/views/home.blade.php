@@ -132,6 +132,7 @@
                                                 start: event.starting_date,
                                                 end: endDate.toISOString().split('T')[0],
                                                 display: 'block',
+                                                color: event.color,
                                                 classNames: ['fc-additional-event'],
                                             }
                                         });

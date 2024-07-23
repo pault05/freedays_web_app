@@ -28,6 +28,7 @@ Route::get('admin-view/sortByStatus', [AdminViewController::class, 'sortByStatus
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
+Route::get('/logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
 Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'save']);

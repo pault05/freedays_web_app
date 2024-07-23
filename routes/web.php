@@ -28,7 +28,7 @@ Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
 
 Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
 Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'save']);
-Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'changePassword']);
+Route::post('/user-profile/change-password', [\App\Http\Controllers\UserProfileController::class, 'changePassword']);
 
 Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
 Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');

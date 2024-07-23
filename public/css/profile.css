@@ -1,224 +1,239 @@
-/* General Styles */
-body {
-    background-color: white;
-    font-family: 'Arial', sans-serif;
-    color: #524E41;
-    margin: 0;
-    padding: 0;
-}
+/*!* General Styles *!*/
+/*body {*/
+/*    background-color: white;*/
+/*    font-family: 'Arial', sans-serif;*/
+/*    color: #524E41;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
 
-.container {
-    padding: 20px;
-}
+/*.container {*/
+/*    padding: 20px;*/
+/*}*/
 
-/* Profile Text */
-.profile-text {
-    text-align: center;
-    margin-top: 20px;
-}
+/*!* Profile Text *!*/
+/*.profile-text {*/
+/*    text-align: center;*/
+/*    margin-top: 20px;*/
+/*}*/
 
-.title {
-    font-size: 2.5em;
-    font-weight: bold;
-    color: #003A66;
-}
+/*.title {*/
+/*    font-size: 2.5em;*/
+/*    font-weight: bold;*/
+/*    color: #003A66;*/
+/*}*/
 
-/* Profile Container */
-.profile-container {
-    background-color: #97BCD9;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
-    margin: 20px auto;
-}
+/*!* Profile Container *!*/
+/*.profile-container {*/
+/*    background-color: #97BCD9;*/
+/*    border-radius: 15px;*/
+/*    padding: 20px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*    max-width: 700px;*/
+/*    margin: 20px auto;*/
+/*}*/
 
-/* Profile Header */
-.profile-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
+/*!* Profile Header *!*/
+/*.profile-header {*/
+/*    text-align: center;*/
+/*    margin-bottom: 20px;*/
+/*}*/
 
-.profile-img-container {
-    position: relative;
-    display: inline-block;
-}
+/*.profile-img-container {*/
+/*    position: relative;*/
+/*    display: inline-block;*/
+/*}*/
 
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 4px solid #1A7766;
-    object-fit: cover;
-}
+/*.profile-img {*/
+/*    width: 150px;*/
+/*    height: 150px;*/
+/*    border-radius: 50%;*/
+/*    border: 4px solid #1A7766;*/
+/*    object-fit: cover;*/
+/*}*/
 
-/* Custom File Upload */
-.custom-file-upload {
-    margin-top: 10px;
-    display: inline-block;
-    cursor: pointer;
-    color: #1A7766;
-}
+/*!* Custom File Upload *!*/
+/*.custom-file-upload {*/
+/*    margin-top: 10px;*/
+/*    display: inline-block;*/
+/*    cursor: pointer;*/
+/*    color: #1A7766;*/
+/*}*/
 
-.custom-file-upload:hover {
-    color: #003A66;
-}
+/*.custom-file-upload:hover {*/
+/*    color: #003A66;*/
+/*}*/
 
-/* Form Group */
-.form-group {
-    margin-bottom: 15px;
-}
+/*!* Form Group *!*/
+/*.form-group {*/
+/*    margin-bottom: 15px;*/
+/*}*/
 
-.form-group label {
-    font-weight: bold;
-    color: #003A66;
-}
+/*.form-group label {*/
+/*    font-weight: bold;*/
+/*    color: #003A66;*/
+/*}*/
 
-.form-control {
-    border: 2px solid #1A7766;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #EAEAC2;
-    color: #524E41;
-}
+/*.form-control {*/
+/*    border: 2px solid #1A7766;*/
+/*    border-radius: 10px;*/
+/*    padding: 10px;*/
+/*    background-color: #EAEAC2;*/
+/*    color: #524E41;*/
+/*}*/
 
-.form-control:disabled {
-    background-color: #f8f8f8;
-}
+/*.form-control:disabled {*/
+/*    background-color: #f8f8f8;*/
+/*}*/
 
-/* Buttons */
-.btn {
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-weight: bold;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
+/*!* Buttons *!*/
+/*.btn {*/
+/*    border-radius: 20px;*/
+/*    padding: 10px 20px;*/
+/*    font-weight: bold;*/
+/*    text-align: center;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
 
-.btn-edit {
-    background-color: #1A7766;
-    color: #EAEAC2;
-}
+/*.btn-edit {*/
+/*    background-color: #1A7766;*/
+/*    color: #EAEAC2;*/
+/*}*/
 
-.btn-edit:hover {
-    background-color: #003A66;
-}
+/*.btn-edit:hover {*/
+/*    background-color: #003A66;*/
+/*}*/
 
-.btn-change-password {
-    background-color: #003A66;
-    color: #EAEAC2;
-}
+/*.btn-change-password {*/
+/*    background-color: #003A66;*/
+/*    color: #EAEAC2;*/
+/*}*/
 
-.btn-change-password:hover {
-    background-color: #1A7766;
-}
+/*.btn-change-password:hover {*/
+/*    background-color: #1A7766;*/
+/*}*/
 
-.btn-save {
-    background-color: #1A7766;
-    color: #EAEAC2;
-}
+/*.btn-save {*/
+/*    background-color: #1A7766;*/
+/*    color: #EAEAC2;*/
+/*}*/
 
-.btn-save:hover {
-    background-color: #003A66;
-}
+/*.btn-save:hover {*/
+/*    background-color: #003A66;*/
+/*}*/
 
-.btn-cancel {
-    background-color: #524E41;
-    color: #EAEAC2;
-}
+/*.btn-cancel {*/
+/*    background-color: #524E41;*/
+/*    color: #EAEAC2;*/
+/*}*/
 
-.btn-cancel:hover {
-    background-color: #003A66;
-}
+/*.btn-cancel:hover {*/
+/*    background-color: #003A66;*/
+/*}*/
 
-/* Modal */
-.modal-header {
-    background-color: #1A7766;
-    color: #EAEAC2;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
+/*!* Modal *!*/
+/*.modal-header {*/
+/*    background-color: #1A7766;*/
+/*    color: #EAEAC2;*/
+/*    border-top-left-radius: 10px;*/
+/*    border-top-right-radius: 10px;*/
+/*}*/
 
-.modal-content {
-    border-radius: 10px;
-}
+/*.modal-content {*/
+/*    border-radius: 10px;*/
+/*}*/
 
-.modal-body {
-    background-color: #EAEAC2;
-    color: #524E41;
-}
+/*.modal-body {*/
+/*    background-color: #EAEAC2;*/
+/*    color: #524E41;*/
+/*}*/
 
-.modal-footer {
-    background-color: #EAEAC2;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
+/*.modal-footer {*/
+/*    background-color: #EAEAC2;*/
+/*    border-bottom-left-radius: 10px;*/
+/*    border-bottom-right-radius: 10px;*/
+/*}*/
 
-/* Footer */
-footer.footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #1A7766;
-    color: #EAEAC2;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
+/*!* Footer *!*/
+/*footer.footer {*/
+/*    text-align: center;*/
+/*    margin-top: 40px;*/
+/*    padding: 20px;*/
+/*    background-color: #1A7766;*/
+/*    color: #EAEAC2;*/
+/*    border-top-left-radius: 10px;*/
+/*    border-top-right-radius: 10px;*/
+/*}*/
 
-.help-footer {
-    margin-top: 10px;
-}
+/*.help-footer {*/
+/*    margin-top: 10px;*/
+/*}*/
 
-.help-footer a {
-    color: #003A66;
-    text-decoration: none;
-    margin: 0 10px;
-}
+/*.help-footer a {*/
+/*    color: #003A66;*/
+/*    text-decoration: none;*/
+/*    margin: 0 10px;*/
+/*}*/
 
-.help-footer a:hover {
-    text-decoration: underline;
-}
+/*.help-footer a:hover {*/
+/*    text-decoration: underline;*/
+/*}*/
 
-/* Color Picker */
-.position-relative {
-    position: relative;
-}
+/*!* Color Picker *!*/
+/*.position-relative {*/
+/*    position: relative;*/
+/*}*/
 
-#color-picker {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 10;
-    display: none;
-}
+/*#color-picker {*/
+/*    position: absolute;*/
+/*    top: 100%;*/
+/*    left: 0;*/
+/*    z-index: 10;*/
+/*    display: none;*/
+/*}*/
 
-#color-picker-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
+/*#color-picker-btn {*/
+/*    border: none;*/
+/*    background: transparent;*/
+/*    cursor: pointer;*/
+/*    position: absolute;*/
+/*    right: 10px;*/
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+/*}*/
 
-.color-swatch {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid #1A7766;
-    display: inline-block;
-    background-color: #ffffff;
-    vertical-align: middle;
-}
+/*.color-swatch {*/
+/*    width: 100px;*/
+/*    height: 100px;*/
+/*    border-radius: 50%;*/
+/*    border: 2px solid #1A7766;*/
+/*    display: inline-block;*/
+/*    background-color: #ffffff;*/
+/*    vertical-align: middle;*/
+/*}*/
 
-#color-picker {
-    width: 200px; /* Increase width as needed */
-    height: 200px; /* Increase height as needed */
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 10;
-    display: none;
-}
+/*#color-picker {*/
+/*    width: 200px; !* Increase width as needed *!*/
+/*    height: 200px; !* Increase height as needed *!*/
+/*    position: absolute;*/
+/*    top: 100%;*/
+/*    left: 0;*/
+/*    z-index: 10;*/
+/*    display: none;*/
+/*}*/
+
+/*!* Hide Pickr default UI elements *!*/
+/*.color-picker .pcr-app {*/
+/*    display: none; !* Hide the color picker UI *!*/
+/*}*/
+
+/*!* Ensure only the color display element is visible *!*/
+/*.color-display {*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*!* Optional: Style the color picker to show only the current color *!*/
+/*.color-picker .pcr-color {*/
+/*    display: none; !* Hide color picker UI components *!*/
+/*}*/
 

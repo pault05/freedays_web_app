@@ -81,7 +81,7 @@ class FreeDaysRequestController extends Controller
         public function getFreeDays()
         {
             $freeDays = FreeDaysRequest::all()->map(function($freeDays) {
-                return $freeDays->only(['user_id', 'starting_date', 'ending_date']);
+                return $freeDays->only(['user_id', 'starting_date', 'ending_date', 'status']);
             });
 
             $users = User::all()->mapWithKeys(function($user) {

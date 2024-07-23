@@ -19,6 +19,7 @@ class FreeDaysRequest extends Model
         'starting_date',
         'ending_date',
         'description',
+        'days',
     ];
 
     public function user(){

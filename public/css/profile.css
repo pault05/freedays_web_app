@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    background-color: white; /* Set background color to white */
+    background-color: white;
     font-family: 'Arial', sans-serif;
     color: #524E41;
     margin: 0;
@@ -25,7 +25,7 @@ body {
 
 /* Profile Container */
 .profile-container {
-    background-color: #FFFFFF; /* Set profile container background to white */
+    background-color: #97BCD9;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -169,11 +169,58 @@ footer.footer {
     margin-top: 10px;
 }
 
-.help-footer p {
-    cursor: pointer;
+.help-footer a {
     color: #003A66;
+    text-decoration: none;
+    margin: 0 10px;
 }
 
-.help-footer p:hover {
+.help-footer a:hover {
     text-decoration: underline;
+}
+
+/* Color Picker */
+.position-relative {
+    position: relative;
+}
+
+#color-picker {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    display: none;
+}
+
+#color-picker-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #1A7766;
+    display: inline-block;
+    background-color: #ffffff;
+    vertical-align: middle;
+}
+
+/* HEX Code Label */
+#hex-code-label {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    border: 1px solid #1A7766;
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+    font-size: 0.9em;
 }

@@ -143,13 +143,6 @@
             </div>
         </div>
 
-        <footer class="footer">
-            <p>&copy; 2023 Your Company. All rights reserved.</p>
-            <div class="help-footer">
-                <a href="#">Regulament</a>
-                <a href="#">Contact Support</a>
-            </div>
-        </footer>
     </div>
 </form>
 

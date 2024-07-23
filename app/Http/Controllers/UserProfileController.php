@@ -60,9 +60,7 @@ class UserProfileController extends Controller
         $user->last_name = $last_name;
         $user->email = $email;
         $user->phone = $phone;
-        if($color!=null){
-            $user->color = $color;
-        }
+        $user->color = $color;
 
         // Salvarea modificărilor
         $user->save();

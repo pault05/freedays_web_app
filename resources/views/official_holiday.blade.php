@@ -36,7 +36,7 @@
                     <form action="{{route('official-holiday.deleteAll')}}" method="POST" id="deleteAllBtn">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" style="border: none; background-color: white;"><img
+                        <button type="submit" style="border: none; background-color: rgba(0,0,0,0);"><img
                                 src="https://img.icons8.com/?size=100&id=63317&format=png&color=000000"
                                 style="width: 20px; filter: hue-rotate(280deg); "></button>
                     </form>

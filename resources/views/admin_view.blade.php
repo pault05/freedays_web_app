@@ -8,15 +8,42 @@
         </div>
         <!-- /.card -->
 
-        <div class="card p-5 shadow w-100">
+        <div class="card p-3 shadow w-100">
             <table class = "table table-progressive table-bordered">
                 <thead>
-                <form action="search_data" method="GET">
                     <div class="d-flex w-100 justify-content-center mb-3">
-                        <input type="text" name="search" class="form-control w-75 me-1">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <form action="{{route('admin-view.search')}}" method="GET">
+                            @csrf
+                            <input type="text" name="search" class="form-control w-50 me-1">
+                            <button type="submit" class="btn btn-secondary">Search</button>
+                        </form>
+                        <div class="dropdown ms-1">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Order By
+                            </button>
+                            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a href="{{ route('admin-view.sort', ['sort_field' => 'id', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
+                                        ID
+                                    </a>
+                                </li>
+
+                                <li><div class="dropdown-divider"></div></li>
+                                {{-- divider--}}
+                                <li>
+                                    <a href="{{ route('admin-view.sort', ['sort_field' => 'users.first_name', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
+                                        Name
+                                    </a>
+                                </li>
+                                <li><div class="dropdown-divider"></div></li>
+                                <li>
+                                    <a href="{{route('admin-view.sortByStatus')}}" class="btn btn-dark w-75">
+                                        Status
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </form>
                 <tr>
                     <th style="width: 9%">Request ID</th>
                     <th>User Name</th>

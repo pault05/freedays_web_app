@@ -76,8 +76,6 @@
                 border: 1px solid #000000;
             }
         </style>
-    </head>
-    <body>
 
         <div id="calendar-container">
             <div id='calendar'></div>

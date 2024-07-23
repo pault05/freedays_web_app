@@ -18,6 +18,7 @@ class FreeDaysRequest extends Model
         'half_day',
         'starting_date',
         'ending_date',
+        'days',
         'description',
         'days',
     ];

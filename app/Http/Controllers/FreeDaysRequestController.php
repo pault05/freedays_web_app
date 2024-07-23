@@ -22,6 +22,8 @@ class FreeDaysRequestController extends Controller
         $half_day = $request->input('half_day');
         $description = $request->input('description');
         $user = Auth::user();
+
+
         //dd($user->freeDays);
         $approved = 0;
         if (isset($user->freeDays) && count($user->freeDays)) {
@@ -44,12 +46,10 @@ class FreeDaysRequestController extends Controller
         return view('free_day_request', compact('request_leave'));
     }
 
-    public function save(request $request)
+    public function save(Request $request)
     {
-        //dd($request->all());
-        //preluarea datelor
+        // Preluarea datelor
         $category_id = $request->input('category_id');
-        //$status = $request->input('status');
         $starting_date = $request->input('start-date');
         $ending_date = $request->input('end-date');
         $half_day = ($request->input('half-day')) ? 1 : 0;
@@ -57,28 +57,24 @@ class FreeDaysRequestController extends Controller
         $description = $request->input('description');
 
         $user = Auth::user();
-
         $user_id = $user->id;
 
         $freeDayRequest = new FreeDaysRequest();
         $freeDayRequest->user_id = $user_id;
         $freeDayRequest->category_id = $category_id;
-        //$freeDayRequest->status = $status;
         $freeDayRequest->starting_date = $starting_date;
         $freeDayRequest->ending_date = $ending_date;
         $freeDayRequest->half_day = $half_day;
         $freeDayRequest->days = $days;
         $freeDayRequest->description = $description;
 
-        //salvam cererea in baza de date
+        // Salvăm cererea în baza de date
         $freeDayRequest->save();
 
-
-
         return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
-
     }
-        public function getFreeDays()
+
+    public function getFreeDays()
         {
             $freeDays = FreeDaysRequest::all()->map(function($freeDays) {
                 return $freeDays->only(['user_id', 'starting_date', 'ending_date', 'status']);
@@ -88,6 +84,7 @@ class FreeDaysRequestController extends Controller
                 return [$user->id => [
                     'name' => $user->first_name . ' ' . $user->last_name,
                     'color' => $user->color,
+                    'is_admin' => $user->is_admin,
                     ]];
             });
 
@@ -96,7 +93,8 @@ class FreeDaysRequestController extends Controller
                 $userDetails = $users[$userId] ?? ['name' => 'Unknown', 'color' => '#CEE65A'];
                 return array_merge($freeDays, [
                     'employee_name' => $userDetails['name'],
-                    'color' => $userDetails['color']
+                    'color' => $userDetails['color'],
+                    'is_admin' => $userDetails['is_admin'],
                 ]);
             });
 

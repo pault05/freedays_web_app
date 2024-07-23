@@ -1,12 +1,7 @@
 @extends('components.layout')
 
 @section('content')
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome for icons -->
@@ -15,8 +10,6 @@
     <link rel="stylesheet" href="https://unpkg.com/@simonwep/pickr/dist/themes/classic.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-</head>
-<body>
 
 <div class="profile-text">
     <h1 class="title">User Profile</h1>
@@ -168,7 +161,6 @@
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Pickr JS -->
 <script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
 <script>
@@ -244,6 +236,4 @@
         });
     });
 </script>
-</body>
-</html>
 @endsection

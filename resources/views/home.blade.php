@@ -64,12 +64,12 @@
 
             .fc-day-sat, .fc-day-sun {
                 background-color: #f0f0f0;
-                border: 1px solid #d0d0d0;
+                border: 1px solid #000000;
             }
 
             .fc-holiday {
-                background-color: #ffdddd;
-                border: 1px solid #ff0000;
+                background-color: #878787;
+                border: 1px solid #000000;
             }
             .fc-additional-event {
                 background-color: #cee65a;

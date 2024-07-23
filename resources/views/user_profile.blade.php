@@ -65,16 +65,9 @@
                 <div class="form-group">
                     <label for="profile-color">Profile Color</label>
                     <div class="position-relative">
-                        <div id="color-swatch" class="color-swatch" style="background-color: {{ $user['profile_color'] ?? '#ffffff' }};"></div>
-                        <button type="button" id="color-picker-btn" aria-label="Pick Color">
-                            <i class="fas fa-palette"></i>
-                        </button>
+                        <!-- Removed color swatch -->
                         <div id="color-picker"></div>
                         <input type="hidden" id="profile-color" name="profile_color" value="{{ $user['profile_color'] ?? '#ffffff' }}">
-                        <!-- Hidden HEX code -->
-                        <input type="hidden" id="color-hex-code" value="{{ $user['profile_color'] ?? '#ffffff' }}">
-                        <!-- Label for HEX code visibility -->
-                        <div id="hex-code-label" class="d-none">HEX Code: <span id="hex-code-value"></span></div>
                     </div>
                 </div>
 
@@ -206,7 +199,6 @@
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
-        // Optionally, submit the form here
     }
 
     function cancelEditing() {
@@ -217,14 +209,12 @@
         document.getElementById('edit-btn').style.display = 'block';
         document.getElementById('save-btn').style.display = 'none';
         document.getElementById('cancel-btn').style.display = 'none';
-        // Optionally, reset the color picker value
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Initialize Pickr
         const pickr = Pickr.create({
             el: '#color-picker',
-            theme: 'classic', // or 'monolith', or 'nano'
+            theme: 'classic',
             swatches: [
                 '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF'
             ],
@@ -233,7 +223,7 @@
                 opacity: false,
                 hue: false,
                 interaction: {
-                    hex: true, // Show HEX code in color picker
+                    hex: false,
                     input: false,
                     clear: false,
                     save: false
@@ -241,35 +231,19 @@
             }
         });
 
-        // Show/hide color picker
-        document.getElementById('color-picker-btn').addEventListener('click', () => {
-            document.getElementById('color-picker').classList.toggle('d-none');
-        });
-
         pickr.on('change', (color) => {
             const colorValue = color.toHEXA().toString();
             document.getElementById('profile-color').value = colorValue;
-            document.getElementById('color-swatch').style.backgroundColor = colorValue;
-            document.getElementById('color-hex-code').value = colorValue; // Update hidden HEX code
-            document.getElementById('hex-code-label').classList.remove('d-none');
-            document.getElementById('hex-code-value').textContent = colorValue;
+            document.getElementById('profile-color').dispatchEvent(new Event('change'));
         });
 
-        // Hide color picker when clicking outside
         document.addEventListener('click', (event) => {
-            if (!document.getElementById('color-picker').contains(event.target) && !document.getElementById('color-picker-btn').contains(event.target)) {
+            if (!document.getElementById('color-picker').contains(event.target)) {
                 document.getElementById('color-picker').classList.add('d-none');
-                document.getElementById('hex-code-label').classList.add('d-none'); // Hide HEX code label
             }
         });
     });
-
-    @error('current_password')
-        $('#changePasswordModal').modal('show');
-    @enderror
-    @error('new_password')
-    $('#changePasswordModal').modal('show');
-    @enderror
 </script>
-
+</body>
+</html>
 @endsection

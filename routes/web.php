@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AccountCreationController;
 use App\Http\Controllers\FreeDaysRequestController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
@@ -11,10 +14,10 @@ Route::get('/home', function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
-    Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
+    Route::get('/account-creation', [AccountCreationController::class, 'index']);
+    Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
-    Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
+    Route::get('/admin-view', [AdminViewController::class, 'index']);
     Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
     Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
     Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
@@ -22,25 +25,25 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admin-view/sortByStatus', [AdminViewController::class, 'sortByStatus'])->name('admin-view.sortByStatus');
 
     Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
-    Route::post('/official-holiday', [\App\Http\Controllers\OfficialHolidayController::class, 'store'])->name('official-holiday.store');
-    Route::delete('/official-holiday/deleteAll', [\App\Http\Controllers\OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
-    Route::delete('/official-holiday/destroy/{id}', [\App\Http\Controllers\OfficialHolidayController::class, 'destroy'])->name('official-holiday.destroy');
+    Route::post('/official-holiday', [OfficialHolidayController::class, 'store'])->name('official-holiday.store');
+    Route::delete('/official-holiday/deleteAll', [OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
+    Route::delete('/official-holiday/destroy/{id}', [OfficialHolidayController::class, 'destroy'])->name('official-holiday.destroy');
 
 });
 
-Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index'])->name('free_day_request');
+Route::get('/free-day-request', [FreeDaysRequestController::class, 'index'])->name('free_day_request');
 Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);
-Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index']);
+Route::get('/free-day-request', [FreeDaysRequestController::class, 'index']);
 Route::post('/free-day-request', [FreeDaysRequestController::class, 'save']);
 Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
 
-Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);
-Route::get('/logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
+Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login', [LoginController::class, 'store']);
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'index']);
-Route::post('/user-profile', [\App\Http\Controllers\UserProfileController::class, 'save']);
-Route::post('/user-profile/change-password', [\App\Http\Controllers\UserProfileController::class, 'changePassword']);
+Route::get('/user-profile', [UserProfileController::class, 'index']);
+Route::post('/user-profile', [UserProfileController::class, 'save']);
+Route::post('/user-profile/change-password', [UserProfileController::class, 'changePassword']);
 
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
 

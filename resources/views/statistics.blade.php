@@ -124,9 +124,6 @@
                                 text: 'days'
                             }
                         },
-                        tooltip: {
-                            valueSuffix: ' (1000 MT)'
-                        },
                         plotOptions: {
                             column: {
                                 pointPadding: 0.2,
@@ -136,7 +133,8 @@
                         series: [
                             {
                                 name: 'Leaves',
-                                data: [387749, 280000, 129000, 64300, 54000, 34300,387749, 280000, 129000, 64300, 54000, 34300]
+                                data: @json(array_values($daysPerMonth->toArray()))
+
                             }
                         ]
                     });
@@ -158,7 +156,7 @@
                             type: 'pie'
                         },
                         title: {
-                            text: 'Free Days Requests by Description'
+                            text: 'Free Days Requests By Categories'
                         },
                         tooltip: {
                             valueSuffix: ' requests'
@@ -211,7 +209,7 @@
                         pointFormat: 'Cars sold: {point.y}'
                     },
                     title: {
-                        text: 'Free days per year',
+                        text: 'Number of leaves per year',
                         align: 'center'
                     },
 

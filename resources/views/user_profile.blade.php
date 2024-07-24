@@ -97,7 +97,7 @@
 
                                 <div class="col-12">
                                     <label for="free_days" class="form-label text-start w-100">Days Off Left</label>
-                                    <input type="number" class="form-control " value="{{ $user['days_off_left']}}"
+                                    <input type="number" class="form-control " value="{{ $user['free_days']}}"
                                            id="free_days" name="free_days" required min="0" step="1" readonly>
                                     <div class="invalid-feedback">
                                         Please enter the number of free days.
@@ -139,9 +139,17 @@
                                                 document.getElementById('email').removeAttribute('readonly');
                                                 document.getElementById('selected_color').removeAttribute('readonly');
 
+                                                @auth
+                                                @if(auth()->user()->is_admin)
+                                                document.getElementById('position').removeAttribute('readonly');
+                                                document.getElementById('free_days').removeAttribute('readonly');
+                                                @endif
+                                                @endauth
+
                                                 document.getElementById('edit-btn').style.display = 'none';
                                                 document.getElementById('save-btn').style.display = 'block';
                                                 document.getElementById('cancel-btn').style.display = 'block';
+
                                             }
                                         </script>
                                         <div class="col-md-6">
@@ -180,6 +188,13 @@
                                                 document.getElementById('email').setAttribute('readonly', 'readonly');
                                                 document.getElementById('selected_color').setAttribute('readonly', 'readonly');
 
+                                                @auth
+                                                @if(auth()->user()->is_admin)
+                                                document.getElementById('position').setAttribute('readonly', 'readonly');
+                                                document.getElementById('free_days').setAttribute('readonly', 'readonly');
+                                                @endif
+                                                @endauth
+
                                                 document.getElementById('edit-btn').style.display = 'block';
                                                 document.getElementById('save-btn').style.display = 'none';
                                                 document.getElementById('cancel-btn').style.display = 'none';
@@ -191,6 +206,13 @@
                                                 document.getElementById('phone').setAttribute('readonly', 'readonly');
                                                 document.getElementById('email').setAttribute('readonly', 'readonly');
                                                 document.getElementById('selected_color').setAttribute('readonly', 'readonly');
+
+                                                @auth
+                                                @if(auth()->user()->is_admin)
+                                                document.getElementById('position').setAttribute('readonly', 'readonly');
+                                                document.getElementById('free_days').setAttribute('readonly', 'readonly');
+                                                @endif
+                                                @endauth
 
                                                 document.getElementById('edit-btn').style.display = 'block';
                                                 document.getElementById('save-btn').style.display = 'none';

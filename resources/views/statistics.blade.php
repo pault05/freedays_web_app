@@ -19,34 +19,34 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             height: 100%;
+            width: 100%;
         }
     </style>
 
-        <div class="row justify-content" style="height: 70%;">
-            <div class="col-6 mt-4">
-                <div class="card">
-                <div id="container2">
-                    <div>
+        <div class="container">
+                <div class="row">
+                
+                    <div class="col-lg-6 col-md-6 mb-4">
+                        <div class="card">
+                            <div id="container2">
+                            
+                            </div>
+                        </div>
+                    </div>
 
+        
+                    <div class="col-lg-6 col-md-6 mb-4">
+                        <div class="card">
+                            <div id="container3">
+                            
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="col-6">
-                <div class="card">
-                    <div id="container3">
-
-                    </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
 
-        <div class="row justify-content-center" style="height: 70%;">
+        <div class="row justify-content-center" style="height: 40%;">
             <div class="col-6 mt-4">
                 <div class="card">
                     <div id="container">
@@ -57,7 +57,16 @@
 
             <div class="col-6 mt-4">
                 <div class="card">
-                    <div>
+                    <div class="d-flex justify-content-center">
+                    <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown button
+                    </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
 
                     </div>
                 </div>

@@ -23,7 +23,7 @@
                             </button>
                             <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
                                 <li>
-                                    <a href="{{ route('admin-view.sort', ['sort_field' => 'id', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
+                                    <a href="{{ route('admin-view.index', ['sort_field' => 'id', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
                                         ID
                                     </a>
                                 </li>
@@ -31,17 +31,47 @@
                                 <li><div class="dropdown-divider"></div></li>
                                 {{-- divider--}}
                                 <li>
-                                    <a href="{{ route('admin-view.sort', ['sort_field' => 'users.first_name', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
+                                    <a href="{{ route('admin-view.index', ['sort_field' => 'users.first_name', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
                                         Name
                                     </a>
                                 </li>
                                 <li><div class="dropdown-divider"></div></li>
                                 <li>
-                                    <a href="{{route('admin-view.sortByStatus')}}" class="btn btn-dark w-75">
+                                    <a href="{{ route('admin-view.index', ['sort_field' => 'status', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
                                         Status
                                     </a>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="dropdown ms-1">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Filter By
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                                <div class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Filter by Status</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{route('admin-view.filter', ['filter_by_status' => 'Pending'])}}">Pending</a></li>
+                                        <li><a class="dropdown-item" href="{{route('admin-view.filter', ['filter_by_status' => 'Approved'])}}">Approved</a></li>
+                                        <li><a class="dropdown-item" href="{{route('admin-view.filter', ['filter_by_status' => 'Denied'])}}">Denied</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Filter by User</a>
+                                    <ul class="dropdown-menu" style="height: 100px; overflow: hidden">
+                                        <li>
+                                            <input type="text" id="userSearch" class="form-control" placeholder="Search Users" value="{{ request('search_user') }}">
+                                        </li>
+                                        @foreach($users as $user)
+                                            <li class="user-item ms-1 mb-1" data-user-id="{{ $user->id }}">
+                                                <a class="dropdown-item" href="{{ route('admin-view.filter', ['filter_by_user' => $user->id]) }}">
+                                                    {{ $user->first_name }} {{ $user->last_name }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <tr>
@@ -131,4 +161,46 @@
 {{--            });--}}
 {{--        });--}}
 {{--    </script>--}}
+    <script>
+        $(document).ready(function(){
+            $('.dropdown-submenu a.dropdown-toggle').on("click", function(e){
+                var $el = $(this).next('ul');
+                var $parent = $(this).offsetParent(".dropdown-menu");
+                if (!$(this).next().hasClass('show')) {
+                    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+                }
+                $el.toggleClass('show');
+
+                $(this).parent("li").toggleClass('show');
+
+                $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                    $('.dropdown-submenu .show').removeClass("show");
+                });
+
+                if (!$parent.parent().hasClass('navbar-nav')) {
+                    $el.css({"top": $(this)[0].offsetTop, "left": $parent.outerWidth() - 4});
+                }
+
+                return false;
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const userSearchInput = document.getElementById('userSearch');
+            const userItems = document.querySelectorAll('.user-item');
+
+            userSearchInput.addEventListener('input', function () {
+                const searchValue = userSearchInput.value.toLowerCase();
+
+                userItems.forEach(item => {
+                    const userName = item.textContent.toLowerCase();
+                    if (userName.includes(searchValue)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

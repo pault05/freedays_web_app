@@ -19,12 +19,13 @@ Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFre
 Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
 Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
 
-Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
+Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index'])->name('admin-view.index');
 Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
 Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
 Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
-Route::get('admin-view/sort', [AdminViewController::class, 'sort'])->name('admin-view.sort');
-Route::get('admin-view/sortByStatus', [AdminViewController::class, 'sortByStatus'])->name('admin-view.sortByStatus');
+Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');
+//Route::get('admin-view/sort', [AdminViewController::class, 'sort'])->name('admin-view.sort');
+//Route::get('admin-view/sortByStatus', [AdminViewController::class, 'sortByStatus'])->name('admin-view.sortByStatus');  //rezolvat, am mutat tot in index
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'create'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store']);

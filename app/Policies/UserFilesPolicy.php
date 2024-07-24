@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\User_file;
+use App\Models\UserFile;
 use Illuminate\Auth\Access\Response;
 
 class UserFilesPolicy
@@ -19,7 +19,7 @@ class UserFilesPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User_file $userFiles): bool
+    public function view(User $user, UserFile $userFiles): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class UserFilesPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User_file $userFiles): bool
+    public function update(User $user, UserFile $userFiles): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class UserFilesPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User_file $userFiles): bool
+    public function delete(User $user, UserFile $userFiles): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class UserFilesPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User_file $userFiles): bool
+    public function restore(User $user, UserFile $userFiles): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class UserFilesPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User_file $userFiles): bool
+    public function forceDelete(User $user, UserFile $userFiles): bool
     {
         //
     }

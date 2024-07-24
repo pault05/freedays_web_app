@@ -18,12 +18,16 @@
                         Free Day Request
                     </a>
                 </li>
+                @auth
+                    @if(auth()->user()->is_admin)
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="/account-creation">
                         <svg class="bi"><use xlink:href="#cart"/></svg>
                         Account Creation
                     </a>
                 </li>
+                    @endif
+                @endauth
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="/admin-view">
                         <svg class="bi"><use xlink:href="#people"/></svg>

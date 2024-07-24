@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserFile extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+      'free_days_req_id',
+      'file_id',
+    ];
 }

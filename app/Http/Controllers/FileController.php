@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Http\Requests\StoreFilesRequest;
 use App\Http\Requests\UpdateFilesRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller
 {
@@ -19,9 +21,16 @@ class FileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request): void
     {
-        //
+        $fileType = $request->input('type');
+        $filePath = $request->input('path');
+
+        $file = new File();
+        $file->type = $fileType;
+        $file->path = $filePath;
+
+        $file->save();
     }
 
     /**

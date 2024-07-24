@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\UserFile;
 use App\Http\Requests\StoreUser_filesRequest;
 use App\Http\Requests\UpdateUser_filesRequest;
+use Illuminate\Http\Request;
 
 class UserFileController extends Controller
 {
@@ -19,9 +20,16 @@ class UserFileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request): void
     {
-        //
+        $userFileId = $request->input('file_id');
+        $freeDaysReqID = $request->input('free_days_req_id');
+
+        $UserFile = new UserFile();
+        $UserFile->file_id = $userFileId;
+        $UserFile->free_days_req_id = $freeDaysReqID;
+
+        $UserFile->save();
     }
 
     /**

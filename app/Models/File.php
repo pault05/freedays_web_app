@@ -10,4 +10,9 @@ class File extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $fillable = [
+      'path',
+      'type',
+    ];
 }

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\AccountCreationController;
 use App\Http\Controllers\FreeDaysRequestController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
@@ -13,16 +17,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/account-creation', [AccountCreationController::class, 'index']);
     Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
-Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
-Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
+    Route::get('/account-creation', [AccountCreationController::class, 'index']);
+    Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
-Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index'])->name('admin-view.index');
-Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
-Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
-Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
-Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');
-//Route::get('admin-view/sort', [AdminViewController::class, 'sort'])->name('admin-view.sort');
-//Route::get('admin-view/sortByStatus', [AdminViewController::class, 'sortByStatus'])->name('admin-view.sortByStatus');  //rezolvat, am mutat tot in index
+    Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index'])->name('admin-view.index');
+    Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
+    Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
+    Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
+    Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');
 
     Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
     Route::post('/official-holiday', [OfficialHolidayController::class, 'store'])->name('official-holiday.store');

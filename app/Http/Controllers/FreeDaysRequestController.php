@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\FreeDaysRequest;
 use App\Http\Requests\StoreFree_days_requestsRequest;
 use App\Http\Requests\UpdateFree_days_requestsRequest;
 use App\Models\OfficialHoliday;
 use App\Models\User;
+use App\Models\UserFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OfficialHolidayController;
@@ -50,15 +52,23 @@ class FreeDaysRequestController extends Controller
 
     public function save(Request $request)
     {
-        // Preluarea datelor
+        $request->validate([
+            'category_id' => 'required|integer',
+            'start-date' => 'required|date',
+            'end-date' => 'required|date|after_or_equal:start-date',
+            'half-day' => 'nullable|boolean',
+            'days' => 'required|integer',
+            'description' => 'nullable|string|max:255',
+            'file' => 'nullable|file|mimes:jpg,png,pdf,docx|max:2048', // Optional file upload validation
+        ]);
+
         $category_id = $request->input('category_id');
         $starting_date = $request->input('start-date');
         $ending_date = $request->input('end-date');
-        $half_day = ($request->input('half-day')) ? 1 : 0;
+        $half_day = $request->input('half-day') ? 1 : 0;
         $days = $request->input('days');
         $description = $request->input('description');
 
-        //preluam utilizatorul autentificat
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -70,9 +80,23 @@ class FreeDaysRequestController extends Controller
         $freeDayRequest->half_day = $half_day;
         $freeDayRequest->days = $days;
         $freeDayRequest->description = $description;
-
-        // Salvam cererea în baza de date
         $freeDayRequest->save();
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $path = $file->store('uploads', 'public');
+            $filePath = $file->getRealPath();
+
+            $fileRecord = File::create([
+                'path' => $path,
+                'type' => $filePath,
+            ]);
+
+            UserFile::create([
+                'file_id' => $fileRecord->id,
+                'free_days_req_id' => $freeDayRequest->id,
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
     }
@@ -149,5 +173,37 @@ class FreeDaysRequestController extends Controller
             });
             return response()->json($holidays);
         }
+    }
+ */
+
+
+/*
+  public function save(Request $request)
+    {
+        // Preluarea datelor
+        $category_id = $request->input('category_id');
+        $starting_date = $request->input('start-date');
+        $ending_date = $request->input('end-date');
+        $half_day = ($request->input('half-day')) ? 1 : 0;
+        $days = $request->input('days');
+        $description = $request->input('description');
+
+        //preluam utilizatorul autentificat
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $freeDayRequest = new FreeDaysRequest();
+        $freeDayRequest->user_id = $user_id;
+        $freeDayRequest->category_id = $category_id;
+        $freeDayRequest->starting_date = $starting_date;
+        $freeDayRequest->ending_date = $ending_date;
+        $freeDayRequest->half_day = $half_day;
+        $freeDayRequest->days = $days;
+        $freeDayRequest->description = $description;
+
+        // Salvam cererea în baza de date
+        $freeDayRequest->save();
+
+        return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
     }
  */

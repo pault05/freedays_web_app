@@ -5,32 +5,42 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AdminView;
 use App\Models\FreeDaysRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AdminViewController extends Controller
 {
     // admin view on hol req
     public function index()
     {
-        $adminView = FreeDaysRequest::with('user')->paginate(10);
-        return view('admin_view', ['adminView' => $adminView]);
+        if(Auth::user()->is_admin) {
+            $adminView = FreeDaysRequest::with('user')->paginate(10);
+            return view('admin_view', ['adminView' => $adminView]);
+        }
+        return redirect('/home');
     }
 
     public function approve($id)
     {
-        $request = FreeDaysRequest::findOrFail($id);
-        $request->status = 'Approved';
-        $request->save();
+        if(Auth::user()->is_admin) {
+            $request = FreeDaysRequest::findOrFail($id);
+            $request->status = 'Approved';
+            $request->save();
 
-        return redirect()->back()->with('success', 'Success');
+            return redirect()->back()->with('success', 'Success');
+        }
+        return redirect('/home');
     }
 
     public function deny($id)
     {
-        $request = FreeDaysRequest::findOrFail($id);
-        $request->status = 'Denied';
-        $request->save();
+        if(Auth::user()->is_admin) {
+            $request = FreeDaysRequest::findOrFail($id);
+            $request->status = 'Denied';
+            $request->save();
 
-        return redirect()->back()->with('success', 'Success');
+            return redirect()->back()->with('success', 'Success');
+        }
+        return redirect('/home');
     }
 
     public function search(Request $request)

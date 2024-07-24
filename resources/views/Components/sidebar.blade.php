@@ -28,18 +28,28 @@
                 </li>
                     @endif
                 @endauth
+
+                @auth
+                    @if(auth()->user()->is_admin)
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="/admin-view">
                         <svg class="bi"><use xlink:href="#people"/></svg>
                         Admin View
                     </a>
                 </li>
+                    @endif
+                @endauth
+
+                @auth
+                    @if(auth()->user()->is_admin)
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="/official-holiday">
                         <svg class="bi"><use xlink:href="#graph-up"/></svg>
                         Official Holiday
                     </a>
                 </li>
+                @endif
+                @endauth
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="/login">
                         <svg class="bi"><use xlink:href="#puzzle"/></svg>

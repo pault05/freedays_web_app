@@ -6,6 +6,8 @@ use App\Models\OfficialHoliday;
 use App\Http\Requests\StoreOfficial_holidaysRequest;
 use App\Http\Requests\UpdateOfficial_holidaysRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class OfficialHolidayController extends Controller
 {
     /**
@@ -13,16 +15,18 @@ class OfficialHolidayController extends Controller
      */
     public function index()
     {
+
         $officialHolidays = OfficialHoliday::all();
         return view('official_holiday', ['officialHolidays' => $officialHolidays]);
+
     }
 
     public function getHolidays()
     {
-        $holidays = OfficialHoliday::all()->map(function($holiday) {
-            return $holiday->only(['name', 'date']);
-        });
-        return response()->json($holidays);
+            $holidays = OfficialHoliday::all()->map(function ($holiday) {
+                return $holiday->only(['name', 'date']);
+            });
+            return response()->json($holidays);
     }
 
     /**
@@ -30,28 +34,38 @@ class OfficialHolidayController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'date' => 'required|date',
-        ]);
+        if(Auth::user()->is_admin) {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'date' => 'required|date',
+            ]);
 
-        $officialHoliday = new OfficialHoliday();
-        $officialHoliday->name = $request->name;
-        $officialHoliday->date = $request->date;
-        $officialHoliday->save();
+            $officialHoliday = new OfficialHoliday();
+            $officialHoliday->name = $request->name;
+            $officialHoliday->date = $request->date;
+            $officialHoliday->save();
 
-        return redirect()->back()->with('success', 'successfully.');
+            return redirect()->back()->with('success', 'successfully.');
+        }
+        return redirect('/home');
     }
 
     public function deleteAll(){
-        OfficialHoliday::truncate();
-        return redirect()->back()->with('success', 'successfully.');
+        if(Auth::user()->is_admin) {
+            OfficialHoliday::truncate();
+            return redirect()->back()->with('success', 'successfully.');
+        }
+        return redirect('/home');
     }
 
     public function destroy($id){
-        $ans = OfficialHoliday::find($id);
-        $ans->delete();
-        return redirect()->back()->with('success', 'successfully.');
+
+        if(Auth::user()->is_admin) {
+            $ans = OfficialHoliday::find($id);
+            $ans->delete();
+            return redirect()->back()->with('success', 'successfully.');
+        }
+        return redirect('/home');
     }
 
     public function show(OfficialHoliday $official_holidays)

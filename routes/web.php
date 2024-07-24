@@ -10,6 +10,10 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
+    Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
+});
 
 Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController::class, 'index'])->name('free_day_request');
 Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);
@@ -17,8 +21,8 @@ Route::get('/free-day-request', [\App\Http\Controllers\FreeDaysRequestController
 Route::post('/free-day-request', [FreeDaysRequestController::class, 'save']);
 Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
 
-Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
-Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
+//Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
+//Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
 
 Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
 Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
@@ -42,6 +46,5 @@ Route::delete('/official-holiday/deleteAll', [\App\Http\Controllers\OfficialHoli
 Route::delete('/official-holiday/destroy/{id}', [\App\Http\Controllers\OfficialHolidayController::class, 'destroy'])->name('official-holiday.destroy');
 
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
-Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
 
 Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics');

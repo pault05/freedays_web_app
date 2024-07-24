@@ -48,3 +48,4 @@ Route::post('/user-profile/change-password', [UserProfileController::class, 'cha
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
 
 Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics');
+

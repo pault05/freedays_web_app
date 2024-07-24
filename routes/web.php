@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FreeDaysRequestController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
@@ -42,3 +43,5 @@ Route::delete('/official-holiday/destroy/{id}', [\App\Http\Controllers\OfficialH
 
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
 Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
+
+Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics');

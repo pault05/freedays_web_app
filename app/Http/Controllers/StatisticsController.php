@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 
+
 class StatisticsController extends Controller{
 
     public function index()
@@ -11,7 +12,7 @@ class StatisticsController extends Controller{
 
         $users = User::all();
 
-        return view('statistics.index',compact('users'));
+        return view('statistics',compact('users'));
     }
 
 }

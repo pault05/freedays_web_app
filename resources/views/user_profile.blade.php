@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 <style>
     input[readonly] {
         pointer-events: none;
@@ -26,19 +27,6 @@
         width: 80%; /* Could be more or less, depending on screen size */
     }
 
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
 </style>
 
 
@@ -118,7 +106,8 @@
 
                                 <div class="col-12">
                                     <label for="hired_at" class="form-label text-start w-100">Hired At</label>
-                                    <input type="date" class="form-control " value="{{ $user['hired_at']}}"
+                                    <input type="text" class="form-control "
+                                           value="{{Carbon::parse($user['hired_at'])->format('d/m/y') }}"
                                            id="hired_at" name="hired_at" readonly>
                                     <div class="invalid-feedback">
                                         Please enter the date of hired.
@@ -162,8 +151,8 @@
                                             </button>
                                         </div>
                                         <script>
-                                            var modal = document.getElementById("changePasswordModal");
-                                            var btn = document.getElementById("change-password-btn");
+                                            const modal = document.getElementById("changePasswordModal");
+                                            const btn = document.getElementById("change-password-btn");
 
                                             btn.onclick = function () {
                                                 modal.style.display = "block";
@@ -179,7 +168,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <button type="button" class="btn btn-secondary btn-rounded w-100"
-                                                    id="cancel-btn" onclick="cancelEditing()" style="display: none;">
+                                                    id="cancel-btn" style="display: none;">
                                                 Cancel
                                             </button>
                                         </div>
@@ -203,7 +192,6 @@
                                                 document.getElementById('email').setAttribute('readonly', 'readonly');
                                                 document.getElementById('selected_color').setAttribute('readonly', 'readonly');
 
-
                                                 document.getElementById('edit-btn').style.display = 'block';
                                                 document.getElementById('save-btn').style.display = 'none';
                                                 document.getElementById('cancel-btn').style.display = 'none';
@@ -211,118 +199,118 @@
 
                                         </script>
                                     </div>
-                                    <!-- The Modal -->
-                                    <!-- The Modal -->
-                                    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+
+
+                                </div>
+
+
+                                <hr class="my-2">
+                            </div>
+
+                        </form>
+                        <!-- The Modal -->
+                        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog"
+                             aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="changePasswordModalLabel">Change
+                                                Password</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="change-password-form" method="POST"
+                                                  action="/user-profile/change-password">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="current_password">Current Password</label>
+                                                    <input type="password" class="form-control"
+                                                           id="current_password" name="current_password"
+                                                           required>
+                                                    @error('current_password')
+                                                    The current password is incorrect.
+                                                    @enderror
+                                                    @error('new_password')
+                                                    The new password cannot be the same as current password.
+                                                    <div class="invalid-feedback">The current password is
+                                                        incorrect.
+                                                    </div>
+                                                    @enderror
                                                 </div>
-                                                <div class="modal-body">
-                                                    <form id="change-password-form" method="POST" action="/user-profile/change-password">
-                                                        @csrf
-                                                        <div class="form-group">
-                                                            <label for="current_password">Current Password</label>
-                                                            <input type="password" class="form-control" id="current_password" name="current_password" required>
-                                                            @error('current_password')
-                                                            <div class="invalid-feedback">The current password is incorrect.</div>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="new_password">New Password</label>
-                                                            <input type="password" class="form-control" id="new_password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                                            <div class="invalid-feedback">Please provide a strong password.</div>
-                                                            @error('new_password')
-                                                            <div class="invalid-feedback">The new password cannot be the same as current password.</div>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="confirm_password">Confirm New Password</label>
-                                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                                            <div class="invalid-feedback">The passwords do not match.</div>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>
-                                                        <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
-                                                    </form>
+                                                <div class="form-group">
+                                                    <label for="new_password">New Password</label>
+                                                    <input type="password" class="form-control"
+                                                           id="new_password" name="new_password"
+                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                           title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                           required>
+                                                    <div class="invalid-feedback">Please provide a strong
+                                                        password.
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="confirm_password">Confirm New
+                                                        Password</label>
+                                                    <input type="password" class="form-control"
+                                                           id="confirm_password" name="confirm_password"
+                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                           title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                           required>
+                                                    <div class="invalid-feedback">The passwords do not
+                                                        match.
+                                                    </div>
+                                                </div>
+                                                <div id="password-feedback" class="alert" role="alert"
+                                                     style="display: none;"></div>
+                                                <script>
+                                                    const new_password = document.getElementById("new_password");
+                                                    const confirm_password = document.getElementById("confirm_password");
+
+                                                    function validatePassword() {
+                                                        if (password.value !== confirm_password.value) {
+
+                                                            if (new_password.value !== confirm_password.value) {
+                                                                confirm_password.setCustomValidity("Passwords Don't Match");
+                                                            } else {
+                                                                confirm_password.setCustomValidity('');
+                                                            }
+                                                        }
+
+                                                        new_password.onchange = validatePassword;
+                                                        confirm_password.onkeyup = validatePassword;
+                                                    }
+                                                </script>
+                                                <br>
+                                                <button type="submit" class="btn btn-primary btn-rounded">
+                                                    Save changes
+                                                </button>
+                                                <button type="button" class="btn btn-secondary btn-rounded"
+                                                        data-dismiss="modal">Cancel
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <script>
-                                        $(document).ready(function() {
-                                            $('#change-password-btn').on('click', function() {
-                                                $('#changePasswordModal').modal('show');
-                                            });
-
-                                            var new_password = document.getElementById("new_password");
-                                            var confirm_password = document.getElementById("confirm_password");
-
-                                            function validatePassword() {
-                                                if (new_password.value !== confirm_password.value) {
-                                                    confirm_password.setCustomValidity("Passwords Don't Match");
-                                                } else {
-                                                    confirm_password.setCustomValidity('');
-                                                }
-                                            }
-
-                                            new_password.onchange = validatePassword;
-                                            confirm_password.onkeyup = validatePassword;
-                                        });
-                                    </script>
-
-                                    <br>
-                                    <button type="submit" class="btn btn-primary btn-rounded">
-                                        Save changes
-                                    </button>
-                                    <button type="button" class="btn btn-secondary btn-rounded"
-                                            data-dismiss="modal">Cancel
-                                    </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
+                <!-- Bootstrap JS and dependencies -->
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <!-- Pickr JS -->
+                <script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
+                <!-- Custom JS -->
+                <script>
+
+                    @error('current_password')
+                    $('#changePasswordModal').modal('show');
+                    @enderror
+                    @error('new_password')
+                    $('#changePasswordModal').modal('show');
+                    @enderror
+                </script>
             </div>
-        </div>
-
-    </div>
-
-
-    </div>
-
-
-    <hr class="my-4">
-    </div>
-
-    </form>
-    </div>
-    </div>
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Pickr JS -->
-    <script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
-    <!-- Custom JS -->
-    <script>
-        function previewImage(event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('profile-img');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        @error('current_password')
-        $('#changePasswordModal').modal('show');
-        @enderror
-        @error('new_password')
-        $('#changePasswordModal').modal('show');
-        @enderror
-    </script>
-    </div>
 @endsection

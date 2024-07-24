@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
+use League\CommonMark\Node\Inline\AbstractInline;
 
 class UserProfileController extends Controller
 {
     public function index()
     {
+//        dd(Auth::user()->hired_at);
         $first_name= Auth::user()->first_name;
         $last_name= Auth::user()->last_name;
         $email= Auth::user()->email;

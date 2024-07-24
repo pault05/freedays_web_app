@@ -16,6 +16,7 @@ class AdminViewController extends Controller
         $sortOrder = $request->input('sort_order', 'desc');
         $adminView = FreeDaysRequest::join('users', 'free_days_requests.user_id', '=', 'users.id')->orderBy($sortField, $sortOrder)->select('free_days_requests.*')
             ->with('user', 'category')->paginate(10);
+
         $users = FreeDaysRequest::with('user')
             ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
 
@@ -45,16 +46,20 @@ class AdminViewController extends Controller
         $data = $request->input('search');
 
         if ($data) {
-            $records = FreeDaysRequest::whereHas('user', 'category', function($query) use ($data) {
+            $records = FreeDaysRequest::whereHas('user', function ($query) use ($data) {
                 $query->where('first_name', 'like', '%' . $data . '%')
                     ->orWhere('last_name', 'like', '%' . $data . '%');
-            })->paginate(10);
+            })->with('user', 'category')->paginate(10);
         } else {
             $records = FreeDaysRequest::with('user', 'category')->paginate(10);
         }
 
-        return view('admin_view', ['adminView' => $records]);
+        $users = FreeDaysRequest::with('user')
+            ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
+
+        return view('admin_view', ['adminView' => $records, 'users' => $users]);
     }
+
 
     public function filter(Request $request){
         $filterByStatus = $request->input('filter_by_status');
@@ -74,8 +79,6 @@ class AdminViewController extends Controller
         $adminView = $query->paginate(10);
         $users = FreeDaysRequest::with('user')
             ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
-
-
 
         return view('admin_view', [
             'adminView' => $adminView,

@@ -58,9 +58,9 @@
                                 </div>
                                 <div class="dropdown-submenu">
                                     <a class="dropdown-item dropdown-toggle" href="#">Filter by User</a>
-                                    <ul class="dropdown-menu" style="height: 100px; overflow: hidden">
+                                    <ul class="dropdown-menu" style="height: 120px; overflow: hidden">
                                         <li>
-                                            <input type="text" id="userSearch" class="form-control" placeholder="Search Users" value="{{ request('search_user') }}">
+                                            <input type="text" id="userSearch" class="form-control" placeholder="Search Users">
                                         </li>
                                         @foreach($users as $user)
                                             <li class="user-item ms-1 mb-1" data-user-id="{{ $user->id }}">

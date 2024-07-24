@@ -120,13 +120,13 @@
                                     .then(response => response.json())
                                     .then(additionalData => {
                                         const additionalEvents = additionalData
-                                            .filter(event => event.status === 'Approved')
+                                            .filter(event => event.status === 'Approved' || event.status === 'Pending')
                                             .map(event => {
                                             const endDate = new Date(event.ending_date);
                                             endDate.setDate(endDate.getDate() + 1);
 
                                             return {
-                                                title: event.employee_name,
+                                                title: `${event.employee_name} (${event.status})`,
                                                 start: event.starting_date,
                                                 end: endDate.toISOString().split('T')[0],
                                                 display: 'block',

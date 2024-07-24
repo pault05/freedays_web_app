@@ -56,6 +56,7 @@ class FreeDaysRequestController extends Controller
         $days = $request->input('days');
         $description = $request->input('description');
 
+        //preluam utilizatorul autentificat
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -68,7 +69,7 @@ class FreeDaysRequestController extends Controller
         $freeDayRequest->days = $days;
         $freeDayRequest->description = $description;
 
-        // Salvăm cererea în baza de date
+        // Salvam cererea în baza de date
         $freeDayRequest->save();
 
         return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');

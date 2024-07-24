@@ -18,12 +18,7 @@
                 height: 100vh;
                 margin: 0;
             }
-            .container-fluid {
-                display: flex;
-                flex: 1;
-                padding: 0;
-                overflow: hidden;
-            }
+
             #list-example {
                 width: 200px;
                 overflow-y: auto;

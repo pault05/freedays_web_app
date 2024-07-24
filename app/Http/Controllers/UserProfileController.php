@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
+use League\CommonMark\Node\Inline\AbstractInline;
 
 class UserProfileController extends Controller
 {
     public function index()
     {
+//        dd(Auth::user()->hired_at);
         $first_name= Auth::user()->first_name;
         $last_name= Auth::user()->last_name;
         $email= Auth::user()->email;
@@ -26,7 +28,7 @@ class UserProfileController extends Controller
             'last_name' => $last_name,
             'email' => $email,
             'phone' => $phone,
-            'days_off_left' => $free_days,
+            'free_days' => $free_days,
             'hired_at' => $hired_at,
             'color' => $color,
             'position' => $position,
@@ -42,6 +44,8 @@ class UserProfileController extends Controller
 //            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
 //            'phone' => 'nullable|string|max:20',
 //        ]);
+        // Preluarea utilizatorului autentificat
+        $user = Auth::user();
 
 //        dd($request->all());
         // Preluarea datelor
@@ -50,12 +54,15 @@ class UserProfileController extends Controller
         $email = $request->input('email');
         $phone = $request->input('phone');
         $color = $request->input('selected_color');
+        if($user->is_admin){
+            $position = $request->input('position');
+            $free_days= $request->input('free_days');
+        }
 
         // Afișarea datelor pentru debugging
 //        dd($request->all());
 
-        // Preluarea utilizatorului autentificat
-        $user = Auth::user();
+
 
         // Actualizarea atributelor
         $user->first_name = $first_name;
@@ -63,6 +70,11 @@ class UserProfileController extends Controller
         $user->email = $email;
         $user->phone = $phone;
         $user->color = $color;
+        if($user->is_admin)
+        {
+            $user->position = $position;
+            $user->free_days = $free_days;
+        }
 
         // Salvarea modificărilor
         $user->save();

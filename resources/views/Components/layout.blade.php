@@ -10,28 +10,18 @@
 
 </head>
 <body>
-
-<header>
-    <div class="col-12">
-        <x-nav-bar>
-
-        </x-nav-bar>
-    </div>
+<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
+    <x-nav-bar></x-nav-bar>
 </header>
-
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-4">
-            <x-dashboard1>
-
-            </x-dashboard1>
+    <x-theme_button></x-theme_button>
+        <div class="container-fluid">
+            <div class="row">
+                <x-sidebar></x-sidebar>
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    @yield('content')
+                </main>
+            </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-12  col-lg-8">
-            @yield('content')
-        </div>
-    </div>
-</div>
-</div>
 
 
 

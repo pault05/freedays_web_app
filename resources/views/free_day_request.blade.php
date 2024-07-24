@@ -1,13 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Request Free Days</title>
-</head>
-<body>
 
 @extends('components.layout')
 
@@ -21,9 +11,11 @@
         </div>
     @endif
 
-    <div class="mt-5">
-        <h3 class="text-center mb-4">Request Free Days</h3>
-    </div>
+        <div class="mt-5">
+            <h3 class="text-center mb-4"  style=" background-color:#007bff">Request Free Days</h3>
+        </div>
+
+
     <br>
 
     <div class="card p-5 shadow mb-5 w-100 col-sm-1 col-md-3">
@@ -53,10 +45,10 @@
                         <input type="hidden" class="form-control" name="days" id="days"
                                value="{{ session('days_left', '0') }}" placeholder="Selected leave days">
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 form-check mt-1 mb-2 ">
+                    <div id="half-day-container" class="col-sm-12 col-md-6 col-lg-3 form-check mt-1 mb-2" style="display: none">
                         <br>
+                        <input type="checkbox" class="form-check-input" name="half-day" id="half-day">
                         <label class="form-check-label" for="half-day">Half day</label>
-                        <input type="checkbox" class="form-check-input" name="half-day">
                     </div>
                 </div>
 
@@ -89,10 +81,24 @@
                         </div>
                     </div>
                 </div>
+                <style>
+                    .btnOutline {
+                        background-color: transparent;
+                        border: none;
+                        outline: 2px solid #1A7766;
+                        color: #000000;
+                        padding: 10px 20px;
+                        text-decoration: none;
+                        display: inline-block;
+                        cursor: pointer;
+                        border-radius: 5px;
+                        height: 100%
+                    }
+                </style>
                 <div class="row ms-1 mt-5">
                     <div class="d-flex justify-content-end" style="margin-left: 89%; width: 1%">
-                        <a href="/home" type="button" class="btn btn-primary">Back</a>
-                        <button type="submit" class="btn btn-primary ms-3" form="leave-form" id="submit">Submit</button>
+                        <a href="/home" type="button" class="btnOutline">Back</a>
+                        <button type="submit" class="btn ms-3" form="leave-form" id="submit" style="background-color: #1A7766; color: #ffffff">Submit</button>
                     </div>
                 </div>
             </form>
@@ -106,6 +112,7 @@
             var startDate = $('#start-date').val();
             var endDate = $('#end-date').val();
             var halfDay = $('#half-day');
+            var halfDayContainer = $('#half-day-container');
 
             if (startDate && endDate) {
                 var start = moment(startDate);
@@ -113,17 +120,20 @@
                 var diffInDays = end.diff(start, 'days') + 1; // +1 pentru a include ultima zi
 
                 $('#days-left').val(diffInDays);
-                $('#days').val(diffInDays); // Setează valoarea în câmpul ascuns
+                $('#days').val(diffInDays);
 
-                // Verifica dacă startDate este egal cu endDate și actualizează checkbox-ul
+                // Verifica dacă startDate este egal cu endDate
                 if (startDate === endDate) {
-                    halfDay.prop('checked', true);
+                    halfDayContainer.show(); //facem containerul vizibil
+                    halfDay.prop('checked', false);
                 } else {
+                    halfDayContainer.hide();
                     halfDay.prop('checked', false);
                 }
             } else {
                 $('#days-left').val('');
                 $('#days').val('');
+                halfDayContainer.hide(); // Ascunde checkbox-ul dacă lipsesc datele
                 halfDay.prop('checked', false);
             }
         }
@@ -134,6 +144,3 @@
     </script>
 
 @endsection
-</body>
-
-</html>

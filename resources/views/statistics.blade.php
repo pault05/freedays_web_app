@@ -25,7 +25,6 @@
 
     <div class="container">
         <div class="row">
-
             <div class="col-lg-6 col-md-6 mb-4">
                 <div class="card">
                     <div id="container2">
@@ -44,24 +43,27 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
 
-        <div class="row justify-content-center" style="height: 40%;">
-            <div class="col-6 mt-2">
-                <div class="card">
-                    <div id="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="card">
+                        <div id="container">
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-6 mt-2">
-                <div class="card">
-                    <div id="container4">
-                     </div>
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="card">
+                        <div id="container4">
+                        </div>
+                    </div>
                 </div>
-            </div>
+        </div>
 
             <script>
                 document.addEventListener('DOMContentLoaded', function () {

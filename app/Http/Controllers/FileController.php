@@ -21,22 +21,15 @@ class FileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request): void
+    public function create()
     {
-        $fileType = $request->input('type');
-        $filePath = $request->input('path');
-
-        $file = new File();
-        $file->type = $fileType;
-        $file->path = $filePath;
-
-        $file->save();
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFilesRequest $request)
+    public function store()
     {
         //
     }

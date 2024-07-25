@@ -59,7 +59,6 @@ class FreeDaysRequestController extends Controller
             'half-day' => 'nullable|boolean',
             'days' => 'required|integer',
             'description' => 'nullable|string|max:255',
-            'file' => 'nullable|file|mimes:jpg,png,pdf,docx|max:2048', // Optional file upload validation
         ]);
 
         $category_id = $request->input('category_id');
@@ -81,23 +80,7 @@ class FreeDaysRequestController extends Controller
         $freeDayRequest->days = $days;
         $freeDayRequest->description = $description;
         $freeDayRequest->save();
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $path = $file->store('uploads', 'public');
-            $filePath = $file->getRealPath();
-
-            $fileRecord = File::create([
-                'path' => $path,
-                'type' => $filePath,
-            ]);
-
-            UserFile::create([
-                'file_id' => $fileRecord->id,
-                'free_days_req_id' => $freeDayRequest->id,
-            ]);
-        }
-
+        
         return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
     }
 

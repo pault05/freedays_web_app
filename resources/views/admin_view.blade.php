@@ -23,19 +23,19 @@
                         </button>
                         <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
                             <li>
-                                <a href="{{ route('admin-view.index', ['sort_field' => 'id', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-dark w-75">
+                                <a href="{{ route('admin-view.index', ['sort_field' => 'id', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="dropdown-item">
                                     ID
                                 </a>
                             </li>
                             <li><div class="dropdown-divider"></div></li>
                             <li>
-                                <a href="{{ route('admin-view.index', ['sort_field' => 'category_id', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-dark w-75">
+                                <a href="{{ route('admin-view.index', ['sort_field' => 'category_id', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="dropdown-item">
                                     Category
                                 </a>
                             </li>
                             <li><div class="dropdown-divider"></div></li>
                             <li>
-                                <a href="{{ route('admin-view.index', ['sort_field' => 'status', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-dark w-75">
+                                <a href="{{ route('admin-view.index', ['sort_field' => 'status', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="dropdown-item">
                                     Status
                                 </a>
                             </li>
@@ -84,7 +84,7 @@
                 </thead>
                 <tbody>
                 @foreach ($adminView as $view)
-                    <tr>
+                    <tr style="vertical-align: middle">
                         <td>{{ $view->id }}</td>
                         <td>{{ $view->user->first_name }} {{ $view->user->last_name }}</td>
                         <td>{{ \Carbon\Carbon::parse($view->starting_date)->format('d/m/y') }}</td>
@@ -101,28 +101,35 @@
                             }
                         @endphp
                         <td><span class="badge status-label" style="background-color: {{ $statusColor }};">{{ $view->status }}</span></td>
-                        <td style="width: 10%">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select an Action
-                                </button>
-                                <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
-                                    <li>
+                        <td style="width: 9%">
+                            <div class="dropdown d-flex justify-content-center">
+{{--                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                                    Select an Action--}}
+{{--                                </button>--}}
+{{--                                <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">--}}
+{{--                                    <li>--}}
                                         <form action="{{ route('admin-view.approve', $view->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-approve" id="btnApprove" style="width: 80%;">Approve</button>
+                                            <button type="submit" class="btn btn-approve btn-sm" id="btnApprove" style="border: none; background-color: transparent">
+                                                <img src="https://img.icons8.com/?size=100&id=g7mUWNettfwZ&format=png&color=40C057" alt="" style="width: 35px" class="action-icons"></button>
                                         </form>
-                                    </li>
+{{--                                    </li>--}}
 
-                                    <li><div class="dropdown-divider"></div></li>
+{{--                                    <li><div class="dropdown-divider"></div></li>--}}
 
-                                    <li>
+{{--                                    <li>--}}
                                         <form action="{{ route('admin-view.deny', $view->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-danger btn-deny" id="btnDeny" style="width: 80%">Deny</button>
+                                            <button type="submit" class="btn btn-deny btn-sm" id="btnDeny" style="border: none; background-color: transparent">
+                                                <img src="https://img.icons8.com/?size=100&id=63688&format=png&color=000000" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons"></button>
                                         </form>
-                                    </li>
-                                </ul>
+{{--                                    </li>--}}
+{{--                                </ul>--}}
+                                <style>
+                                    .action-icons:hover {
+                                        transform: scale(1.1);
+                                    }
+                                </style>
                             </div>
                         </td>
                     </tr>

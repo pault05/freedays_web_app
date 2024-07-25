@@ -4,7 +4,7 @@
     <div
         class="holidays-main-container d-flex flex-column align-items-center justify-content-center p-3 h-auto rounded w-100"
         style="min-height: 100vh;">
-        <div class="card bg-primary shadow rounded p-3 mb-3 text-light w-100 text-center">
+        <div class="card bg-primary shadow rounded p-3 mb-5 text-light w-50 text-center">
             <h1 style="text-shadow: 2px 2px 4px black">Official Holidays</h1>
         </div>
 
@@ -51,7 +51,7 @@
                 @foreach($officialHolidays as $day)
                     <tr>
                         <td>{{$day->name}}</td>
-                        <td>{{$day->date}}</td>
+                        <td>{{\Carbon\Carbon::parse($day->date)->format('d/m/y')}}</td>
                         <td class="d-flex justify-content-center align-items-center text-center">
                             {{--                            <a href="#" id="editBtn"><img class="w-50" title="Edit" src="https://img.icons8.com/?size=100&id=21076&format=png&color=000000" alt=""></a>--}}
                             <form action="{{route('official-holiday.destroy', $day->id)}}" method="POST"

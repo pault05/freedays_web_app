@@ -47,7 +47,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="filterDropdown">
                             <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Filter by Status</a>
+                                <a class="dropdown-item dropdown-toggle" data-bs-auto-close="inside" href="#">Filter by Status</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{{ route('admin-view.index', ['filter_by_status' => 'Pending']) }}">Pending</a></li>
                                     <li><a class="dropdown-item" href="{{ route('admin-view.index', ['filter_by_status' => 'Approved']) }}">Approved</a></li>

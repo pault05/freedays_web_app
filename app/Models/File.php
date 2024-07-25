@@ -12,7 +12,8 @@ class File extends Model
     use SoftDeletes;
 
     protected $fillable = [
-      'path',
-      'type',
+        'path',
+        'type',
+        'name',
     ];
 }

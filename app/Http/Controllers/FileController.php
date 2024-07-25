@@ -29,9 +29,27 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'file' => 'nullable|file|mimes:jpeg,jpg,png,pdf,doc,docx|max:5000'
+        ]);
+
+        if($request->hasFile('file'))
+        {
+            $file = $request->file('file');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $filePath = $file->storeAs('files', $fileName, 'public');
+
+            $fileModel = new File();
+            $fileModel->name = $file->getClientOriginalName();
+            $fileModel->type = $file->getClientOriginalExtension();
+            $fileModel->path = '/storage/' . $filePath;
+            $fileModel->save();
+
+            return back()->with('success', 'File has been uploaded successfully.');
+        }
+        return back()->withErrors('File upload failed.');
     }
 
     /**

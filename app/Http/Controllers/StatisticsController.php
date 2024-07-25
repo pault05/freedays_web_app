@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\FreeDaysRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Category;
 use Carbon\Carbon;
 
 class StatisticsController extends Controller{
@@ -94,12 +95,48 @@ class StatisticsController extends Controller{
 
         //dd($daysPerMonth);
 
+        $freeDaysRequests = FreeDaysRequest::where('user_id', $userId)->with('category')->get();
+        $years = FreeDaysRequest::selectRaw('YEAR(starting_date) as year')
+            ->distinct()
+            ->pluck('year');
+
+        $categories = Category::all();
+        $charData = [];
+
+        //dd($categories);
+
+        foreach ($years as $year){
+            $yearData =[
+                'year' => $year,
+            ];
+            foreach ($categories as $category){
+                $count = FreeDaysRequest::where('user_id', $userId)
+                    ->where('category_id', $category->id)
+                    ->whereYear('starting_date', $year)
+                    ->count();
+
+
+                $yearData[$category->name]=$count;
+            }
+            $chartData[]=$yearData;
+        }
+
+        $formattedData = [
+            'years' => $years,
+            'categories' => $categories->pluck('name'),
+            'data' => $chartData
+        ];
+
+        //dd($formattedData);
+
+
         return view('statistics',[
             'statistics' => $statistics,
             'requestsByDescription' => $requestsByDescription,
             'charData' => $charData,
             'daysPerYear' => $freeDaysArray,
-            'daysPerMonth' => $daysPerMonth
+            'daysPerMonth' => $daysPerMonth,
+            'formattedData' => $formattedData
 
         ]);
 

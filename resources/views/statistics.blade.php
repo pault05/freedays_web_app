@@ -9,9 +9,21 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <style>
+        .statistics-title {
+            font-size: 35px;
+            font-weight: bold;
+            color: #003A66;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #003A66;
+            padding-bottom: 10px;
+        }
+    </style>
 
     <div class="mt-4">
-        <h3 class="text-center mb-4">Statistics</h3>
+        <h3 class="statistics-title">Statistics</h3>
+
     </div>
 
     <style>
@@ -67,19 +79,14 @@
 
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
+                    const colorPalette = ['#003A66', '#1A7766', '#97BCD9', '#EAEAC2', '#524E41'];
                     Highcharts.chart('container', {
                         chart: {
                             type: 'column'
                         },
                         title: {
                             text: 'Number of leaves per month',
-                            align: 'left'
-                        },
-                        subtitle: {
-                            text:
-                                'Source: <a target="_blank" ' +
-                                'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>',
-                            align: 'left'
+                            align: 'center'
                         },
                         xAxis: {
                             categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August', 'September', 'Octbober', 'November', 'December'],
@@ -105,6 +112,7 @@
                                 name: 'Leaves',
                                 data: @json(array_values($daysPerMonth->toArray())),
                                 {{--data: @json($daysPerMonth)--}}
+                                color: colorPalette[2]
 
                             }
                         ]
@@ -239,25 +247,25 @@
 
                     const categories = formattedData.categories;
                     console.log(formattedData);
-                    const seriesData = [];
+                    //const seriesData = [];
 
+                    const colorPalette = ['#003A66', '#1A7766', '#97BCD9', '#EAEAC2', '#524E41'];
 
-
-                    categories.forEach((category) => {
+                    const seriesData = categories.map((category, index) => {
                         const data = formattedData.data.map(yearData => yearData[category] || 0);
-                        seriesData.push({
+                        return {
                             name: category,
-                            data: data
-                        });
+                            data: data,
+                            color: colorPalette[index % colorPalette.length] // Cycle through the color palette
+                        };
                     });
-
                     Highcharts.chart('container4', {
                         chart: {
                             type: 'column'
                         },
                         title: {
                             text: 'Leaves per Category per Year',
-                            align: 'left'
+                            align: 'center'
                         },
                         xAxis: {
                             categories: formattedData.years
@@ -267,9 +275,9 @@
                             title: {
                                 text: 'Number of Leaves'
                             },
-                            stackLabels: {
-                                enabled: true
-                            }
+                            // stackLabels: {
+                            //     enabled: true
+                            // }
                         },
                         legend: {
                             align: 'left',

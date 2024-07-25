@@ -101,7 +101,8 @@
                         series: [
                             {
                                 name: 'Leaves',
-                                data: @json(array_values($daysPerMonth->toArray()))
+                                data: @json(array_values($daysPerMonth->toArray())),
+                                {{--data: @json($daysPerMonth)--}}
 
                             }
                         ]

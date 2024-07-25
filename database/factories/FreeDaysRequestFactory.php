@@ -18,12 +18,16 @@ class FreeDaysRequestFactory extends Factory
     {
         $k=1;
         $k++;
+
+        $startingDate = $this->faker->dateTimeBetween('2024-07-15', '2024-12-31');
+        $endingDate = $this->faker->dateTimeBetween($startingDate, '2024-12-31');
+
         return [
             'user_id' => $this->faker->numberBetween(1, 10),
             'category_id'=> $k%4,
             'status' => 'Pending',
-            'starting_date' => fake()->dateTimeBetween('2024-07-15', '2024-12-31')->format('Y-m-d'),
-            'ending_date' => fake()->dateTimeBetween('2024-07-15', '2024-12-31')->format('Y-m-d'),
+            'starting_date' => $startingDate->format('Y-m-d'),
+            'ending_date' => $endingDate->format('Y-m-d'),
             'half_day' => fake()->boolean,
             'description' => fake()->colorName(),
             'days' => fake()->numberBetween(1, 3),

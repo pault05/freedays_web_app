@@ -14,13 +14,34 @@ class AdminViewController extends Controller
     {
         $sortField = $request->input('sort_field', 'starting_date');
         $sortOrder = $request->input('sort_order', 'desc');
-        $adminView = FreeDaysRequest::join('users', 'free_days_requests.user_id', '=', 'users.id')->orderBy($sortField, $sortOrder)->select('free_days_requests.*')
-            ->with('user', 'category')->paginate(10);
+
+        $filterByStatus = $request->input('filter_by_status', 'all');
+        $filterByUser = $request->input('filter_by_user', 'all');
+
+        $query = FreeDaysRequest::with('user', 'category');
+
+        if ($filterByStatus && $filterByStatus != 'all') {
+            $query->where('status', $filterByStatus);
+        }
+
+        if ($filterByUser && $filterByUser != 'all') {
+            $query->where('user_id', $filterByUser);
+        }
+
+        $query->orderBy($sortField, $sortOrder);
+
+        $adminView = $query->paginate(10)->appends([
+            'sort_field' => $sortField,
+            'sort_order' => $sortOrder,
+            'filter_by_status' => $filterByStatus,
+            'filter_by_user' => $filterByUser,
+        ]);
 
         $users = FreeDaysRequest::with('user')
             ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
 
-        return view('admin_view', ['adminView' => $adminView, 'sort_field' => $sortField, 'sort_order' => $sortOrder, 'users' => $users]);
+        return view('admin_view', ['adminView' => $adminView, 'sort_field' => $sortField, 'sort_order' => $sortOrder, 'users' => $users, 'filterByStatus' => $filterByStatus,
+            'filterByUser' => $filterByUser]);
     }
 
     public function approve($id)
@@ -61,32 +82,32 @@ class AdminViewController extends Controller
     }
 
 
-    public function filter(Request $request){
-        $filterByStatus = $request->input('filter_by_status');
-        $filterByUser = $request->input('filter_by_user');
-
-        $query = FreeDaysRequest::with('user', 'category');
-
-
-        if ($filterByStatus) {
-            $query->where('status', $filterByStatus);
-        }
-
-        if ($filterByUser) {
-            $query->where('user_id', $filterByUser);
-        }
-
-        $adminView = $query->paginate(10);
-        $users = FreeDaysRequest::with('user')
-            ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
-
-        return view('admin_view', [
-            'adminView' => $adminView,
-            'filterByStatus' => $filterByStatus,
-            'filterByUser' => $filterByUser,
-            'users' => $users,
-        ]);
-    }
+//    public function filter(Request $request){
+//        $filterByStatus = $request->input('filter_by_status');
+//        $filterByUser = $request->input('filter_by_user');
+//
+//        $query = FreeDaysRequest::with('user', 'category');
+//
+//
+//        if ($filterByStatus) {
+//            $query->where('status', $filterByStatus);
+//        }
+//
+//        if ($filterByUser) {
+//            $query->where('user_id', $filterByUser);
+//        }
+//
+//        $adminView = $query->paginate(10);
+//        $users = FreeDaysRequest::with('user')
+//            ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
+//
+//        return view('admin_view', [
+//            'adminView' => $adminView,
+//            'filterByStatus' => $filterByStatus,
+//            'filterByUser' => $filterByUser,
+//            'users' => $users,
+//        ]);
+//    }
 
 //    public function sort(Request $request){
 //        $sortField = $request->input('sort_field', 'id');

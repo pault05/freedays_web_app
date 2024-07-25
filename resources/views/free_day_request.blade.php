@@ -140,6 +140,7 @@
                    errorMessage.hide();
                }
 
+               
                var diffInDays = end.diff(start, 'days') + 1; // +1 pentru a include ultima zi
 
                $('#days-left').val(diffInDays);

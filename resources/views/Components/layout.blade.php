@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ env('APP_NAME')}}</title>
     <link href="{{asset("public/css/bootstrap.css")}}">
+    <link href="{{ asset('css/bootstrap.css') }}">
 
 </head>
 <body>

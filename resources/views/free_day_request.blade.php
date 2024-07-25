@@ -98,10 +98,17 @@
                         height: 100%
                     }
                 </style>
+{{--                <div class="row ms-5 mt-5">--}}
+{{--                    <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">--}}
+{{--                        <a href="/home" type="button" class="btnOutline">Back</a>--}}
+{{--                        <button type="submit" class="btn ms-3" form="leave-form" id="submit" style="background-color: #1A7766; color: #ffffff">Submit</button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
                 <div class="row ms-5 mt-5">
                     <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">
-                        <a href="/home" type="button" class="btnOutline">Back</a>
-                        <button type="submit" class="btn ms-3" form="leave-form" id="submit" style="background-color: #1A7766; color: #ffffff">Submit</button>
+                        <a href="/home" type="button" class="btn btn-outline-dark">Back</a>
+                        <button type="submit" class="btn btn-dark ms-3" form="leave-form" id="submit">Submit</button>
                     </div>
                 </div>
             </form>

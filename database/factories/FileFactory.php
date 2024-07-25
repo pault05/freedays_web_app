@@ -19,6 +19,7 @@ class FileFactory extends Factory
         return [
             'type'=>$this->faker->fileExtension(),
             'path'=>$this->faker->filePath(),//va primi in timp fisierul
+            'name'=>$this->faker->name(),
         ];
     }
 }

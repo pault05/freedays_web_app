@@ -18,6 +18,8 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->randomElement(['Paid','Unpaid','Medical','Motivated']),
+            'color' => $this->faker->hexColor(),
+            'is_subtractable' => $this->faker->boolean(),
         ];
     }
 }

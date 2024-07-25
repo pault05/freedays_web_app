@@ -21,7 +21,7 @@
     <div class="card p-5 shadow mb-5 w-100 col-sm-1 col-md-3">
 
         <div class="container mt-3">
-            <form id="leave-form" action="/free-day-request/save" method="POST">
+            <form id="leave-form" action="/free-day-request/save" method="POST"  enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-4 mb-3">
                         <label for="days-left">Days off left</label>
@@ -80,7 +80,7 @@
                 <div class="row mt-3">
                     <div class="mt-3 row">
                         <div class="col-sm-6" style="width: 94.5%">
-                            <input type="file" class="form-control mb-1" style="width: 100%" name="file-upload">
+                            <input type="file" class="form-control mb-1" style="width: 100%" name="proof">
                         </div>
                     </div>
                 </div>

@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserFile extends Model
+class FreeDaysReqFile extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-      'user_id',
-      'file_id',
+        'free_days_req_id',
+        'file_id',
     ];
 }

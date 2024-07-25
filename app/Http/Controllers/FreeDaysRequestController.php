@@ -80,7 +80,10 @@ class FreeDaysRequestController extends Controller
         $freeDayRequest->days = $days;
         $freeDayRequest->description = $description;
         $freeDayRequest->save();
-        
+
+//        $file = $request->file('proof');
+//        dd($file);
+
         return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
     }
 

@@ -15,7 +15,7 @@ class UserFileFactory extends Factory
     {
         return [
             'file_id'=>$this->faker->numberBetween(1,10),
-            'free_days_req_id'=>$this->faker->numberBetween(1,10),
+            'user_id'=>$this->faker->numberBetween(1,10),
         ];
     }
 }

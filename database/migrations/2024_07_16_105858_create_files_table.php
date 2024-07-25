@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
             $table->timestamps();
+            $table->string('type');
             $table->string('path');
+            $table->string('name');
             $table->softDeletes();
         });
     }

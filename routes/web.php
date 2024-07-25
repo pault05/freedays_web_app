@@ -14,13 +14,10 @@ Route::get('/home', function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/account-creation', [AccountCreationController::class, 'index']);
-    Route::post('/account-creation', [AccountCreationController::class, 'store']);
+    Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
+    Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
 
-    Route::get('/account-creation', [AccountCreationController::class, 'index']);
-    Route::post('/account-creation', [AccountCreationController::class, 'store']);
-
-    Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index'])->name('admin-view.index');
+    Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index']);
     Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
     Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
     Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
@@ -43,11 +40,14 @@ Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/user-profile', [UserProfileController::class, 'index']);
-Route::post('/user-profile', [UserProfileController::class, 'save']);
-Route::post('/user-profile/change-password', [UserProfileController::class, 'changePassword']);
+Route::get('/user-profile/{id}', [\App\Http\Controllers\UserProfileController::class, 'index'])->name('user-profile');
+Route::post('/user-profile/{id}', [\App\Http\Controllers\UserProfileController::class, 'save'])->name('user-profile.save');
+Route::post('/user-profile/change-password/{id}', [\App\Http\Controllers\UserProfileController::class, 'changePassword'])->name('user-profile.change-password');
 
 Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']);
 
 Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics');
+
+Route::get('/admin-view-user', [\App\Http\Controllers\AdminViewUserController::class, 'index'])->name('admin-view-user.index');
+Route::delete('/admin-view-user/delete/{id}', [\App\Http\Controllers\AdminViewUserController::class, 'delete'])->name('admin-view-user.delete');
 

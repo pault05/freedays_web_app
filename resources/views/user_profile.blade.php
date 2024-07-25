@@ -46,13 +46,13 @@
 
                 <div class="row g-5">
                     <div class="col-md-5 col-lg-8 mx-auto">
-                        <form method="POST" action="/user-profile">
+                        <form method="POST" action="/user-profile/{{ $user['id'] }}">
                             @csrf
                             <div class="row g-3">
                                 <div class="col-sm-6">
                                     <label for="firstName" class="form-label text-start w-100">First name</label>
-                                    <input type="text" class="form-control " id="firstName" name="first_name"
-                                           value="{{ $user['first_name']}}" placeholder="" readonly required>
+                                    <input type="text" class="form-control" id="firstName" name="first_name"
+                                           value="{{ $user['first_name'] }}" placeholder="" readonly required>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
@@ -60,18 +60,17 @@
 
                                 <div class="col-sm-6">
                                     <label for="lastName" class="form-label text-start w-100">Last name</label>
-                                    <input type="text" class="form-control " id="lastName" name="last_name"
-                                           value="{{ $user['last_name']}}" placeholder="" readonly required>
+                                    <input type="text" class="form-control" id="lastName" name="last_name"
+                                           value="{{ $user['last_name'] }}" placeholder="" readonly required>
                                     <div class="invalid-feedback">
                                         Valid last name is required.
                                     </div>
                                 </div>
 
-
                                 <div class="col-12">
                                     <label for="email" class="form-label text-start w-100">Email</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                           value="{{ $user['email']}}" placeholder="you@example.com" readonly required>
+                                           value="{{ $user['email'] }}" placeholder="you@example.com" readonly required>
                                     <div class="invalid-feedback">
                                         Please enter a valid email address for shipping updates.
                                     </div>
@@ -79,7 +78,7 @@
 
                                 <div class="col-12">
                                     <label for="phone" class="form-label text-start w-100">Phone Number</label>
-                                    <input type="text" class="form-control " value="{{ $user['phone']}}" id="phone"
+                                    <input type="text" class="form-control" value="{{ $user['phone'] }}" id="phone"
                                            name="phone" readonly>
                                     <div class="invalid-feedback">
                                         Please enter the phone number.
@@ -88,7 +87,7 @@
 
                                 <div class="col-12">
                                     <label for="position" class="form-label text-start w-100">Position</label>
-                                    <input type="text" class="form-control " value="{{ $user['position']}}"
+                                    <input type="text" class="form-control" value="{{ $user['position'] }}"
                                            id="position" name="position" readonly>
                                     <div class="invalid-feedback">
                                         Please enter the position.
@@ -97,7 +96,7 @@
 
                                 <div class="col-12">
                                     <label for="free_days" class="form-label text-start w-100">Days Off Left</label>
-                                    <input type="number" class="form-control " value="{{ $user['free_days']}}"
+                                    <input type="number" class="form-control" value="{{ $user['free_days'] }}"
                                            id="free_days" name="free_days" required min="0" step="1" readonly>
                                     <div class="invalid-feedback">
                                         Please enter the number of free days.
@@ -106,21 +105,21 @@
 
                                 <div class="col-12">
                                     <label for="hired_at" class="form-label text-start w-100">Hired At</label>
-                                    <input type="text" class="form-control "
-                                           value="{{Carbon::parse($user['hired_at'])->format('d/m/y') }}"
+                                    <input type="text" class="form-control"
+                                           value="{{ \Carbon\Carbon::parse($user['hired_at'])->format('d/m/y') }}"
                                            id="hired_at" name="hired_at" readonly>
                                     <div class="invalid-feedback">
-                                        Please enter the date of hired.
+                                        Please enter the date of hire.
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="selected_color" class="form-label text-start w-100">Profile
                                         Color</label>
-                                    <input type="color" class="form-control " value="{{ $user['color'] }}"
+                                    <input type="color" class="form-control" value="{{ $user['color'] }}"
                                            id="selected_color" name="selected_color" readonly>
                                     <div class="invalid-feedback">
-                                        Please enter the date of hired.
+                                        Please enter the profile color.
                                     </div>
                                 </div>
 
@@ -149,7 +148,6 @@
                                                 document.getElementById('edit-btn').style.display = 'none';
                                                 document.getElementById('save-btn').style.display = 'block';
                                                 document.getElementById('cancel-btn').style.display = 'block';
-
                                             }
                                         </script>
                                         <div class="col-md-6">
@@ -165,7 +163,6 @@
                                             btn.onclick = function () {
                                                 modal.style.display = "block";
                                             }
-
                                         </script>
                                     </div>
                                     <div class="row">
@@ -181,25 +178,6 @@
                                             </button>
                                         </div>
                                         <script>
-                                            document.getElementById('save-btn').onclick = function () {
-                                                document.getElementById('firstName').setAttribute('readonly', 'readonly');
-                                                document.getElementById('lastName').setAttribute('readonly', 'readonly');
-                                                document.getElementById('phone').setAttribute('readonly', 'readonly');
-                                                document.getElementById('email').setAttribute('readonly', 'readonly');
-                                                document.getElementById('selected_color').setAttribute('readonly', 'readonly');
-
-                                                @auth
-                                                @if(auth()->user()->is_admin)
-                                                document.getElementById('position').setAttribute('readonly', 'readonly');
-                                                document.getElementById('free_days').setAttribute('readonly', 'readonly');
-                                                @endif
-                                                @endauth
-
-                                                document.getElementById('edit-btn').style.display = 'block';
-                                                document.getElementById('save-btn').style.display = 'none';
-                                                document.getElementById('cancel-btn').style.display = 'none';
-                                            }
-
                                             document.getElementById('cancel-btn').onclick = function () {
                                                 document.getElementById('firstName').setAttribute('readonly', 'readonly');
                                                 document.getElementById('lastName').setAttribute('readonly', 'readonly');
@@ -218,47 +196,41 @@
                                                 document.getElementById('save-btn').style.display = 'none';
                                                 document.getElementById('cancel-btn').style.display = 'none';
                                             }
-
                                         </script>
                                     </div>
-
-
                                 </div>
-
-
                                 <hr class="my-2">
                             </div>
-
                         </form>
                         <!-- The Modal -->
                         <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog"
                              aria-labelledby="changePasswordModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="changePasswordModalLabel">Change
-                                                Password</h5>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="change-password-form" method="POST"
-                                                  action="/user-profile/change-password">
-                                                @csrf
-                                                <div class="form-group">
-                                                    <label for="current_password">Current Password</label>
-                                                    <input type="password" class="form-control"
-                                                           id="current_password" name="current_password"
-                                                           required>
-                                                    @error('current_password')
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="change-password-form" method="POST"
+                                              action="/user-profile/change-password/{{ $user['id'] }}">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="current_password">Current Password</label>
+                                                <input type="password" class="form-control" id="current_password"
+                                                       name="current_password" required>
+                                                @error('current_password')
+                                                <div class="text-danger">
                                                     The current password is incorrect.
-                                                    @enderror
-                                                    @error('new_password')
-                                                    The new password cannot be the same as current password.
-                                                    <div class="invalid-feedback">The current password is
-                                                        incorrect.
-                                                    </div>
-                                                    @enderror
                                                 </div>
+                                                @enderror
+                                                @error('new_password')
+                                                <div class="text-danger">
+                                                    The new password cannot be the same as current password.
+                                                </div>
+                                                @enderror
                                                 <div class="form-group">
                                                     <label for="new_password">New Password</label>
                                                     <input type="password" class="form-control"
@@ -309,15 +281,14 @@
                                                 <button type="button" class="btn btn-secondary btn-rounded"
                                                         data-dismiss="modal">Cancel
                                                 </button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                            </div>
+                                        </form>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
+            </div>
                 <!-- Bootstrap JS and dependencies -->
                 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

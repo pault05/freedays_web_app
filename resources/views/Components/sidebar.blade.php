@@ -47,7 +47,16 @@
                 </li>
                     @endif
                 @endauth
-
+                @auth
+                    @if(auth()->user()->is_admin)
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" href="/admin-view-user">
+                        <svg class="bi"><use xlink:href="#people"/></svg>
+                        Users
+                    </a>
+                </li>
+                    @endif
+                @endauth
                 @auth
                     @if(auth()->user()->is_admin)
                         <li class="nav-item">

@@ -58,40 +58,8 @@
 
             <div class="col-6 mt-2">
                 <div class="card">
-                    <div class="d-flex justify-content-start">
-                        <div class="dropdown ms-1 mt-2">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Order By
-                            </button>
-                            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
-                                <li>
-                                    <a  class="btn btn-dark w-75">
-                                        Paid Leave
-                                    </a>
-                                </li>
-
-                                <li><div class="dropdown-divider"></div></li>
-                                {{-- divider--}}
-                                <li>
-                                    <a class="btn btn-dark w-75">
-                                        Unpaid Leave
-                                    </a>
-                                </li>
-                                <li><div class="dropdown-divider"></div></li>
-                                <li>
-                                    <a class="btn btn-dark w-75">
-                                        Medical Leave
-                                    </a>
-                                </li>
-                                <li><div class="dropdown-divider"></div></li>
-                                <li>
-                                    <a class="btn btn-dark w-75">
-                                        Motivated leave
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <div id="container4">
+                     </div>
                 </div>
             </div>
 
@@ -133,7 +101,8 @@
                         series: [
                             {
                                 name: 'Leaves',
-                                data: @json(array_values($daysPerMonth->toArray()))
+                                data: @json(array_values($daysPerMonth->toArray())),
+                                {{--data: @json($daysPerMonth)--}}
 
                             }
                         ]
@@ -256,4 +225,66 @@
                 showValues();
 
             </script>
+
+<script>
+// Data retrieved from:
+// - https://en.as.com/soccer/which-teams-have-won-the-premier-league-the-most-times-n/
+// - https://www.statista.com/statistics/383679/fa-cup-wins-by-team/
+// - https://www.uefa.com/uefachampionsleague/history/winners/
+Highcharts.chart('container4', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Major trophies for some English teams',
+        align: 'left'
+    },
+    xAxis: {
+        categories: ['Arsenal', 'Chelsea', 'Liverpool', 'Manchester United']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Count trophies'
+        },
+        stackLabels: {
+            enabled: true
+        }
+    },
+    legend: {
+        align: 'left',
+        x: 70,
+        verticalAlign: 'top',
+        y: 70,
+        floating: true,
+        backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    series: [{
+        name: 'BPL',
+        data: [3, 5, 1, 13]
+    }, {
+        name: 'FA Cup',
+        data: [14, 8, 8, 12]
+    }, {
+        name: 'CL',
+        data: [0, 2, 6, 3]
+    }]
+});
+</script>
 @endsection

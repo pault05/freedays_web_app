@@ -15,7 +15,14 @@ class StatisticsController extends Controller{
         //dd($freeDaysRequests);
         //$users = User::all();
         $allFreeDays = FreeDaysRequest::with('category')->get();
-        $daysInYear = FreeDaysRequest::whereYear('starting_date', '=', Carbon::now()->year)->get();
+        //$daysInYear = FreeDaysRequest::whereYear('starting_date', '=', Carbon::now()->year)->get();
+
+
+        $daysInYear = FreeDaysRequest::where(function ($query) {
+            $currentYear = Carbon::now()->year;
+            $query->whereYear('starting_date', '=', $currentYear)
+                ->orWhereYear('ending_date', '=', $currentYear);
+        })->get();
 
         $freeDaysArray = array();
         $days = 0;
@@ -25,14 +32,17 @@ class StatisticsController extends Controller{
             //$days += $freeDaysRequests['days'];
             $days += $request['days'];
         }
+
         //$freeDaysArray['year'] = $year;
         //$freeDaysArray['days'] = $days;
+
         $freeDaysArray = array (
             array("2027",22),
             array("2024",15),
             array("2025",5),
             array("2026",17)
         );
+
         $data = $freeDaysRequests->map(function ($request){
             $start = Carbon::parse($request->starting_date);
             $end = Carbon::parse($request->ending_date);
@@ -62,10 +72,12 @@ class StatisticsController extends Controller{
 //            return $item->sum('days');
 //        });
 
+        //dd($freeDaysRequests->toArray());
+
         $daysPerMonth = $freeDaysRequests->map(function ($request) {
             $start = Carbon::parse($request->starting_date);
             $end = Carbon::parse($request->ending_date);
-            $daysOff = $end->diffInDays($start) + 1;
+            $daysOff = $start->diffInDays($end) + 1;
 
             return [
                 'month' => $start->format('F'),
@@ -75,11 +87,12 @@ class StatisticsController extends Controller{
             return $items->sum('days');
         });
 
-        // Ensure all months are present
         $months = collect(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']);
         $daysPerMonth = $months->mapWithKeys(function ($month) use ($daysPerMonth) {
             return [$month => $daysPerMonth->get($month, 0)];
         });
+
+        //dd($daysPerMonth);
 
         return view('statistics',[
             'statistics' => $statistics,

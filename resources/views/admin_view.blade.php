@@ -23,19 +23,19 @@
                         </button>
                         <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
                             <li>
-                                <a href="{{ route('admin-view.index', ['sort_field' => 'id', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
+                                <a href="{{ route('admin-view.index', ['sort_field' => 'id', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-dark w-75">
                                     ID
                                 </a>
                             </li>
                             <li><div class="dropdown-divider"></div></li>
                             <li>
-                                <a href="{{ route('admin-view.index', ['sort_field' => 'users.first_name', 'sort_order' => request('sort_order', 'asc')]) }}" class="btn btn-dark w-75">
-                                    Name
+                                <a href="{{ route('admin-view.index', ['sort_field' => 'category_id', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-dark w-75">
+                                    Category
                                 </a>
                             </li>
                             <li><div class="dropdown-divider"></div></li>
                             <li>
-                                <a href="{{ route('admin-view.index', ['sort_field' => 'status', 'sort_order' => request('sort_order', 'desc')]) }}" class="btn btn-dark w-75">
+                                <a href="{{ route('admin-view.index', ['sort_field' => 'status', 'sort_order' => request('sort_order', 'asc') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-dark w-75">
                                     Status
                                 </a>
                             </li>
@@ -49,9 +49,9 @@
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Filter by Status</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ route('admin-view.filter', ['filter_by_status' => 'Pending']) }}">Pending</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin-view.filter', ['filter_by_status' => 'Approved']) }}">Approved</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin-view.filter', ['filter_by_status' => 'Denied']) }}">Denied</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin-view.index', ['filter_by_status' => 'Pending']) }}">Pending</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin-view.index', ['filter_by_status' => 'Approved']) }}">Approved</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin-view.index', ['filter_by_status' => 'Denied']) }}">Denied</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown-submenu">
@@ -62,7 +62,7 @@
                                     </li>
                                     @foreach($users as $user)
                                         <li class="user-item ms-1 mb-1" data-user-id="{{ $user->id }}">
-                                            <a class="dropdown-item" href="{{ route('admin-view.filter', ['filter_by_user' => $user->id]) }}">
+                                            <a class="dropdown-item" href="{{ route('admin-view.index', ['filter_by_user' => $user->id]) }}">
                                                 {{ $user->first_name }} {{ $user->last_name }}
                                             </a>
                                         </li>
@@ -101,7 +101,7 @@
                             }
                         @endphp
                         <td><span class="badge status-label" style="background-color: {{ $statusColor }};">{{ $view->status }}</span></td>
-                        <td style="width: 15%">
+                        <td style="width: 10%">
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Select an Action

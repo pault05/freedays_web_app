@@ -52,22 +52,15 @@ class FreeDaysRequestController extends Controller
 
     public function save(Request $request)
     {
-        $request->validate([
-            'category_id' => 'required|integer',
-            'start-date' => 'required|date',
-            'end-date' => 'required|date|after_or_equal:start-date',
-            'half-day' => 'nullable|boolean',
-            'days' => 'required|integer',
-            'description' => 'nullable|string|max:255',
-        ]);
-
+        // Preluarea datelor
         $category_id = $request->input('category_id');
         $starting_date = $request->input('start-date');
         $ending_date = $request->input('end-date');
-        $half_day = $request->input('half-day') ? 1 : 0;
+        $half_day = ($request->input('half-day')) ? 1 : 0;
         $days = $request->input('days');
         $description = $request->input('description');
 
+        //preluam utilizatorul autentificat
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -79,10 +72,9 @@ class FreeDaysRequestController extends Controller
         $freeDayRequest->half_day = $half_day;
         $freeDayRequest->days = $days;
         $freeDayRequest->description = $description;
-        $freeDayRequest->save();
 
-//        $file = $request->file('proof');
-//        dd($file);
+        // Salvam cererea în baza de date
+        $freeDayRequest->save();
 
         return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
     }
@@ -189,6 +181,65 @@ class FreeDaysRequestController extends Controller
 
         // Salvam cererea în baza de date
         $freeDayRequest->save();
+
+        return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
+    }
+ */
+
+
+/*
+    public function save(Request $request)
+    {
+        $request->validate([
+            'category_id' => 'required|integer',
+            'start-date' => 'required|date',
+            'end-date' => 'required|date|after_or_equal:start-date',
+            'half-day' => 'nullable|boolean',
+            'days' => 'required|integer',
+            'description' => 'nullable|string|max:255',
+            'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,pdf,doc,docx|max:5000'
+        ]);
+
+
+        if($request->hasFile('file'))
+        {
+            $file = $request->file('file');
+            $fileName = time().'_'.$file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads', $fileName, 'public');
+
+            $fileModel = new File();
+            $fileModel->name = $file->getClientOriginalName();
+            $fileModel->type = $file->getClientOriginalExtension();
+            $fileModel->path = '/storage/' . $filePath;
+            $fileModel->save();
+        }
+
+        $category_id = $request->input('category_id');
+        $starting_date = $request->input('start-date');
+        $ending_date = $request->input('end-date');
+        $half_day = $request->input('half-day') ? 1 : 0;
+        $days = $request->input('days');
+        $description = $request->input('description');
+
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $freeDayRequest = new FreeDaysRequest();
+        $freeDayRequest->user_id = $user_id;
+        $freeDayRequest->category_id = $category_id;
+        $freeDayRequest->starting_date = $starting_date;
+        $freeDayRequest->ending_date = $ending_date;
+        $freeDayRequest->half_day = $half_day;
+        $freeDayRequest->days = $days;
+        $freeDayRequest->description = $description;
+
+        if (isset($fileModel)) {
+            $fileModel->free_day_req_id = $freeDayRequest->id;
+        }
+
+        $freeDayRequest->save();
+
+        //dd($file);
 
         return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
     }

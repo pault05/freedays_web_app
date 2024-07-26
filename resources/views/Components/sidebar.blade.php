@@ -97,6 +97,7 @@
 
             <hr class="my-3">
 
+            @if(Auth::check())
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="/logout">
@@ -105,6 +106,7 @@
                     </a>
                 </li>
             </ul>
+            @endif
         </div>
     </div>
 </div>

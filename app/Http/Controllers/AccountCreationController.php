@@ -11,11 +11,7 @@ class AccountCreationController extends Controller
     // acc creation serban din post in get
     public function index()
     {
-        if (Auth::user()->is_admin) {
-
         return view('account_creation');
-        }
-        return redirect('/home');
     }
 
     public function store(Request $request){

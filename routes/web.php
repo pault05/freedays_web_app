@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
 
+Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login', [LoginController::class, 'store']);
+
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
     Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
@@ -26,8 +30,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/official-holiday', [OfficialHolidayController::class, 'store'])->name('official-holiday.store');
     Route::delete('/official-holiday/deleteAll', [OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
     Route::delete('/official-holiday/destroy/{id}', [OfficialHolidayController::class, 'destroy'])->name('official-holiday.destroy');
-
-    Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics'); //auth
 });
 
 
@@ -46,14 +48,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']); //auth
 
+    Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics'); //auth
+
     Route::get('/home', function () {
         return view('home');
     });
 
 });
-
-
-Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store']);
 
 

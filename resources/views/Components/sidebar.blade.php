@@ -73,8 +73,7 @@
                     @endif
                 @endauth
 
-                @auth
-                    @if(auth()->user()->is_admin)
+                @if(Auth::check())
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="/statistics">
                         <svg class="bi"><use xlink:href="#graph-up"/></svg>
@@ -82,7 +81,7 @@
                     </a>
                 </li>
                 @endif
-                @endauth
+
 
                 @if(!Auth::check())
                 <li class="nav-item">

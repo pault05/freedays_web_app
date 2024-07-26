@@ -80,21 +80,20 @@
     }
 </style>
 <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">Vacation Vault</a>
-
-<ul class="navbar-nav flex-row d-md-none">
-    <li class="nav-item text-nowrap">
-        <button class="nav-link px-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle search">
-            <svg class="bi"><use xlink:href="#search"/></svg>
-        </button>
-    </li>
-    <li class="nav-item text-nowrap">
-        <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <svg class="bi"><use xlink:href="#list"/></svg>
-        </button>
-    </li>
-</ul>
-<div style="padding-right: 20px" >
-    <div class="dropdown nav-item dropstart">
+<div class="d-flex align-items-end" style="padding-right: 20px" >
+    <ul class="navbar-nav flex-row d-md-none justify-content-end">
+        <li class="nav-item text-nowrap">
+            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle search">
+                <svg class="bi"><use xlink:href="#search"/></svg>
+            </button>
+        </li>
+        <li class="nav-item text-nowrap">
+            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <svg class="bi"><use xlink:href="#list"/></svg>
+            </button>
+        </li>
+    </ul>
+    <div class="dropdown nav-item dropstart" style="padding-right: 5px">
         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
         </a>
@@ -102,7 +101,7 @@
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><a class="dropdown-item" href="{{ url('/user-profile/' . Auth::id()) }}">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <li><a class="dropdown-item" href="/logout">Sign out</a></li>
         </ul>
     </div>
 </div>

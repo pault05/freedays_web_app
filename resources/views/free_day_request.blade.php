@@ -11,9 +11,11 @@
         </div>
     @endif
 
-        <div class="mt-5">
-            <h3 class="text-center mb-4"  style=" background-color:#007bff">Request Free Days</h3>
-        </div>
+    <di class="d-flex flex-column justify-content-center align-items-center">
+
+    <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
+        <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Free Days Request</h1>
+    </div>
 
 
     <br>
@@ -113,6 +115,7 @@
 {{--                </div>--}}
 {{--            </form>--}}
 {{--        </div>--}}
+    </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

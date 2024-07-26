@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountCreationController;
+use App\Http\Controllers\AdminViewUserController;
 use App\Http\Controllers\FreeDaysRequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StatisticsController;
@@ -14,17 +15,17 @@ Route::post('/login', [LoginController::class, 'store']);
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'index']);
-    Route::post('/account-creation', [\App\Http\Controllers\AccountCreationController::class, 'store']);
+    Route::get('/account-creation', [AccountCreationController::class, 'index']);
+    Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
-    Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index'])->name('admin-view.index');
+    Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
     Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
     Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
     Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
     Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');
 
-    Route::get('/admin-view-user', [\App\Http\Controllers\AdminViewUserController::class, 'index'])->name('admin-view-user.index');
-    Route::delete('/admin-view-user/delete/{id}', [\App\Http\Controllers\AdminViewUserController::class, 'delete'])->name('admin-view-user.delete');
+    Route::get('/admin-view-user', [AdminViewUserController::class, 'index'])->name('admin-view-user.index');
+    Route::delete('/admin-view-user/delete/{id}', [AdminViewUserController::class, 'delete'])->name('admin-view-user.delete');
 
     Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');
     Route::post('/official-holiday', [OfficialHolidayController::class, 'store'])->name('official-holiday.store');
@@ -42,9 +43,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('/user-profile/{id}', [\App\Http\Controllers\UserProfileController::class, 'index'])->name('user-profile');
-    Route::post('/user-profile/{id}', [\App\Http\Controllers\UserProfileController::class, 'save'])->name('user-profile.save');
-    Route::post('/user-profile/change-password/{id}', [\App\Http\Controllers\UserProfileController::class, 'changePassword'])->name('user-profile.change-password');
+    Route::get('/user-profile/{id}', [UserProfileController::class, 'index'])->name('user-profile');
+    Route::post('/user-profile/{id}', [UserProfileController::class, 'save'])->name('user-profile.save');
+    Route::post('/user-profile/change-password/{id}', [UserProfileController::class, 'changePassword'])->name('user-profile.change-password');
 
     Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']); //auth
 

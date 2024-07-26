@@ -25,6 +25,7 @@ class StatisticsController extends Controller{
                 ->orWhereYear('ending_date', '=', $currentYear);
         })->get();
 
+        //ASTA MERGE
         $freeDaysArray = array();
         $days = 0;
         foreach ($allFreeDays as $request) {
@@ -34,15 +35,27 @@ class StatisticsController extends Controller{
             $days += $request['days'];
         }
 
+        $freeDaysArray = $allFreeDays->groupBy(function($request){
+            return Carbon::parse($request['starting_date'])->year;
+        })->map(function($yearrequests){
+            return $yearrequests->sum('days');
+        })->toArray();
+
         //$freeDaysArray['year'] = $year;
         //$freeDaysArray['days'] = $days;
 
-        $freeDaysArray = array (
-            array("2027",22),
-            array("2024",15),
-            array("2025",5),
-            array("2026",17)
-        );
+        //CU ASTA
+//        $freeDaysArray = array (
+//            array("2024",15),
+//            array("2025",5),
+//            array("2026",17),
+//            array("2027",22)
+//        );
+
+//        $daysPerYear =[];
+//        foreach ($freeDaysArray as $year => $days){
+//            $daysPerYear[]=[$year, $days];
+//        }
 
         $data = $freeDaysRequests->map(function ($request){
             $start = Carbon::parse($request->starting_date);

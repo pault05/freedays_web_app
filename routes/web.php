@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountCreationController;
+use App\Http\Controllers\AdminStatisticsController;
 use App\Http\Controllers\FreeDaysRequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StatisticsController;
@@ -30,6 +31,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/official-holiday', [OfficialHolidayController::class, 'store'])->name('official-holiday.store');
     Route::delete('/official-holiday/deleteAll', [OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
     Route::delete('/official-holiday/destroy/{id}', [OfficialHolidayController::class, 'destroy'])->name('official-holiday.destroy');
+
+    Route::get('/admin-statistics', [AdminStatisticsController::class, 'index'])->name('admin-statistics');
+
 });
 
 

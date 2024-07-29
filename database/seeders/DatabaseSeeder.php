@@ -20,13 +20,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-//        User::factory()->create([
-//            'first_name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
-
         Company::factory(10)->create();
-        Category::factory(4)->create();
+           $this->call([
+              CategorySeeder::class,
+           ]);
         User::factory(30)->create();
         OfficialHoliday::factory(10)->create();
         FreeDaysRequest::factory(10)->create();

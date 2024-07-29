@@ -17,14 +17,16 @@ class OfficialHolidayController extends Controller
      */
     public function index()
     {
-
         $officialHolidays = OfficialHoliday::all();
         return view('official_holiday', ['officialHolidays' => $officialHolidays]);
-
     }
 
-    public function getData(){
-        $data = OfficialHoliday::all();
+    public function getData()
+    {
+        $companyId = Auth::user()->company_id;
+
+        $data = OfficialHoliday::where('company_id', $companyId)->get();
+
         return DataTables::of($data)
             ->addColumn('name', function($request){
                 return $request->name;
@@ -47,9 +49,14 @@ class OfficialHolidayController extends Controller
 
     public function getHolidays()
     {
-            $holidays = OfficialHoliday::all()->map(function ($holiday) {
-                return $holiday->only(['name', 'date']);
-            });
+        $companyId = Auth::user()->company_id;
+        $holidays = OfficialHoliday::where('company_id', $companyId)->get()->map(function ($holiday) {
+            return $holiday->only(['name', 'date']);
+        });
+
+//            $holidays = OfficialHoliday::all()->map(function ($holiday) {
+//                return $holiday->only(['name', 'date']);
+//            });
             return response()->json($holidays);
     }
 
@@ -58,15 +65,19 @@ class OfficialHolidayController extends Controller
      */
     public function store(Request $request)
     {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'date' => 'required|date',
-            ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'date' => 'required|date'
+        ]);
 
-            $officialHoliday = new OfficialHoliday();
-            $officialHoliday->name = $request->name;
-            $officialHoliday->date = $request->date;
-            $officialHoliday->save();
+        $companyId = Auth::user()->company_id;
+
+        $officialHoliday = new OfficialHoliday();
+        $officialHoliday->name = $request->name;
+        $officialHoliday->date = $request->date;
+        $officialHoliday->company_id = $companyId;
+
+        $officialHoliday->save();
 
         return redirect('/official-holiday');
     }

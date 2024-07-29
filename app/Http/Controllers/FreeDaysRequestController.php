@@ -12,21 +12,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OfficialHolidayController;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Category;
+
 
 class FreeDaysRequestController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request) {
         $user = Auth::user();
-
+    
         $approved = 0;
         if (isset($user->freeDays) && count($user->freeDays)) {
             foreach ($user->freeDays as $day) {
-                if ($day->status == 'Approved') {
-                    $approved += $day->days;
+                if ($day->status == 'Approved' && $day->category->is_subtractable == 1) {
+                    if ($day->half_day) {
+                        $approved += 0.5;
+                    } else {
+                        $approved += $day->days;
+                    }
+                    
                 }
             }
         }
-
+    
+        $categories = Category::all();
+    
         $request_leave = [
             'user_id' => $request->input('user_id'),
             'category_id' => $request->input('category_id'),
@@ -37,10 +46,10 @@ class FreeDaysRequestController extends Controller
             'description' => $request->input('description'),
             'approved' => $approved
         ];
-
-      return view('free_day_request', compact('request_leave'));
+    
+        return view('free_day_request', compact('request_leave', 'categories'));
     }
-
+    
 
     public function save(Request $request){
     // Validation logic here (if any)
@@ -78,7 +87,8 @@ class FreeDaysRequestController extends Controller
             $freeDayRequestFile->save();
         }
 
-        return redirect()->back()->with('success', 'Cererea a fost trimisa cu succes!');
+
+        return redirect()->back()->with('success', 'The request has been sent successfully!');
     }
 
 
@@ -120,5 +130,6 @@ class FreeDaysRequestController extends Controller
 
         return response()->json($freeDaysWithUserDetails);
     }
+
 
 }

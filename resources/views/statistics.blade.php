@@ -116,9 +116,11 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const requestsByCategory = @json($requestsByCategory);
+                const categoryColors = @json($formattedData['categoryColors']);
                 const data = Object.keys(requestsByCategory).map(key => ({
                     name: key,
-                    y: requestsByCategory[key]
+                    y: requestsByCategory[key],
+                    color : categoryColors[key]
                 }));
 
                 Highcharts.chart('container2', {
@@ -219,10 +221,12 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const formattedData = @json($formattedData);
+                const categoryColors = @json($formattedData['categoryColors']);
 
                 const seriesData = formattedData.categories.map((category, index) => ({
                     name: category,
-                    data: formattedData.data.map(item => item[category] || 0)
+                    data: formattedData.data.map(item => item[category] || 0),
+                    color: categoryColors[category]
                 }));
 
 

@@ -14,6 +14,6 @@ class PreventBackButtonMiddleware
         $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
         $response->headers->set('Pragma', 'no-cache');
         $response->headers->set('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
-        return $next($response);
+        return $response;
     }
 }

@@ -14,8 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         // Register your middleware here
-        $middleware->alias(['admin' => AdminMiddleware::class, 'prevent-back-button' => PreventBackButtonMiddleware::class]);
-
+        $middleware->alias(['admin' => AdminMiddleware::class, 'back' => PreventBackButtonMiddleware::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

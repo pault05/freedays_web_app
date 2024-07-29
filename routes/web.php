@@ -15,7 +15,7 @@ Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::get('/account-creation', [AccountCreationController::class, 'index']);
     Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
@@ -39,7 +39,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'back'])->group(function () {
     Route::get('/free-day-request', [FreeDaysRequestController::class, 'index'])->name('free_day_request');
     Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);  //auth
     Route::get('/free-day-request', [FreeDaysRequestController::class, 'index']);

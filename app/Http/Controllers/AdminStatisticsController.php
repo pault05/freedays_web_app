@@ -183,6 +183,8 @@ class AdminStatisticsController extends Controller
         $users = \App\Models\User::all();
         $chartData = [];
 
+        $categoryColors = $categories->pluck('color','name');
+
         foreach ($users as $user) {
             $userData = ['user' => $user->name];
 
@@ -200,6 +202,7 @@ class AdminStatisticsController extends Controller
             return [
                 'categories' => $categories->pluck('name'),
                 'users' => $users->pluck('name'),
+                'categoryColors' => $categoryColors,
                 'data' => $chartData
             ];
         }

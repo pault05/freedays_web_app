@@ -360,6 +360,7 @@ class StatisticsController extends Controller{
         return [
             'years' => $years,
             'categories' => $categories->pluck('name'),
+            'categoryColors' => $categories->pluck('color','name'),
             'data' => $chartData
         ];
     }

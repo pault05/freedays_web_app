@@ -62,14 +62,13 @@
                 <div class="row">
                     <div class="mb-3 col mb-2">
                         <label for="category" class="col-sm-2 col-form-label">Category</label>
-                        <div class="col-sm-10">
-                            <select class="form-select" name="category_id" style="width: 110%">
-                                <option value="1">Paid Leave</option>
-                                <option value="2">Unpaid Leave</option>
-                                <option value="3">Medical Leave</option>
-                                <option value="4">Motivated Leave</option>
-                            </select>
-                        </div>
+                            <div class="col-sm-10">
+                                <select class="form-select" name="category_id" style="width: 110%">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                     </div>
                 </div>
 
@@ -123,6 +122,7 @@
            var halfDay = $('#half-day');
            var halfDayContainer = $('#half-day-container');
            var errorMessage = $('#error-message');
+          
 
            if (startDate && endDate) {
                var start = moment(startDate);

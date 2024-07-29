@@ -10,25 +10,10 @@
 
     <!--<script src="https://code.highcharts.com/themes/dark-unica.js"></script> -->
 
-
-
-    <style>
-        <!--@import "https://code.highcharts.com/dashboards/css/dashboards.css";-->
-        .statistics-title {
-            font-size: 35px;
-            font-weight: bold;
-            color: #003A66;
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #003A66;
-            padding-bottom: 10px;
-        }
-    </style>
-    {{--  TODO  --}}
-    <div class="mt-4">
-        <h3 class="statistics-title">Statistics</h3>
-
-    </div>
+    <div class="container-main d-flex flex-column justify-content-center align-items-center">
+        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
+            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Statistics</h1>
+        </div>
 
     <style>
         /*.card {*/
@@ -83,7 +68,8 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const colorPalette = ['#003A66', '#1A7766', '#97BCD9', '#EAEAC2', '#524E41'];
+                const daysPerMonth = @json($daysPerMonth);
+
                 Highcharts.chart('container', {
                     chart: {
                         type: 'column'
@@ -93,7 +79,7 @@
                         align: 'center'
                     },
                     xAxis: {
-                        categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August', 'September', 'Octbober', 'November', 'December'],
+                        categories: Object.keys(daysPerMonth),
                         crosshair: true,
                         accessibility: {
                             description: 'Months'
@@ -111,12 +97,15 @@
                             borderWidth: 0
                         }
                     },
+                    credits: {
+                        enabled: false
+                    },
                     series: [
                         {
                             name: 'Leaves',
-                            data: @json(array_values($daysPerMonth->toArray())),
+                            <!-- data: @json(array_values($daysPerMonth->toArray())),-->
                             {{--data: @json($daysPerMonth)--}}
-                            color: colorPalette[2]
+                            data : Object.values(daysPerMonth)
 
                         }
                     ]
@@ -126,12 +115,10 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const requestsByDescription = @json($requestsByDescription);
-
-                console.log(requestsByDescription);
-                const data = Object.keys(requestsByDescription).map(key => ({
+                const requestsByCategory = @json($requestsByCategory);
+                const data = Object.keys(requestsByCategory).map(key => ({
                     name: key,
-                    y: requestsByDescription[key]
+                    y: requestsByCategory[key]
                 }));
 
                 Highcharts.chart('container2', {
@@ -166,123 +153,80 @@
             });
         </script>
 
-        <!-- debug -->
-        <pre>
-    {{ print_r($daysPerYear, true) }}
-</pre>
+{{--        <!-- debug -->--}}
+{{--        <pre>--}}
+{{--    {{ print_r($daysPerYear, true) }}--}}
+{{--</pre>--}}
 
         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const daysPerYear = @json($daysPerYear);
+                const data = Object.entries(daysPerYear).map(([year, days]) => [year, days]);
 
-
-            const chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'container3',
-                    type: 'column',
-                    options3d: {
-                        enabled: true,
-                        alpha: 15,
-                        beta: 15,
-                        depth: 50,
-                        viewDistance: 25
-                    }
-                },
-                xAxis: {
-                    type: 'category'
-                },
-                yAxis: {
+                Highcharts.chart('container3', {
+                    chart: {
+                        type: 'column',
+                        options3d: {
+                            enabled: true,
+                            alpha: 15,
+                            beta: 15,
+                            depth: 50,
+                            viewDistance: 25
+                        }
+                    },
+                    xAxis: {
+                        //type: 'category'
+                        categories: data.map(([year])=>year),
+                        title: {
+                            text: 'Year'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Days off'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{point.key}</b><br>',
+                        pointFormat: 'Days off: {point.y}'
+                    },
                     title: {
+                        text: 'Number of leaves per year',
+                        align: 'center'
+                    },
+                    subtitle: {
+                        text: '3D chart'
+                    },
+                    legend: {
                         enabled: false
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<b>{point.key}</b><br>',
-                    pointFormat: 'Days off: {point.y}'
-                },
-                title: {
-                    text: 'Number of leaves per year',
-                    align: 'center'
-                },
-
-                legend: {
-                    enabled: false
-                },
-                plotOptions: {
-                    column: {
-                        depth: 25
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                series: [{
-                    {{--data: [--}}
-                    {{--        @foreach($daysPerYear as $array)--}}
-
-                    {{--    ['{{ $array[0] }}', {{ $array[1]  }}],--}}
-                    {{--    @endforeach--}}
-
-                    {{--],--}}
-
-                    {{--data: @json($daysPerYear),--}}
-
-                    data: [
-                            @foreach($daysPerYear as $array)
-                            @if(is_array($array) && count($array) === 2)
-                        ['{{ $array[0] }}', {{ $array[1] }}],
-                        @endif
-                        @endforeach
-                    ],
-                    colorByPoint: true
-                }]
+                    },
+                    plotOptions: {
+                        column: {
+                            depth: 25
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        data: data.map(([year,days]) => days),
+                        name: 'Total days off'
+                    }]
+                });
             });
-
-            function showValues() {
-                document.getElementById(
-                    'alpha-value'
-                ).innerHTML = chart.options.chart.options3d.alpha;
-                document.getElementById(
-                    'beta-value'
-                ).innerHTML = chart.options.chart.options3d.beta;
-                document.getElementById(
-                    'depth-value'
-                ).innerHTML = chart.options.chart.options3d.depth;
-            }
-
-            document.querySelectorAll(
-                '#sliders input'
-            ).forEach(input => input.addEventListener('input', e => {
-                chart.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
-                showValues();
-                chart.redraw(false);
-            }));
-
-            showValues();
-
         </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const formattedData = @json($formattedData);
 
-                if (formattedData.categories.length === 0) {
-                    document.getElementById('container4').innerHTML = 'No data available';
-                    return;
-                }
+                const seriesData = formattedData.categories.map((category, index) => ({
+                    name: category,
+                    data: formattedData.data.map(item => item[category] || 0)
+                }));
 
-                const categories = formattedData.categories;
-                console.log(formattedData);
-                //const seriesData = [];
 
-                const colorPalette = ['#003A66', '#1A7766', '#97BCD9', '#EAEAC2', '#524E41'];
 
-                const seriesData = categories.map((category, index) => {
-                    const data = formattedData.data.map(yearData => yearData[category] || 0);
-                    return {
-                        name: category,
-                        data: data,
-                        color: colorPalette[index % colorPalette.length] // Cycle through the color palette
-                    };
-                });
                 Highcharts.chart('container4', {
                     chart: {
                         type: 'column'

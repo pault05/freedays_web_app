@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('ext');
-            $table->string('path');
+            $table->string('path')->nullable();
          //   $table->string('name')->nullable();
             $table->softDeletes();
         });

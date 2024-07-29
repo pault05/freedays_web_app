@@ -85,7 +85,12 @@ class FreeDaysRequestController extends Controller
     public function getFreeDays()
     {
         if (Auth::user()->is_admin) {
-            $freeDays = FreeDaysRequest::all()->map(function ($freeDays) {
+
+            $adminCompanyId = Auth::user()->company_id;
+
+            $freeDays = FreeDaysRequest::whereHas('user', function ($query) use ($adminCompanyId) {
+                $query->where('company_id', $adminCompanyId);
+            })->get()->map(function ($freeDays) {
                 return $freeDays->only(['user_id', 'starting_date', 'ending_date', 'status']);
             });
         } else {

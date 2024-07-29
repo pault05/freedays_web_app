@@ -20,8 +20,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin-view', [\App\Http\Controllers\AdminViewController::class, 'index'])->name('admin-view.index');
     Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
     Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
-    Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
-    Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');
+    Route::get('/admin-view/data', [AdminViewController::class, 'getData'])->name('admin-view.data');
+//    Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
+//    Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');
 
     Route::get('/admin-view-user', [\App\Http\Controllers\AdminViewUserController::class, 'index'])->name('admin-view-user.index');
     Route::delete('/admin-view-user/delete/{id}', [\App\Http\Controllers\AdminViewUserController::class, 'delete'])->name('admin-view-user.delete');

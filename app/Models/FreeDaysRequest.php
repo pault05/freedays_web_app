@@ -23,6 +23,8 @@ class FreeDaysRequest extends Model
         'days',
     ];
 
+    protected $dates = ['deleted_at'];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

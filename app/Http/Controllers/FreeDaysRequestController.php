@@ -112,6 +112,7 @@ class FreeDaysRequestController extends Controller
 
         return response()->json($freeDaysWithUserDetails);
     }
+
 }
 
 

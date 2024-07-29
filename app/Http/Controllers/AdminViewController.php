@@ -6,42 +6,94 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdminView;
 use App\Models\FreeDaysRequest;
+use Yajra\DataTables\DataTables;
 
 class AdminViewController extends Controller
 {
     // admin view on hol req
-    public function index(Request $request)
+    public function index()
     {
-        $sortField = $request->input('sort_field', 'starting_date');
-        $sortOrder = $request->input('sort_order', 'desc');
+//        $sortField = $request->input('sort_field', 'starting_date');
+//        $sortOrder = $request->input('sort_order', 'desc');
+//
+//        $filterByStatus = $request->input('filter_by_status', 'all');
+//        $filterByUser = $request->input('filter_by_user', 'all');
+//
+//        $query = FreeDaysRequest::with('user', 'category');
+//
+//        if ($filterByStatus && $filterByStatus != 'all') {
+//            $query->where('status', $filterByStatus);
+//        }
+//
+//        if ($filterByUser && $filterByUser != 'all') {
+//            $query->where('user_id', $filterByUser);
+//        }
+//
+//        $query->orderBy($sortField, $sortOrder);
+//
+//        $adminView = $query->paginate(10)->appends([
+//            'sort_field' => $sortField,
+//            'sort_order' => $sortOrder,
+//            'filter_by_status' => $filterByStatus,
+//            'filter_by_user' => $filterByUser,
+//        ]);
+//
+//        $users = FreeDaysRequest::with('user')
+//            ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
+//
+//        return view('admin_view', ['adminView' => $adminView, 'sort_field' => $sortField, 'sort_order' => $sortOrder, 'users' => $users, 'filterByStatus' => $filterByStatus,
+//            'filterByUser' =
+        return view('admin_view');
+    }
 
-        $filterByStatus = $request->input('filter_by_status', 'all');
-        $filterByUser = $request->input('filter_by_user', 'all');
+    public function getData(){
+        $data = FreeDaysRequest::with('user', 'category')->withTrashed()->get();
+        return DataTables::of($data)
+            ->addColumn('id', function ($request) {
+                return $request->id;
+            })
+            ->addColumn('user_name', function ($request) {
+                return $request->user->first_name.' '.$request->user->last_name;
+            })
+            ->addColumn('starting_date', function ($request) {
+                return \Carbon\Carbon::parse($request->starting_date)->format('d-m-Y');
+            })
+            ->addColumn('ending_date', function ($request) {
+                return \Carbon\Carbon::parse($request->ending_date)->format('d-m-Y');
+            })
+            ->addColumn('category_name', function ($request) {
+                return $request->category->name;
+            })
+            ->editColumn('status', function ($request) {
+                $statusColor = '';
+                if ($request->status == 'Approved') {
+                    $statusColor = '#28a745';
+                } elseif ($request->status == 'Denied') {
+                    $statusColor = '#bd2130';
+                } else {
+                    $statusColor = '#d39e00';
+                }
+                return '<span class="badge status-label" style="background-color: ' . $statusColor . ';">' . $request->status . '</span>';
+            })
+            ->addColumn('actions', function ($request) {
+                $approveButton = '<form action="' . route('admin-view.approve', $request->id) . '" method="POST">
+                                    ' . csrf_field() . '
+                                    <button type="submit" class="btn btn-approve btn-sm" id="btnApprove" style="border: none; background-color: transparent">
+                                        <img src="https://img.icons8.com/?size=100&id=g7mUWNettfwZ&format=png&color=40C057" alt="" style="width: 35px" class="action-icons">
+                                    </button>
+                                  </form>';
 
-        $query = FreeDaysRequest::with('user', 'category');
+                $denyButton = '<form action="' . route('admin-view.deny', $request->id) . '" method="POST">
+                                    ' . csrf_field() . '
+                                    <button type="submit" class="btn btn-deny btn-sm" id="btnDeny" style="border: none; background-color: transparent">
+                                        <img src="https://img.icons8.com/?size=100&id=63688&format=png&color=000000" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
+                                    </button>
+                               </form>';
 
-        if ($filterByStatus && $filterByStatus != 'all') {
-            $query->where('status', $filterByStatus);
-        }
-
-        if ($filterByUser && $filterByUser != 'all') {
-            $query->where('user_id', $filterByUser);
-        }
-
-        $query->orderBy($sortField, $sortOrder);
-
-        $adminView = $query->paginate(10)->appends([
-            'sort_field' => $sortField,
-            'sort_order' => $sortOrder,
-            'filter_by_status' => $filterByStatus,
-            'filter_by_user' => $filterByUser,
-        ]);
-
-        $users = FreeDaysRequest::with('user')
-            ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
-
-        return view('admin_view', ['adminView' => $adminView, 'sort_field' => $sortField, 'sort_order' => $sortOrder, 'users' => $users, 'filterByStatus' => $filterByStatus,
-            'filterByUser' => $filterByUser]);
+                return '<div style="display: flex; align-items: center;">' . $approveButton . $denyButton . '</div>';
+            })
+            ->rawColumns(['status', 'actions']) //pt a randa continut html
+            ->make(true);
     }
 
     public function approve($id)
@@ -62,24 +114,24 @@ class AdminViewController extends Controller
         return redirect()->back()->with('success', 'Success');
     }
 
-    public function search(Request $request)
-    {
-        $data = $request->input('search');
-
-        if ($data) {
-            $records = FreeDaysRequest::whereHas('user', function ($query) use ($data) {
-                $query->where('first_name', 'like', '%' . $data . '%')
-                    ->orWhere('last_name', 'like', '%' . $data . '%');
-            })->with('user', 'category')->paginate(10);
-        } else {
-            $records = FreeDaysRequest::with('user', 'category')->paginate(10);
-        }
-
-        $users = FreeDaysRequest::with('user')
-            ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
-
-        return view('admin_view', ['adminView' => $records, 'users' => $users]);
-    }
+//    public function search(Request $request)
+//    {
+//        $data = $request->input('search');
+//
+//        if ($data) {
+//            $records = FreeDaysRequest::whereHas('user', function ($query) use ($data) {
+//                $query->where('first_name', 'like', '%' . $data . '%')
+//                    ->orWhere('last_name', 'like', '%' . $data . '%');
+//            })->with('user', 'category')->paginate(10);
+//        } else {
+//            $records = FreeDaysRequest::with('user', 'category')->paginate(10);
+//        }
+//
+//        $users = FreeDaysRequest::with('user')
+//            ->select('user_id')->distinct()->get()->pluck('user')->unique('id')->values();
+//
+//        return view('admin_view', ['adminView' => $records, 'users' => $users]);
+//    }
 
 
 //    public function filter(Request $request){

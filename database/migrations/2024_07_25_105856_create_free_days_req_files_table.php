@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('free_day_req_id')->constrained('free_days_requests');
             $table->foreignId('file_id')->constrained('files');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

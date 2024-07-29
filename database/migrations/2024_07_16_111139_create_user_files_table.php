@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('file_id')->constrained('files');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

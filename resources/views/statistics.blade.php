@@ -2,14 +2,18 @@
 
 @section('content')
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <!--<script src="https://code.highcharts.com/themes/dark-unica.js"></script> -->
+
+
+
     <style>
+        <!--@import "https://code.highcharts.com/dashboards/css/dashboards.css";-->
         .statistics-title {
             font-size: 35px;
             font-weight: bold;
@@ -20,19 +24,19 @@
             padding-bottom: 10px;
         }
     </style>
-
+    {{--  TODO  --}}
     <div class="mt-4">
         <h3 class="statistics-title">Statistics</h3>
 
     </div>
 
     <style>
-        .card {
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            height: 100%;
-            width: 100%;
-        }
+        /*.card {*/
+        /*    border-radius: 8px;*/
+        /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
+        /*    height: 100%;*/
+        /*    width: 100%;*/
+        /*}*/
     </style>
 
     <div class="container">
@@ -162,7 +166,14 @@
             });
         </script>
 
+        <!-- debug -->
+        <pre>
+    {{ print_r($daysPerYear, true) }}
+</pre>
+
         <script>
+
+
             const chart = new Highcharts.Chart({
                 chart: {
                     renderTo: 'container3',
@@ -185,7 +196,7 @@
                 },
                 tooltip: {
                     headerFormat: '<b>{point.key}</b><br>',
-                    pointFormat: 'Cars sold: {point.y}'
+                    pointFormat: 'Days off: {point.y}'
                 },
                 title: {
                     text: 'Number of leaves per year',
@@ -204,12 +215,22 @@
                     enabled: false
                 },
                 series: [{
+                    {{--data: [--}}
+                    {{--        @foreach($daysPerYear as $array)--}}
+
+                    {{--    ['{{ $array[0] }}', {{ $array[1]  }}],--}}
+                    {{--    @endforeach--}}
+
+                    {{--],--}}
+
+                    {{--data: @json($daysPerYear),--}}
+
                     data: [
                             @foreach($daysPerYear as $array)
-
-                        ['{{ $array[0] }}', {{ $array[1]  }}],
+                            @if(is_array($array) && count($array) === 2)
+                        ['{{ $array[0] }}', {{ $array[1] }}],
+                        @endif
                         @endforeach
-
                     ],
                     colorByPoint: true
                 }]

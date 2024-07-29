@@ -34,7 +34,6 @@ class OfficialHolidayController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->is_admin) {
             $request->validate([
                 'name' => 'required|string|max:255',
                 'date' => 'required|date',
@@ -45,27 +44,18 @@ class OfficialHolidayController extends Controller
             $officialHoliday->date = $request->date;
             $officialHoliday->save();
 
-            return redirect()->back()->with('success', 'successfully.');
-        }
-        return redirect('/home');
+        return redirect('/official-holiday');
     }
 
     public function deleteAll(){
-        if(Auth::user()->is_admin) {
-            OfficialHoliday::truncate();
-            return redirect()->back()->with('success', 'successfully.');
-        }
-        return redirect('/home');
+        OfficialHoliday::truncate();
+        return redirect('/official-holiday');
     }
 
     public function destroy($id){
-
-        if(Auth::user()->is_admin) {
             $ans = OfficialHoliday::find($id);
             $ans->delete();
-            return redirect()->back()->with('success', 'successfully.');
-        }
-        return redirect('/home');
+        return redirect('/official-holiday');
     }
 
     public function show(OfficialHoliday $official_holidays)

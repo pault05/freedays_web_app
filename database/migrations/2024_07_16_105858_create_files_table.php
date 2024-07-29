@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('type');
+            $table->string('ext');
             $table->string('path');
-            $table->string('name');
+         //   $table->string('name')->nullable();
             $table->softDeletes();
         });
     }

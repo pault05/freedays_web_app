@@ -62,4 +62,8 @@ class User extends Authenticatable
     public function freeDays() {
         return $this->hasMany(FreeDaysRequest::class, 'user_id');
     }
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

@@ -6,7 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use function PHPUnit\Framework\throwException;
+
 
 class LoginController extends Controller
 {
@@ -26,7 +26,7 @@ class LoginController extends Controller
 
         if (!Auth::attempt($attributes)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.']
+               'email' => 'The provided credentials do not match our records.',
             ]);
         }
 

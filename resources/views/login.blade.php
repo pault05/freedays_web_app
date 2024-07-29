@@ -168,11 +168,11 @@
                        value="{{old('email')}}" required>
                 <label for="floatingInput">Email address</label>
             </div>
+            <x-form-error name="email"/>
             <div class="form-floating" style="padding: 2px">
                 <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
                 <label for="floatingPassword">Password</label>
             </div>
-
             <div class="form-check text-start my-3">
                 <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">

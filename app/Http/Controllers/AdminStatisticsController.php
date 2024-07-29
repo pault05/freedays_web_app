@@ -12,6 +12,8 @@ class AdminStatisticsController extends Controller
     {
         //$userId = auth()->user()->id;
 
+        $userCompany = auth()->user()->company_id;
+
         $statistics = $this->getStatistics(auth()->user()->id);
         $requestsByCategory = $this->getUserByStatistics();
         $daysPerYear = $this->getDaysPerYear();
@@ -33,9 +35,12 @@ class AdminStatisticsController extends Controller
 
     private function getStatistics($userId)
     {
-        $freeDayRequets = FreeDaysRequest::where('user_id', $userId)->with('category')->get();
+        $freeDayRequests = FreeDaysRequest::where('user_id', $userId)
+            ->where('status','approved')
+            ->with('category')
+            ->get();
 
-        $data = $freeDayRequets->map(function ($request) {
+        $data = $freeDayRequests->map(function ($request) {
             $start = Carbon::parse($request->starting_date);
             $end = Carbon::parse($request->ending_date);
             $daysOff = $end->diffInDays($start) + 1;
@@ -53,7 +58,9 @@ class AdminStatisticsController extends Controller
 
     private function getUserByStatistics()
     {
-        $freeDaysRequests = FreeDaysRequest::with('category')->get();
+        $freeDaysRequests = FreeDaysRequest::where('status','approved')
+            ->with('category')
+            ->get();
 
         return $freeDaysRequests->groupBy('category.name')->map(function ($items) {
             return $items->count();
@@ -62,7 +69,9 @@ class AdminStatisticsController extends Controller
 
     private function getDaysPerYear()
     {
-        $allFreeDays = FreeDaysRequest::with('category')->get();
+        $allFreeDays = FreeDaysRequest::where('status','approved')
+            ->with('category')
+            ->get();
 
         return $allFreeDays->groupBy(function ($request) {
             return Carbon::parse($request['starting_date'])->year;
@@ -136,7 +145,7 @@ class AdminStatisticsController extends Controller
 //    }
     private function getDaysPerMonth()
     {
-        $freeDaysRequests = FreeDaysRequest::all();
+        $freeDaysRequests = FreeDaysRequest::where('status','approved')->get();
         $daysPerMonth = collect();
 
         foreach ($freeDaysRequests as $request) {
@@ -180,6 +189,7 @@ class AdminStatisticsController extends Controller
             foreach ($categories as $category) {
                 $count = FreeDaysRequest::where('user_id', $user->id)
                         ->where('category_id', $category->id)
+                        ->where('status','approved')
                         ->count();
 
                     $userData[$category->name] = $count;
@@ -189,6 +199,7 @@ class AdminStatisticsController extends Controller
 
             return [
                 'categories' => $categories->pluck('name'),
+                'users' => $users->pluck('name'),
                 'data' => $chartData
             ];
         }

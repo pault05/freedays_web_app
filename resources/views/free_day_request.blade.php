@@ -1,6 +1,7 @@
 
 @extends('components.layout')
 
+
 @section('content')
 
     @if (\Session::has('success'))
@@ -11,11 +12,10 @@
         </div>
     @endif
 
-    <di class="d-flex flex-column justify-content-center align-items-center">
-
-    <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-        <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Free Days Request</h1>
-    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
+                <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Free Day Request</h1>
+            </div>
 
 
     <br>
@@ -30,7 +30,7 @@
                         <p class="ms-1">{{ 21 - $request_leave['approved'] }}</p>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-start me-3">
+                <div class="row d-flex justify-content-start">
                     @csrf
                     <div class="col-lg-3 col-sm-12 col-md-6 mb-2">
                         <label for="start-date">Start date</label>
@@ -50,7 +50,9 @@
                     <div id="half-day-container" class="col-sm-12 col-md-6 col-lg-3 form-check mt-1 mb-2" style="display: none">
                         <br>
                         <input type="checkbox" class="form-check-input" name="half-day" id="half-day">
+                        <input type="hidden" id="half-day-state" name="half-day-state" value="0">
                         <label class="form-check-label" for="half-day">Half day</label>
+                    </div>
                     </div>
                 </div>
 
@@ -58,11 +60,10 @@
 
 
                 <div class="row">
-                    <div class="mb-3 col">
+                    <div class="mb-3 col mb-2">
                         <label for="category" class="col-sm-2 col-form-label">Category</label>
                         <div class="col-sm-10">
                             <select class="form-select" name="category_id" style="width: 110%">
-                                <option selected>Choose category...</option>
                                 <option value="1">Paid Leave</option>
                                 <option value="2">Unpaid Leave</option>
                                 <option value="3">Medical Leave</option>
@@ -102,20 +103,21 @@
                 </style>
 
                 <div class="row ms-5 mt-5">
-                   <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">
-                       <a href="/home" type="button" class="btn btn-primary">Back</a>
-                        <button type="submit" class="btn btn-primary ms-3" form="leave-form" id="submit">Submit</button>
+                    <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">
+                        <a href="/home" type="button" class="btn btn-primary" style="margin-right:13%">Back</a>
+                        <button type="submit" class="btn btn-primary" form="leave-form" id="submit">Submit</button>
                     </div>
                 </div>
             </form>
-        </div>
+      </div>
     </div>
-    </div>
+                </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script>
        function calculateDays() {
+
            var startDate = $('#start-date').val();
            var endDate = $('#end-date').val();
            var halfDay = $('#half-day');
@@ -136,21 +138,36 @@
                } else {
                    errorMessage.hide();
                }
+               var totalDays = 0;
+               var currentDate = start.clone();
 
+               while(currentDate <= end)
+               {
 
-               var diffInDays = end.diff(start, 'days') + 1; // +1 pentru a include ultima zi
-
-               $('#days-left').val(diffInDays);
-               $('#days').val(diffInDays);
+                    //day returneaza un numar intre 0 si 6
+                    //currentDate este un obiect moment
+                    if(currentDate.day() !== 0 && currentDate.day() !== 6) //0-duminica 6 -sambata
+                    {
+                        totalDays++;
+                    }
+                    currentDate.add(1,'day');
+               }
+               $('#days-left').val(totalDays);
+               $('#days').val(totalDays);
 
                // Verifica dacă startDate este egal cu endDate
                if (startDate === endDate) {
-                   halfDayContainer.show(); //facem containerul vizibil
-                   halfDay.prop('checked', false);
-               } else {
-                   halfDayContainer.hide();
-                   halfDay.prop('checked', false);
-               }
+                    halfDayContainer.show(); //facem containerul vizibil
+                    var halfDayState = $('#half-day-state').val(); //setam starea checkboxului pe baza valorii stocate
+                    if (halfDayState === '1') {
+                        halfDay.prop('checked', true);
+                    } else {
+                        halfDay.prop('checked', false);
+                    }
+                } else {
+                    halfDayContainer.hide();
+                    halfDay.prop('checked', false);
+                }
            } else {
                $('#days-left').val('');
                $('#days').val('');
@@ -159,6 +176,16 @@
                errorMessage.hide();
            }
        }
+
+         // salveaza starea checkbox ului cand se schimba
+         $('#half-day').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#half-day-state').val('1');
+            } else {
+                $('#half-day-state').val('0');
+            }
+        });
+
         $('#start-date, #end-date').on('change', calculateDays);
     </script>
 

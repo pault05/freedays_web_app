@@ -15,20 +15,9 @@ use Illuminate\Support\Facades\Storage;
 
 class FreeDaysRequestController extends Controller
 {
-    public function index(Request $request)
-    {
-
-        $user_id = $request->input('user_id');
-        $category_id = $request->input('category_id');
-        $status = $request->input('status');
-        $starting_date = $request->input('starting_date');
-        $ending_date = $request->input('ending_date');
-        $half_day = $request->input('half_day');
-        $description = $request->input('description');
+    public function index(Request $request){
         $user = Auth::user();
 
-
-        //dd($user->freeDays);
         $approved = 0;
         if (isset($user->freeDays) && count($user->freeDays)) {
             foreach ($user->freeDays as $day) {
@@ -37,43 +26,38 @@ class FreeDaysRequestController extends Controller
                 }
             }
         }
+
         $request_leave = [
-            'user_id' => $user_id,
-            'category_id' => $category_id,
-            'status' => $status,
-            'starting_date' => $starting_date,
-            'ending_date' => $ending_date,
-            'half_day' => $half_day,
-            'description ' => $description,
+            'user_id' => $request->input('user_id'),
+            'category_id' => $request->input('category_id'),
+            'status' => $request->input('status'),
+            'starting_date' => $request->input('starting_date'),
+            'ending_date' => $request->input('ending_date'),
+            'half_day' => $request->input('half_day'),
+            'description' => $request->input('description'),
             'approved' => $approved
         ];
-        return view('free_day_request', compact('request_leave'));
+
+      return view('free_day_request', compact('request_leave'));
     }
 
-    public function save(Request $request)
-    {
-        // Preluarea datelor
-        $category_id = $request->input('category_id');
-        $starting_date = $request->input('start-date');
-        $ending_date = $request->input('end-date');
-        $half_day = ($request->input('half-day')) ? 1 : 0;
-        $days = $request->input('days');
-        $description = $request->input('description');
 
-        //preluam utilizatorul autentificat
+    public function save(Request $request){
+    // Validation logic here (if any)
+
         $user = Auth::user();
         $user_id = $user->id;
 
-        $freeDayRequest = new FreeDaysRequest();
-        $freeDayRequest->user_id = $user_id;
-        $freeDayRequest->category_id = $category_id;
-        $freeDayRequest->starting_date = $starting_date;
-        $freeDayRequest->ending_date = $ending_date;
-        $freeDayRequest->half_day = $half_day;
-        $freeDayRequest->days = $days;
-        $freeDayRequest->description = $description;
+        $freeDayRequest = new FreeDaysRequest([
+            'user_id' => $user_id,
+            'category_id' => $request->input('category_id'),
+            'starting_date' => $request->input('start-date'),
+            'ending_date' => $request->input('end-date'),
+            'half_day' => $request->input('half-day') ? 1 : 0,
+            'days' => $request->input('days'),
+            'description' => $request->input('description')
+        ]);
 
-        // Salvam cererea în baza de date
         $freeDayRequest->save();
 
         //salvam fisierul
@@ -132,4 +116,3 @@ class FreeDaysRequestController extends Controller
         return response()->json($freeDaysWithUserDetails);
     }
 }
-

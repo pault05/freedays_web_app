@@ -16,17 +16,12 @@ class AccountCreationController extends Controller
 
     public function store(Request $request){
 
-        if(Auth::user()->is_admin) {
             $first_name = $request->input('first_name');
             $last_name = $request->input('last_name');
             $email = $request->input('email');
             $position = $request->input('position');
             $phone = $request->input('phone');
-            if (Auth::user()) {
-                $company_id = Auth::user()->company_id;
-            } else {
-                $company_id = null;
-            }
+            $company_id = Auth::user()->company_id;
             $free_days = $request->input('free_days');
             $hired_at = $request->input('hired_at');
             $password = $request->input('password');
@@ -51,7 +46,6 @@ class AccountCreationController extends Controller
                     '#FF3380', '#80FF33', '#3380FF', '#FF8333', '#33FF83', '#8333FF',
                     '#FF3333', '#33FF33', '#3333FF']),
             ]);
-        }
         return redirect('/home');
     }
 }

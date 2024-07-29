@@ -73,15 +73,21 @@
                     @endif
                 @endauth
 
-                @if(Auth::check())
+               @if(auth()->user()->is_admin)
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="/statistics">
+                    <a class="nav-link d-flex align-items-center gap-2" href="/admin-statistics">
                         <svg class="bi"><use xlink:href="#graph-up"/></svg>
                         Statistics
                     </a>
                 </li>
+                @elseif((Auth::check()))
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2" href="/statistics">
+                            <svg class="bi"><use xlink:href="#graph-up"/></svg>
+                            Statistics
+                        </a>
+                    </li>
                 @endif
-
 
                 @if(!Auth::check())
                 <li class="nav-item">

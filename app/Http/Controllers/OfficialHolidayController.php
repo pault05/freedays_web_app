@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\OfficialHoliday;
 use App\Http\Requests\StoreOfficial_holidaysRequest;
 use App\Http\Requests\UpdateOfficial_holidaysRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class OfficialHolidayController extends Controller
 {
@@ -19,6 +21,28 @@ class OfficialHolidayController extends Controller
         $officialHolidays = OfficialHoliday::all();
         return view('official_holiday', ['officialHolidays' => $officialHolidays]);
 
+    }
+
+    public function getData(){
+        $data = OfficialHoliday::all();
+        return DataTables::of($data)
+            ->addColumn('name', function($request){
+                return $request->name;
+            })
+            ->addColumn('date', function($request){
+                return \Carbon\Carbon::parse($request->date)->format('d-m-Y');
+            })
+            ->addColumn('actions', function($request){
+                $deleteButton = '<form action="' . route('official-holiday.destroy', $request->id) . '" method="POST">
+                                    ' . csrf_field() . '
+                                    ' . method_field("DELETE") . '
+                                    <button type="submit" style="border: none; background-color: rgba(0, 0, 0, 0)"><img class="w-25" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt="" style="background-color: rgba(255, 255, 255, 0);">
+                                </button>
+                                  </form>';
+                return '<div style="display: flex; align-items: center;">' . $deleteButton .'</div>';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 
     public function getHolidays()

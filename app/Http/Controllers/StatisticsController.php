@@ -190,7 +190,10 @@ class StatisticsController extends Controller{
 
     private function getStatistics($userId)
     {
-        $freeDayRequets = FreeDaysRequest::where('user_id', $userId)->with('category')->get();
+        $freeDayRequets = FreeDaysRequest::where('user_id', $userId)
+            ->where('status','approved')
+            ->with('category')
+            ->get();
 
         $data = $freeDayRequets->map(function($request){
             $start = Carbon::parse($request->starting_date);
@@ -210,7 +213,10 @@ class StatisticsController extends Controller{
 
     private function getUserByStatistics($userId)
     {
-        $freeDaysRequests = FreeDaysRequest::where('user_id', $userId)->with('category')->get();
+        $freeDaysRequests = FreeDaysRequest::where('user_id', $userId)
+            ->where('status','approved')
+            ->with('category')
+            ->get();
 
         return $freeDaysRequests->groupBy('category.name')->map(function($items){
             return $items->count();
@@ -218,7 +224,9 @@ class StatisticsController extends Controller{
     }
 
     private function getDaysPerYear(){
-        $allFreeDays = FreeDaysRequest::with('category')->get();
+        $allFreeDays = FreeDaysRequest::where('status','approved')
+            ->with('category')
+            ->get();
 
         return $allFreeDays->groupBy(function($request){
             return Carbon::parse($request['starting_date'])->year;
@@ -291,7 +299,9 @@ class StatisticsController extends Controller{
 //        });
 //    }
     private function getDaysPerMonth($userId) {
-        $freeDaysRequests = FreeDaysRequest::where('user_id', $userId)->get();
+        $freeDaysRequests = FreeDaysRequest::where('user_id', $userId)
+            ->where('status','approved')
+            ->get();
         $daysPerMonth = collect();
 
         foreach ($freeDaysRequests as $request) {
@@ -325,7 +335,11 @@ class StatisticsController extends Controller{
 
     private function getFormattedData($userId)
     {
-        $years = FreeDaysRequest::selectRaw('YEAR(starting_date) as year')->distinct()->pluck('year');
+        $years = FreeDaysRequest::selectRaw('YEAR(starting_date) as year')
+            ->where('status','approved')
+            ->distinct()
+            ->pluck('year');
+
         $categories = Category::all();
         $chartData = [];
 

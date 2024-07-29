@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdminView;
 use App\Models\FreeDaysRequest;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class AdminViewController extends Controller
@@ -47,7 +48,15 @@ class AdminViewController extends Controller
     }
 
     public function getData(){
-        $data = FreeDaysRequest::with('user', 'category')->withTrashed()->get();
+        $adminCompanyId = auth()->user()->company_id;
+
+//        $data = FreeDaysRequest::with('user', 'category')->withTrashed()->get();
+        $data = FreeDaysRequest::with('user', 'category')
+            ->whereHas('user', function ($query) use ($adminCompanyId) {
+                $query->where('company_id', $adminCompanyId);
+            })
+            ->withTrashed()
+            ->get();
         return DataTables::of($data)
             ->addColumn('id', function ($request) {
                 return $request->id;

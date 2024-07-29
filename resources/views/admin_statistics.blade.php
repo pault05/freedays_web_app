@@ -220,10 +220,12 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const formattedData = @json($formattedData);
+                const categories = formattedData.categories;
+                const users = formattedData.users;
 
-                const seriesData = formattedData.categories.map((category) => ({
-                    name: category,
-                    data: formattedData.data.map(item => item[category] || 0)
+                const seriesData = formattedData.data.map((userData) => ({
+                    name: userData.user,
+                    data: categories.map(category => userData[category] || 0)
                 }));
 
 
@@ -237,7 +239,7 @@
                         align: 'center'
                     },
                     xAxis: {
-                        categories: formattedData.years
+                        categories: catergories
                     },
                     yAxis: {
                         min: 0,

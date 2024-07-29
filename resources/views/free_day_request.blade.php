@@ -58,7 +58,7 @@
 
 
                 <div class="row">
-                    <div class="mb-3 col mb-2">
+                    <div class="mb-3 col">
                         <label for="category" class="col-sm-2 col-form-label">Category</label>
                         <div class="col-sm-10">
                             <select class="form-select" name="category_id" style="width: 110%">

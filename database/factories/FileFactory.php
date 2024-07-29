@@ -17,9 +17,9 @@ class FileFactory extends Factory
     public function definition(): array
     {
         return [
-            'type'=>$this->faker->fileExtension(),
-            'path'=>$this->faker->filePath(),//va primi in timp fisierul
-            'name'=>$this->faker->name(),
+            'ext'=>$this->faker->fileExtension(),
+            'path'=>$this->faker->filePath(),
+          //  'name'=>$this->faker->name(),
         ];
     }
 }

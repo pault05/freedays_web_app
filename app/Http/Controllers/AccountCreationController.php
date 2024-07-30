@@ -46,6 +46,6 @@ class AccountCreationController extends Controller
                     '#FF3380', '#80FF33', '#3380FF', '#FF8333', '#33FF83', '#8333FF',
                     '#FF3333', '#33FF33', '#3333FF']),
             ]);
-        return redirect('/home');
+        return redirect('/admin-view-user');
     }
 }

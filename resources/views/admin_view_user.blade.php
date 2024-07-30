@@ -2,11 +2,19 @@
 @extends('components.layout')
 
 @section('content')
-    <div class="container-main d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Admin View Users</h1>
-        </div>
 
+    <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary"
+         style="margin: 0 auto; display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;">
+        <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black; color: white;">Admin View Users</h1>
+    </div>
+
+    <div>
+        <form action="/account-creation">
+             <button class="btn btn-primary ms-0 mb-2 d-flex justify-content-start">Add User</button>
+        </form>
+    </div>
+
+    <div class="container-main d-flex flex-column justify-content-center align-items-center">
         <div class="card p-3 shadow w-100">
             <table class = "table table-progressive table-bordered">
                 <thead>

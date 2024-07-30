@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('category_id')->references('id')->on('categories');
+            //$table->foreignId('category_id')->references('id')->on('categories');
             $table->string('status')->default('Pending');
             $table->boolean('half_day')->default(false);
             $table->integer('days')->default(0);

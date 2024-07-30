@@ -18,6 +18,10 @@ return new class extends Migration
             $table->boolean('is_subtractable');
             $table->timestamps();
         });
+
+        Schema::table('free_days_requests', function (Blueprint $table) {
+            $table->foreignId('category_id')->references('id')->on('categories');
+        });
     }
 
     /**

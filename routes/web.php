@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
 
+Route::get('/', function () {
+    return view('login');
+});
+
+
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
-
 
 Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::get('/account-creation', [AccountCreationController::class, 'index']);
@@ -42,7 +46,7 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
 
 Route::middleware(['auth', 'back'])->group(function () {
     Route::get('/free-day-request', [FreeDaysRequestController::class, 'index'])->name('free_day_request');
-    Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);  //auth
+    Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);
     Route::get('/free-day-request', [FreeDaysRequestController::class, 'index']);
     Route::post('/free-day-request', [FreeDaysRequestController::class, 'save']);
     Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
@@ -53,9 +57,9 @@ Route::middleware(['auth', 'back'])->group(function () {
     Route::post('/user-profile/{id}', [UserProfileController::class, 'save'])->name('user-profile.save');
     Route::post('/user-profile/change-password/{id}', [UserProfileController::class, 'changePassword'])->name('user-profile.change-password');
 
-    Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays']); //auth
+    Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays'])->name('sarbatoare');
 
-    Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics'); //auth
+    Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics');
 
     Route::get('/home', function () {
         return view('home');

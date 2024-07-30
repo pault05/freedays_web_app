@@ -123,6 +123,19 @@
                                     </div>
                                 </div>
 
+                                <div class="col-12">
+                                    <label for="role" class="form-label text-start w-100">Role</label>
+                                    <div class="dropdown ms-1">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="role" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ $user['is_admin'] ? 'Admin' : 'User' }}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                            <li><a class="dropdown-item" href="#">Admin</a></li>
+                                            <li><a class="dropdown-item" href="#">User</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
                                 <div class="text-center mt-4">
                                     <div class="row mb-2">
                                         <div class="col-md-6">
@@ -218,19 +231,6 @@
                                               action="/user-profile/change-password/{{ $user['id'] }}">
                                             @csrf
                                             <div class="form-group">
-                                                <label for="current_password">Current Password</label>
-                                                <input type="password" class="form-control" id="current_password"
-                                                       name="current_password" required>
-                                                @error('current_password')
-                                                <div class="text-danger">
-                                                    The current password is incorrect.
-                                                </div>
-                                                @enderror
-                                                @error('new_password')
-                                                <div class="text-danger">
-                                                    The new password cannot be the same as current password.
-                                                </div>
-                                                @enderror
                                                 <div class="form-group">
                                                     <label for="new_password">New Password</label>
                                                     <input type="password" class="form-control"
@@ -261,7 +261,7 @@
                                                     const confirm_password = document.getElementById("confirm_password");
 
                                                     function validatePassword() {
-                                                        if (password.value !== confirm_password.value) {
+                                                        if (new_password.value !== confirm_password.value) {
 
                                                             if (new_password.value !== confirm_password.value) {
                                                                 confirm_password.setCustomValidity("Passwords Don't Match");
@@ -296,14 +296,5 @@
                 <!-- Pickr JS -->
                 <script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
                 <!-- Custom JS -->
-                <script>
-
-                    @error('current_password')
-                    $('#changePasswordModal').modal('show');
-                    @enderror
-                    @error('new_password')
-                    $('#changePasswordModal').modal('show');
-                    @enderror
-                </script>
             </div>
 @endsection

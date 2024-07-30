@@ -16,9 +16,14 @@
 
     <div class="container-main d-flex flex-column justify-content-center align-items-center">
         <div class="card p-3 shadow w-100">
-            <table class = "table table-progressive table-bordered">
+            <table class="table table-progressive table-bordered">
                 <thead>
                 <div class="d-flex w-100 justify-content-center mb-3">
+                    @if (session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                 </div>
                 <tr>
                     <th style="width: 15%">
@@ -77,131 +82,168 @@
                             </div>
                         </td>
                         <td>
-                            <div class="buttons d-flex" >
+                            <div class="buttons d-flex">
                                 <form action="{{ route('user-profile', $view->id) }}" method="GET">
                                     @csrf
-                                    <button class="btn-sm" type="submit" id="btnApprove" style="width: 35%; border: none; background-color: transparent;"><img style="width: 100%" src="https://img.icons8.com/?size=100&id=6697&format=png&color=228BE6" alt="Edit"></button>
+                                    <button class="btn-sm btnApprove" type="submit"
+                                            style="width: 35%; border: none; background-color: transparent;"><img
+                                            style="width: 100%"
+                                            src="https://img.icons8.com/?size=100&id=6697&format=png&color=228BE6"
+                                            alt="Edit"></button>
                                 </form>
 
-                                <form action="{{ route('admin-view-user.delete', $view->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn-sm" type="submit" id="btnDeny" style="width: 35%; border: none; background-color: transparent;"><img style="width: 100%" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt=""></button>
-                       </form>
-
-{{--                                <form action="{{ route('user-profile.change-password', $view->id) }}" method="POST">--}}
-{{--                                    @csrf--}}
-                                    <button class="btn-sm" type="button" id="btnChangePassword" data-user-id="{{$view->id}}" style="width: 35%; border: none; background-color: transparent;"><img style="width: 100%" src="https://img.icons8.com/?size=100&id=4fglYvlz5T4Q&format=png&color=000000" alt="" data-toggle="modal" data-target="#changePasswordModal"></button>
-{{--                                </form>--}}
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
-                                        var changePasswordModal = document.getElementById('changePasswordModal');
-                                        changePasswordModal.addEventListener('show.bs.modal', function (event) {
-                                            var button = event.relatedTarget; // Button that triggered the modal
-                                            var userId = button.getAttribute('data-user-id'); // Extract info from data-* attributes
-
-                                            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                                            // Update the modal's content.
-                                            var modalUserIdInput = changePasswordModal.querySelector('#user_id');
-                                            modalUserIdInput.value = userId;
-                                        });
-                                    });
-                                </script>
-                                <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form id="change-password-form" method="POST" action="{{ route('user-profile.change-password',$view->id) }}">
-                                                    @csrf
-                                                    <div class="form-group">
-                                                        <label for="current_password">Current Password</label>
-                                                        <input type="password" class="form-control" id="current_password" name="current_password" required>
-                                                        @error('current_password')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="new_password">New Password</label>
-                                                        <input type="password" class="form-control" id="new_password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                                        <div class="invalid-feedback">Please provide a strong password.</div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="confirm_password">Confirm New Password</label>
-                                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                                        <div class="invalid-feedback">The passwords do not match.</div>
-                                                    </div>
-                                                    <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
-                                                    <script>
-                                                        const new_password = document.getElementById("new_password");
-                                                        const confirm_password = document.getElementById("confirm_password");
-
-                                                        function validatePassword() {
-                                                            if (new_password.value !== confirm_password.value) {
-                                                                confirm_password.setCustomValidity("Passwords Don't Match");
-                                                            } else {
-                                                                confirm_password.setCustomValidity('');
-                                                            }
-                                                        }
-
-                                                        new_password.onchange = validatePassword;
-                                                        confirm_password.onkeyup = validatePassword;
-                                                    </script>
-                                                    <br>
-                                                    <button type="submit" class="btn btn-primary btn-rounded">Save changes</button>
-                                                    <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <script>
-
-                                    const modal = document.getElementById("changePasswordModal");
-                                    const btn = document.getElementById("change-password-btn");
-
-                                    btn.onclick = function () {
-                                        modal.style.display = "block";
-                                    }
-                                </script>
-                                             <script>
-                                    $(document).ready(function() {
-                                        @if ($errors->any())
-                                        $('#changePasswordModal').modal('show');
-                                        @endif
-                                    });
-                                </script>
-
+                                <button class="btn-sm btnDelete" type="button" data-user-id="{{$view->id}}"
+                                        data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                        style="width: 35%; border: none; background-color: transparent;"><img
+                                        style="width: 100%"
+                                        src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252"
+                                        alt=""></button>
+                                <button class="btn-sm btnChangePassword" type="button" data-user-id="{{$view->id}}"
+                                        data-bs-toggle="modal" data-bs-target="#changePasswordModal"
+                                        style="width: 35%; border: none; background-color: transparent;"><img
+                                        style="width: 100%"
+                                        src="https://img.icons8.com/?size=100&id=4fglYvlz5T4Q&format=png&color=000000"
+                                        alt=""></button>
                             </div>
                         </td>
 
                     </tr>
 
-
                 @endforeach
             </table>
 
-
-            <div class="paginator d-flex w-100 justify-content-end" >
+            <div class="paginator d-flex w-100 justify-content-end">
                 {{$adminViewUser->links()}}
             </div>
             <!-- /.paginator -->
+            <!-- Confirm Delete Modal -->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+                 role="dialog"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteLabel">Confirm Delete</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="DeleteUserForm"
+                                  method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="user_id_delete" id="delete_user_id" value="31">
+                                Ești sigur că vrei să ștergi acest utilizator?
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-danger btn-rounded" id="confirmDeleteButton">Delete
+                                    </button>
+                                </div>
+                            </form>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog"
+                 aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="sendChangePasswordForm" method="POST">
+                                @csrf
+                                <input type="hidden" name="user_id" id="reset_user_id" value="31">
+                                <div class="form-group">
+                                    <label for="new_password">New Password</label>
+                                    <input type="password" class="form-control" id="new_password" name="new_password"
+                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                           title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                           required>
+                                    <div class="invalid-feedback">Please provide a strong password.</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm_password">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="confirm_password"
+                                           name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                           title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                           required>
+                                    <div class="invalid-feedback">The passwords do not match.</div>
+                                </div>
+                                <div id="password-feedback" class="alert" role="alert" style="display: none;"></div>
+
+                                <br>
+                                <button type="submit" class="btn btn-primary btn-rounded">
+                                    Save changes
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">
+                                    Cancel
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!-- Pickr JS -->
-        <script src="https://unpkg.com/@simonwep/pickr/dist/pickr.min.js"></script>
-        <!-- Custom JS -->
+
 
     </div>
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                $('.btnDelete').on('click',function(){
+                    var userIdDelete = $(this).data('user-id');
+                    const actionUrlDelete = '/admin-view-user/delete/' + userIdDelete;
+                    document.getElementById('DeleteUserForm').setAttribute('action', actionUrlDelete);                    // $(this).attr('action', actionUrl);
+                    $('#delete_user_id').val(userIdDelete);
+                })
+            })
+
+            document.addEventListener('DOMContentLoaded', function () {
+                $('.btnChangePassword').on('click', function () {
+                    var userId = $(this).data('user-id');
+                    const actionUrl = '/user-profile/change-password/' + userId;
+                    document.getElementById('sendChangePasswordForm').setAttribute('action', actionUrl);                    // $(this).attr('action', actionUrl);
+                    $('#reset_user_id').val(userId);
+                });
+            });
+
+            const new_password = document.getElementById("new_password");
+            const confirm_password = document.getElementById("confirm_password");
+
+            function validatePassword() {
+                if (new_password.value !== confirm_password.value) {
+                    confirm_password.setCustomValidity("Passwords Don't Match");
+                } else {
+                    confirm_password.setCustomValidity('');
+                }
+            }
+
+            new_password.onchange = validatePassword;
+            confirm_password.onkeyup = validatePassword;
+
+            $('.change-password-btn').on('click', function () {
+                // modal.show();
+            });
+
+            $('#sendChangePasswordForm').on('click', function () {
+                $('#change-password-form').submit();
+            });
+
+
+        </script>
+    @endpush
 @endsection

@@ -15,8 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Register your middleware here
         $middleware->alias(['admin' => AdminMiddleware::class, 'back' => PreventBackButtonMiddleware::class]);
-    })
-    ->withExceptions(function (Exceptions $exceptions) {
+//        $middleware->validateCsrfTokens(except: [
+//            '/user-profile/change-password' ]);// <-- exclude this route
+    })->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
 

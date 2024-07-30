@@ -148,7 +148,13 @@
             jQuery('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin-view.data') }}",
+                ajax: {
+                    url: "{{ route('admin-view.data') }}",
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'user_name', name: 'user_name' },
@@ -156,7 +162,7 @@
                     { data: 'ending_date', name: 'ending_date' },
                     { data: 'category_name', name: 'category_name' },
                     { data: 'status', name: 'status' },
-                    { data: 'actions', name: 'actions' }
+                    { data: 'actions', name: 'actions'}
                 ]
             });
         });

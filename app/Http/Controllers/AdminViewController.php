@@ -48,15 +48,15 @@ class AdminViewController extends Controller
     }
 
     public function getData(){
-        $adminCompanyId = auth()->user()->company_id;
+//        $adminCompanyId = auth()->user()->company_id;
 
-//        $data = FreeDaysRequest::with('user', 'category')->withTrashed()->get();
-        $data = FreeDaysRequest::with('user', 'category')
-            ->whereHas('user', function ($query) use ($adminCompanyId) {
-                $query->where('company_id', $adminCompanyId);
-            })
-            ->withTrashed()
-            ->get();
+        $data = FreeDaysRequest::with('user', 'category')->withTrashed()->get();
+//        $data = FreeDaysRequest::with('user', 'category')
+//            ->whereHas('user', function ($query) use ($adminCompanyId) {
+//                $query->where('company_id', $adminCompanyId);
+//            })
+//            ->withTrashed()
+//            ->get();
         return DataTables::of($data)
             ->addColumn('id', function ($request) {
                 return $request->id;
@@ -87,7 +87,7 @@ class AdminViewController extends Controller
             ->addColumn('actions', function ($request) {
                 $approveButton = '<form action="' . route('admin-view.approve', $request->id) . '" method="POST">
                                     ' . csrf_field() . '
-                                    <button type="submit" class="btn btn-approve btn-sm" id="btnApprove" style="border: none; background-color: transparent">
+                                    <button type="submit" class="btn btn-approve btn-sm" id="btnApprove" style="border: none; background-color: transparent;">
                                         <img src="https://img.icons8.com/?size=100&id=g7mUWNettfwZ&format=png&color=40C057" alt="" style="width: 35px" class="action-icons">
                                     </button>
                                   </form>';

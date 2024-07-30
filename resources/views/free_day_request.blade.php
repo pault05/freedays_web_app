@@ -97,9 +97,9 @@
                 </style>
 
                 <div class="row ms-5 mt-5">
-                    <div class="d-flex justify-content-end" style="margin-left: 89%; width: 2%">
-                        <a href="/home" type="button" class="btn btn-dark" style="margin-right:13%">Back</a>
-                        <button type="submit" class="btn btn-dark" form="leave-form" id="submit">Submit</button>
+                    <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">
+                        <a href="/home" type="button" class="btn btn-primary" style="margin-right:13%">Back</a>
+                        <button type="submit" class="btn btn-primary" form="leave-form" id="submit">Submit</button>
                     </div>
                 </div>
             </form>
@@ -186,11 +186,11 @@
 
     <script>
           var officialHolidays = [];
-          
-             $.get('{{ route('sarbatoare') }}', function(data) {  
+
+             $.get('{{ route('sarbatoare') }}', function(data) {
                 officialHolidays = data.map(function(holiday) {
-               
-                return moment(holiday); 
+
+                return moment(holiday);
             });
         });
     </script>

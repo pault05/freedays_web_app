@@ -30,57 +30,71 @@
         </form>
 
         <div class="card p-3 shadow mt-5 col-12" style="min-height: 300px">
-            <table class="table table-responsive table-bordered">
+            <table class="display" id="datatable">
                 <thead>
-                <div class="icons d-flex justify-content-end mb-3">
-                    <form action="{{route('official-holiday.deleteAll')}}" method="POST" id="deleteAllBtn">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="border: none; background-color: rgba(0,0,0,0);"><img
-                                src="https://img.icons8.com/?size=100&id=63317&format=png&color=000000"
-                                style="width: 20px; filter: hue-rotate(280deg); "></button>
-                    </form>
-                </div>
-                <tr>
-                    <th>Holiday Name</th>
-                    <th>Date</th>
-                    <th style="width: 15%;">Actions</th>
-                </tr>
+{{--                <div class="icons d-flex justify-content-end mb-3">--}}
+{{--                    <form action="{{route('official-holiday.deleteAll')}}" method="POST" id="deleteAllBtn">--}}
+{{--                        @csrf--}}
+{{--                        @method('DELETE')--}}
+{{--                        <button type="submit" style="border: none; background-color: rgba(0,0,0,0);"><img--}}
+{{--                                src="https://img.icons8.com/?size=100&id=63317&format=png&color=000000"--}}
+{{--                                style="width: 20px; filter: hue-rotate(280deg); "></button>--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+                    <tr>
+                        <th>Holiday Name</th>
+                        <th>Date</th>
+                        <th style="width: 15%;">Actions</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach($officialHolidays as $day)
-                    <tr>
-                        <td>{{$day->name}}</td>
-                        <td>{{\Carbon\Carbon::parse($day->date)->format('d/m/y')}}</td>
-                        <td class="d-flex justify-content-center align-items-center text-center">
-                            {{--                            <a href="#" id="editBtn"><img class="w-50" title="Edit" src="https://img.icons8.com/?size=100&id=21076&format=png&color=000000" alt=""></a>--}}
-                            <form action="{{route('official-holiday.destroy', $day->id)}}" method="POST"
-                                  id="destroyBtn">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="border: none; background-color: rgba(0, 0, 0, 0)"><img class="w-25" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt="" style="background-color: rgba(255, 255, 255, 0);">
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
+{{--                @foreach($officialHolidays as $day)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{$day->name}}</td>--}}
+{{--                        <td>{{\Carbon\Carbon::parse($day->date)->format('d/m/y')}}</td>--}}
+{{--                        <td class="d-flex justify-content-center align-items-center text-center">--}}
+{{--                            --}}{{--                            <a href="#" id="editBtn"><img class="w-50" title="Edit" src="https://img.icons8.com/?size=100&id=21076&format=png&color=000000" alt=""></a>--}}
+{{--                            <form action="{{route('official-holiday.destroy', $day->id)}}" method="POST"--}}
+{{--                                  id="destroyBtn">--}}
+{{--                                @csrf--}}
+{{--                                @method('DELETE')--}}
+{{--                                <button type="submit" style="border: none; background-color: rgba(0, 0, 0, 0)"><img class="w-25" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt="" style="background-color: rgba(255, 255, 255, 0);">--}}
+{{--                                </button>--}}
+{{--                            </form>--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
                 </tbody>
             </table>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
-        document.getElementById('deleteAllBtn').addEventListener('submit', (e) => {
-            let confirmDelete = confirm('This action will delete all table data. Do you want to proceed?');
-            if (!confirmDelete) {
-                e.preventDefault();
-            }
-        });
+        // document.getElementById('deleteAllBtn').addEventListener('submit', (e) => {
+        //     let confirmDelete = confirm('This action will delete all table data. Do you want to proceed?');
+        //     if (!confirmDelete) {
+        //         e.preventDefault();
+        //     }
+        // });
 
         //partea de edit la official holiday
-        let editButton = document.querySelector('#editBtn');
-        editButton.addEventListener('click', () => {
-            alert("merge");
+        // let editButton = document.querySelector('#editBtn');
+        // editButton.addEventListener('click', () => {
+        //     alert("merge");
+        // });
+
+        jQuery(document).ready(function(){
+            jQuery('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{route('official-holiday.data')}}",
+                columns:[
+                    {data: 'name', name: 'name'},
+                    {data: 'date', name: 'date'},
+                    {data: 'actions', name: 'actions'}
+                ]
+            });
         });
     </script>
 @endsection

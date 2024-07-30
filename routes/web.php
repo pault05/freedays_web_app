@@ -35,6 +35,7 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
 
     Route::delete('/official-holiday/deleteAll', [OfficialHolidayController::class, 'deleteAll'])->name('official-holiday.deleteAll');
     Route::delete('/official-holiday/destroy/{id}', [OfficialHolidayController::class, 'destroy'])->name('official-holiday.destroy');
+    Route::get('/official-holiday/data', [OfficialHolidayController::class, 'getData'])->name('official-holiday.data');
 
     Route::get('/admin-statistics', [AdminStatisticsController::class, 'index'])->name('admin-statistics');
 

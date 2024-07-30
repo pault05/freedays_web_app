@@ -22,6 +22,7 @@ class OfficialHolidayFactory extends Factory
             'date' => $this->faker->dateTimeBetween('2024-07-01', '2024-07-31')->format('Y-m-d'),
             'created_at' => now(),
             'updated_at' => now(),
+            'company_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

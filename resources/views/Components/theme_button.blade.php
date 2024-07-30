@@ -117,16 +117,16 @@
     </symbol>
 </svg>
 
-<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-    <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
-            id="bd-theme"
-            type="button"
-            aria-expanded="false"
-            data-bs-toggle="dropdown"
-            aria-label="Toggle theme (auto)">
-        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
-        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-    </button>
+<!-- <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"> -->
+    <!-- <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" -->
+            <!-- id="bd-theme" -->
+            <!-- type="button" -->
+            <!-- aria-expanded="false" -->
+            <!-- data-bs-toggle="dropdown" -->
+            <!-- aria-label="Toggle theme (auto)"> -->
+        <!-- <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg> -->
+        <!-- <span class="visually-hidden" id="bd-theme-text">Toggle theme</span> -->
+    <!-- </button> -->
     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
         <li>
             <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
@@ -202,4 +202,3 @@
         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
     </symbol>
 </svg>
-

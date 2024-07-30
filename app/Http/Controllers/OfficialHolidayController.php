@@ -117,4 +117,10 @@ class OfficialHolidayController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+     public function getOfficialHolidays()
+    {
+        $holidays = OfficialHoliday::all()->pluck('date')->toArray();
+        return response()->json($holidays);
+    }
 }

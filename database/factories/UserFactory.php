@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,12 +25,13 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $companyIds = Company::all()->pluck('id')->toArray();
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
-            'company_id' => fake()->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), //TODO
+            'company_id' => fake()->randomElement($companyIds),
             'position' => fake()->jobTitle(),
             'phone' => fake()->phoneNumber(),
             'is_admin' => fake()->boolean(),

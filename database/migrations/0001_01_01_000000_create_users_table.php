@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('position')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('is_admin')->default(false);
-            $table->foreignId('company_id')->references('id')->on('companies');
             $table->integer('free_days');
             $table->timestamp('hired_at')->nullable();
             $table->string('color');

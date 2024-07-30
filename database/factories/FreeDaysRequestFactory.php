@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,16 +25,18 @@ class FreeDaysRequestFactory extends Factory
         $startingDate = $this->faker->dateTimeBetween('2024-07-15', '2024-12-31');
         $endingDate = $this->faker->dateTimeBetween($startingDate, '2024-12-31');
 
+        $usersIDs = User::all()->pluck('id')->toArray();
+        $categoriesIDs = Category::all()->pluck('id')->toArray();
+
         return [
-            'user_id' => $this->faker->numberBetween(1, 10),
-            'category_id'=> $k%4,
+            'user_id' => fake()->randomElement($usersIDs),
+            'category_id'=> fake()->randomElement($categoriesIDs),
             'status' => 'Pending',
             'starting_date' => $startingDate->format('Y-m-d'),
             'ending_date' => $endingDate->format('Y-m-d'),
             'half_day' => fake()->boolean,
             'description' => fake()->colorName(),
             'days' => fake()->numberBetween(1, 3),
-            #'deleted_at' => now(),
         ];
     }
 }

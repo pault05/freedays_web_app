@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\FreeDaysRequest;
 use App\Models\FreeDaysReqFile;
@@ -18,9 +19,11 @@ class FreeDaysReqFileFactory extends Factory
      */
     public function definition(): array
     {
+        $freeDayReqIDs = FreeDaysRequest::all()->pluck('id')->toArray();
+        $fileIDs = File::all()->pluck('id')->toArray();
         return [
-            'free_day_req_id' => $this->faker->numberBetween(1, 10),
-            'file_id' => $this->faker->numberBetween(1, 10),
+            'free_day_req_id' => fake()->randomElement($freeDayReqIDs),
+            'file_id' => fake()->randomElement($fileIDs),
         ];
     }
 }

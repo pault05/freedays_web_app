@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
 use App\Models\Category;
-
+use App\Models\OfficialHoliday;
 class AdminStatisticsController extends Controller
 {
     public function index()
@@ -21,7 +21,7 @@ class AdminStatisticsController extends Controller
         $formattedData = $this->getFormattedData();
 
 
-        return view('statistics', [
+        return view('admin_statistics', [
             'statistics' => $statistics,
             'requestsByCategory' => $requestsByCategory,
             'daysPerYear' => $daysPerYear,
@@ -143,10 +143,23 @@ class AdminStatisticsController extends Controller
 //            return [$month => $daysPerMonth->get($month,0)];
 //        });
 //    }
+    private function formattedMonth($date)
+    {
+        return $date->format('F Y');
+    }
+
+    private function isWorkingDay(Carbon $date, array $officialHolidays): bool
+    {
+        return !$date->isWeekend() && !in_array($date->format('Y-m-d'), $officialHolidays);
+    }
     private function getDaysPerMonth()
     {
         $freeDaysRequests = FreeDaysRequest::where('status','approved')->get();
         $daysPerMonth = collect();
+
+        $officialHolidays = OfficialHoliday::pluck('date')->map(function ($date){
+            return Carbon::parse($date)->format('Y-m-d');
+        })->toArray();
 
         foreach ($freeDaysRequests as $request) {
             $start = Carbon::parse($request->starting_date);
@@ -158,11 +171,40 @@ class AdminStatisticsController extends Controller
 
             while ($start->lte($end)) {
                 $monthEnd = $start->copy()->endOfMonth();
-                $daysInMonth = min($end->copy()->endOfMonth()->diffInDays($start) + 1, $monthEnd->diffInDays($start) + 1);
 
-                $month = $start->format('F Y');
-                $daysPerMonth->put($month, ($daysPerMonth->get($month, 0) + $daysInMonth));
+                if($monthEnd->greaterThan($end)){
+                    $monthEnd = $end;
+                }
+
+                $daysInMonth = 0;
+                $currentDay = $start->copy();
+
+                while($currentDay->lte($monthEnd)){
+                    if($this->isWorkingDay($currentDay, $officialHolidays)){
+                        $daysInMonth++;
+                    }
+                    $currentDay->addDay();
+                }
+//                if($monthEnd < $end) {
+//                    $daysInMonth = round($start->diffInDays($monthEnd) + 1);
+//                    //sa adaugi si pentru luna urmatoare
+//                } else {
+//                    $daysInMonth = round($start->diffInDays($end) + 1);
+//                }
+
+                $formattedMonth = $this->formattedMonth($start);
+                $currentDays = $daysPerMonth->get($formattedMonth, 0);
+                $daysPerMonth->put($formattedMonth, $currentDays + $daysInMonth);
+
+                // merge pe luna urmatoare
                 $start->addMonth()->startOfMonth();
+
+//                //$month = $start->format('F Y');
+//                $formattedMonth = $this->formattedMonth($start);
+//                $currentDays = $daysPerMonth->get($formattedMonth, 0);
+//               // dd($currentDays, $formattedMonth, $currentDays, $daysInMonth);
+//                $daysPerMonth->put($formattedMonth, $currentDays + $daysInMonth);
+//                $start->addMonth()->startOfMonth();
             }
         }
 
@@ -172,7 +214,7 @@ class AdminStatisticsController extends Controller
 
         return $months->mapWithKeys(function ($month) use ($daysPerMonth, $currentYear) {
             $formattedMonth = "{$month} {$currentYear}";
-            return [$month => $daysPerMonth->get($formattedMonth, 0)];
+            return [$formattedMonth => $daysPerMonth->get($formattedMonth, 0)];
         });
     }
 

@@ -61,7 +61,7 @@
                 <div class="row d-flex justify-content-start">
                         <label for="category" class="col-sm-12 col-form-label ">Category</label>
                             <div class="col-sm-12">
-                                <select class="form-select" name="category_id" style="width: 92%">
+                                <select class="form-control" name="category_id" style="width: 92%">
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
@@ -105,94 +105,93 @@
             </form>
       </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script>
-       function calculateDays() {
-    var startDate = $('#start-date').val();
-    var endDate = $('#end-date').val();
-    var halfDay = $('#half-day');
-    var halfDayContainer = $('#half-day-container');
-    var errorMessage = $('#error-message');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script>
+    function calculateDays() {
+        var startDate = $('#start-date').val();
+        var endDate = $('#end-date').val();
+        var halfDay = $('#half-day');
+        var halfDayContainer = $('#half-day-container');
+        var errorMessage = $('#error-message');
 
-    if (startDate && endDate) {
-        var start = moment(startDate);
-        var end = moment(endDate);
+        console.log('Start Date:', startDate);
+        console.log('End Date:', endDate);
+        console.log('Official Holidays:', officialHolidays);
 
-        if (start.isAfter(end)) {
-            errorMessage.text("Starting date cannot be bigger than ending date").show();
-            $('#days-left').val('');
-            $('#days').val('');
-            halfDayContainer.hide();
-            halfDay.prop('checked', false);
-            return;
-        } else {
-            errorMessage.hide();
-        }
+        if (startDate && endDate) {
+            var start = moment(startDate, 'YYYY-MM-DD');
+            var end = moment(endDate, 'YYYY-MM-DD');
 
-        var totalDays = 0;
-        var currentDate = start.clone();
-
-        while (currentDate <= end) {
-            var isHoliday = officialHolidays.some(function(holiday) {
-                return holiday.isSame(currentDate, 'day'); // compara doar ziua
-            });
-
-            // verifica dacă este zi de lucru
-            if (currentDate.day() !== 0 && currentDate.day() !== 6 && !isHoliday) {
-                totalDays++;
-            }
-            currentDate.add(1, 'day');
-        }
-
-        $('#days-left').val(totalDays);
-        $('#days').val(totalDays);
-
-        // Verifica dacă startDate este egal cu endDate
-        if (startDate === endDate) {
-            halfDayContainer.show(); // facem containerul vizibil
-            var halfDayState = $('#half-day-state').val(); // setam starea checkbox-ului pe baza valorii stocate
-            if (halfDayState === '1') {
-                halfDay.prop('checked', true);
+            if (start.isAfter(end)) {
+                errorMessage.text("Starting date cannot be bigger than ending date").show();
+                $('#days-left').val('');
+                $('#days').val('');
+                halfDayContainer.hide();
+                halfDay.prop('checked', false);
+                return;
             } else {
+                errorMessage.hide();
+            }
+
+            var totalDays = 0;
+            var currentDate = start.clone();
+
+            while (currentDate <= end) {
+                var isHoliday = officialHolidays.some(function(holiday) {
+                    return holiday.isSame(currentDate, 'day');
+                });
+
+                console.log('Current Date:', currentDate.format('YYYY-MM-DD'), 'Is Holiday:', isHoliday);
+
+                if (currentDate.day() !== 0 && currentDate.day() !== 6 && !isHoliday) {
+                    totalDays++;
+                }
+                currentDate.add(1, 'day');
+            }
+
+            $('#days-left').val(totalDays);
+            $('#days').val(totalDays);
+
+            if (startDate === endDate) {
+                halfDayContainer.show();
+                var halfDayState = $('#half-day-state').val();
+                if (halfDayState === '1') {
+                    halfDay.prop('checked', true);
+                } else {
+                    halfDay.prop('checked', false);
+                }
+            } else {
+                halfDayContainer.hide();
                 halfDay.prop('checked', false);
             }
         } else {
-            halfDayContainer.hide();
-            halfDay.prop('checked', false);
-        }
-        } else {
             $('#days-left').val('');
             $('#days').val('');
             halfDayContainer.hide();
             halfDay.prop('checked', false);
             errorMessage.hide();
         }
-}
+    }
 
+    $('#half-day').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#half-day-state').val('1');
+        } else {
+            $('#half-day-state').val('0');
+        }
+    });
 
-         // salveaza starea checkbox ului cand se schimba
-         $('#half-day').on('change', function() {
-            if ($(this).is(':checked')) {
-                $('#half-day-state').val('1');
-            } else {
-                $('#half-day-state').val('0');
-            }
+    $('#start-date, #end-date').on('change', calculateDays);
+
+    var officialHolidays = [];
+
+    $.get('{{ route('sarbatoare') }}', function(data) {
+        officialHolidays = data.map(function(holiday) {
+            return moment(holiday.date, 'YYYY-MM-DD'); 
         });
+    });
+</script>
 
-        $('#start-date, #end-date').on('change', calculateDays);
-    </script>
-
-    <script>
-          var officialHolidays = [];
-
-             $.get('{{ route('sarbatoare') }}', function(data) {
-                officialHolidays = data.map(function(holiday) {
-
-                return moment(holiday);
-            });
-        });
-    </script>
 
 @endsection

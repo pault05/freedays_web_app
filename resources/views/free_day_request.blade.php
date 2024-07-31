@@ -34,7 +34,7 @@
                     @csrf
                     <div class="col-lg-3 col-sm-12 col-md-6 mb-2">
                         <label for="start-date">Start date</label>
-                            <input type="date" class="form-control" id="start-date" name="start-date">
+                            <input type="date" class="form-control" id="start-date" name="start-date" value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                         <label for="end-date">End Date</label>

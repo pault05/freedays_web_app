@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\FreeDaysRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -17,9 +18,9 @@ class FreeDayRequest extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public FreeDaysRequest $freeDaysRequest)
     {
-        //
+
     }
 
     /**
@@ -29,7 +30,7 @@ class FreeDayRequest extends Mailable
     {
         return new Envelope(
             subject: 'Free Day Request',
-            from: 'admin@email.com',
+            from: 'vacationvault@gmail.com',
         );
     }
 

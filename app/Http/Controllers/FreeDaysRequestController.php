@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\FreeDayRequest;
 use App\Models\File;
 use App\Models\FreeDaysReqFile;
 use App\Models\FreeDaysRequest;
@@ -11,6 +12,7 @@ use App\Models\UserFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OfficialHolidayController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 
@@ -19,7 +21,7 @@ class FreeDaysRequestController extends Controller
 {
     public function index(Request $request) {
         $user = Auth::user();
-    
+
         $approved = 0;
         if (isset($user->freeDays) && count($user->freeDays)) {
             foreach ($user->freeDays as $day) {
@@ -29,13 +31,13 @@ class FreeDaysRequestController extends Controller
                     } else {
                         $approved += $day->days;
                     }
-                    
+
                 }
             }
         }
-    
+
         $categories = Category::all();
-    
+
         $request_leave = [
             'user_id' => $request->input('user_id'),
             'category_id' => $request->input('category_id'),
@@ -46,10 +48,10 @@ class FreeDaysRequestController extends Controller
             'description' => $request->input('description'),
             'approved' => $approved
         ];
-    
+
         return view('free_day_request', compact('request_leave', 'categories'));
     }
-    
+
 
     public function save(Request $request){
     // Validation logic here (if any)
@@ -87,6 +89,8 @@ class FreeDaysRequestController extends Controller
             $freeDayRequestFile->save();
         }
 
+        $user_mail = $user->email;
+        Mail::to($user_mail)->send(new FreeDayRequest($freeDayRequest));
 
         return redirect()->back()->with('success', 'The request has been sent successfully!');
     }

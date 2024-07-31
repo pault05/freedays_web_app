@@ -1,3 +1,7 @@
-<div>
+<p>
     Cererea a fost trimisa cu succes!
-</div>
+</p>
+
+<p>
+    <a href="{{ url('/home') }}">View your home page.</a>
+</p>

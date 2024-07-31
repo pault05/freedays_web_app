@@ -96,5 +96,22 @@
                 ]
             });
         });
+
+        $(document).on('click', '.btn-delete', function(event) {
+            event.preventDefault();
+            var $button = $(this);
+            var actionUrl = $button.closest('form').attr('action');
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: {
+                        _method: 'DELETE',
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#datatable').DataTable().ajax.reload();
+                    }
+                });
+        });
     </script>
 @endsection

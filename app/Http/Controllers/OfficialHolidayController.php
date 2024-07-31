@@ -38,7 +38,7 @@ class OfficialHolidayController extends Controller
                 $deleteButton = '<form action="' . route('official-holiday.destroy', $request->id) . '" method="POST">
                                     ' . csrf_field() . '
                                     ' . method_field("DELETE") . '
-                                    <button type="submit" style="border: none; background-color: rgba(0, 0, 0, 0)"><img class="w-25" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt="" style="background-color: rgba(255, 255, 255, 0);">
+                                    <button class="btn-delete" type="submit" style="border: none; background-color: rgba(0, 0, 0, 0)"><img class="w-25" title="Delete" src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=FA5252" alt="" style="background-color: rgba(255, 255, 255, 0);">
                                 </button>
                                   </form>';
                 return '<div style="display: flex; align-items: center;">' . $deleteButton .'</div>';

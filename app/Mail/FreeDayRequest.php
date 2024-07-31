@@ -20,7 +20,7 @@ class FreeDayRequest extends Mailable
      */
     public function __construct(public FreeDaysRequest $freeDaysRequest)
     {
-
+        //
     }
 
     /**

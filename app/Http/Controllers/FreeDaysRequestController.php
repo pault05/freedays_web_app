@@ -15,6 +15,7 @@ use App\Http\Controllers\OfficialHolidayController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 
 class FreeDaysRequestController extends Controller
@@ -58,6 +59,7 @@ class FreeDaysRequestController extends Controller
 
         $user = Auth::user();
         $user_id = $user->id;
+        $user_admin = $user->is_admin;
 
         $freeDayRequest = new FreeDaysRequest([
             'user_id' => $user_id,
@@ -90,7 +92,15 @@ class FreeDaysRequestController extends Controller
         }
 
         $user_mail = $user->email;
-        Mail::to($user_mail)->send(new FreeDayRequest($freeDayRequest));
+
+        $user_company_id = $user->company_id;
+
+        $admins = DB::table('users')
+        ->where('is_admin', 1)
+        ->where('company_id', $user_company_id)
+        ->get(['first_name', 'last_name']);
+
+        Mail::to($user_mail, $admins)->send(new FreeDayRequest($freeDayRequest));
 
         return redirect()->back()->with('success', 'The request has been sent successfully!');
     }

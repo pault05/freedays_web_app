@@ -3,38 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Mail\FreeDayRequestMail;
-use App\Mail\FreeDayStatusMail;
-use App\Models\Category;
 use App\Models\File;
 use App\Models\FreeDaysReqFile;
 use App\Models\FreeDaysRequest;
+use App\Models\OfficialHoliday;
 use App\Models\User;
+use App\Models\UserFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\OfficialHolidayController;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+
 
 class FreeDaysRequestController extends Controller
 {
     public function index(Request $request) {
         $user = Auth::user();
 
-        $approvedDays = []; 
-        $deniedDays = [];
-
         $approved = 0;
         if (isset($user->freeDays) && count($user->freeDays)) {
             foreach ($user->freeDays as $day) {
                 if ($day->status == 'Approved' && $day->category->is_subtractable == 1) {
-                    $approvedDays[] = $day;
                     if ($day->half_day) {
                         $approved += 0.5;
                     } else {
                         $approved += $day->days;
                     }
-                } elseif ($day->status == 'Denied') {
-                    $deniedDays[] = $day;
+
                 }
             }
         }
@@ -52,14 +50,12 @@ class FreeDaysRequestController extends Controller
             'approved' => $approved
         ];
 
-        $daysOffLeft =  21 - $approved;
-
-        Mail::to($user->email)->send(new FreeDayStatusMail($user, $approvedDays, $deniedDays, $daysOffLeft));
-
-        return view('free_day_request', compact('request_leave', 'categories', 'daysOffLeft'));
+        return view('free_day_request', compact('request_leave', 'categories'));
     }
 
+
     public function save(Request $request){
+    // Validation logic here (if any)
 
         $user = Auth::user();
         $user_id = $user->id;
@@ -77,11 +73,13 @@ class FreeDaysRequestController extends Controller
 
         $freeDayRequest->save();
 
-        // Salvăm fișierul
+        //salvam fisierul
         if ($request->file('proof')) {
             $path = $request->file('proof')->store('uploads', 'public');
             $file = File::create([
+              //  'name' => $request->file('proof')->getClientOriginalName(),
                 'ext' => $request->file('proof')->getClientOriginalExtension(),
+             //   'path' => $path,
             ]);
 
             $file->path = $file->id . '.' . $file->ext;
@@ -93,15 +91,14 @@ class FreeDaysRequestController extends Controller
             $freeDayRequestFile->save();
         }
 
+       // $user_mail = $user->email;
         $user_company_id = $user->company_id;
 
         $admins = DB::table('users')
-            ->where('is_admin', 1)
-            ->where('company_id', $user_company_id)
+        ->where('is_admin', 1)
+        ->where('company_id', $user_company_id)
             ->where('email', '<>', auth()->user()->email) // excludem utilizatorul curent
-            ->get(['email']);
-
-        $adminEmails = $admins->pluck('email')->toArray();
+            ->get();
 
         foreach($admins as $admin) {
             Mail::to($admin->email)->send(new FreeDayRequestMail($freeDayRequest, $admin, $user));
@@ -110,9 +107,11 @@ class FreeDaysRequestController extends Controller
         return redirect()->back()->with('success', 'The request has been sent successfully!');
     }
 
+
     public function getFreeDays()
     {
         if (Auth::user()->is_admin) {
+
             $adminCompanyId = Auth::user()->company_id;
 
             $freeDays = FreeDaysRequest::whereHas('user', function ($query) use ($adminCompanyId) {
@@ -147,4 +146,6 @@ class FreeDaysRequestController extends Controller
 
         return response()->json($freeDaysWithUserDetails);
     }
+
+
 }

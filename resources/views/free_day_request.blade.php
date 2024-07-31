@@ -125,9 +125,11 @@
                 $('#days').val('');
                 halfDayContainer.hide();
                 halfDay.prop('checked', false);
+                $('#submit').hide();
                 return;
             } else {
                 errorMessage.hide();
+                $('#submit').show();
             }
 
             var totalDays = 0;

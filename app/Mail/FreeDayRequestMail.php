@@ -2,30 +2,30 @@
 
 namespace App\Mail;
 
-use AllowDynamicProperties;
-use App\Models\FreeDaysRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 
 class FreeDayRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
     public $freeDayRequest;
+    public $user; //userul care a facut cererea
+    public $admin; //adminii care primesc cererea
 
     /**
      * Create a new message instance.
      */
-    public function __construct($freeDayRequest, $user)
+    public function __construct($freeDayRequest, $user, $admin)
     {
         $this->freeDayRequest = $freeDayRequest;
+        $this->admin = $admin;
         $this->user = $user;
+
     }
 
     public function build()
@@ -33,8 +33,9 @@ class FreeDayRequestMail extends Mailable
         return $this->view('emails.free-day-request')
                     ->subject('Your free day request')
                     ->with([
-                       'freeDaysRequest' => $this->freeDayRequest,
-                       'user' => $this->user
+                        'freeDaysRequest' => $this->freeDayRequest,
+                        'admin' => $this->admin,
+                        'user' => $this->user,
                     ]);
     }
 

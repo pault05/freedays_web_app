@@ -91,15 +91,18 @@ class FreeDaysRequestController extends Controller
             $freeDayRequestFile->save();
         }
 
-        $user_mail = $user->email;
+       // $user_mail = $user->email;
         $user_company_id = $user->company_id;
 
         $admins = DB::table('users')
         ->where('is_admin', 1)
         ->where('company_id', $user_company_id)
-        ->pluck('email')->toArray();
+            ->where('email', '<>', auth()->user()->email) // excludem utilizatorul curent
+            ->get();
 
-        Mail::to($user_mail)->cc($admins)->send(new FreeDayRequestMail($freeDayRequest, $user));
+        foreach($admins as $admin) {
+            Mail::to($admin->email)->send(new FreeDayRequestMail($freeDayRequest, $admin, $user));
+        }
 
         return redirect()->back()->with('success', 'The request has been sent successfully!');
     }

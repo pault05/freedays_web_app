@@ -166,6 +166,24 @@
                 ]
             });
         });
+
+        $(document).on('click', '.btn-approve, .btn-deny', function(event) {
+            event.preventDefault();
+            var $button = $(this);
+            var actionUrl = $button.closest('form').attr('action');
+            var method = 'POST';
+
+            $.ajax({
+                url: actionUrl,
+                type: method,
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    $('#datatable').DataTable().ajax.reload();
+                }
+            });
+        });
     </script>
 
 @endsection

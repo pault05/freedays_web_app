@@ -130,6 +130,7 @@ class UserProfileController extends Controller
 
     public function save(Request $request,$id){
 
+//        dd($request->all());
             // Validarea datelor primite
         $request->validate([
             'first_name' => 'required|string|max:255',
@@ -151,9 +152,11 @@ class UserProfileController extends Controller
         $user->phone = $request->input('phone');
         $user->color = $request->input('selected_color');
 
+
         if (Auth::user()->is_admin) {
             $user->position = $request->input('position');
             $user->free_days = $request->input('free_days');
+            $user->is_admin = $request->role_text === 'Admin';
         }
 
         // Salvarea modificărilor

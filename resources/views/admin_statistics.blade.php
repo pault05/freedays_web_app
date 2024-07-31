@@ -150,11 +150,6 @@
                 });
             </script>
 
-            {{--        <!-- debug -->--}}
-            {{--        <pre>--}}
-            {{--    {{ print_r($daysPerYear, true) }}--}}
-            {{--</pre>--}}
-
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const daysPerYear = @json($daysPerYear);
@@ -213,41 +208,43 @@
                 });
             </script>
 
+
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const formattedData = @json($formattedData);
-                    const categoryColors = @json($formattedData['categoryColors']);
 
-                    const seriesData = formattedData.categories.map((category, index) => ({
+                    const categories = formattedData.categories;
+                    const users = formattedData.users;
+                    const categoryColors = formattedData.categoryColors;
+
+                    const seriesData = categories.map(category => ({
                         name: category,
-                        data: formattedData.data.map(item => ({
-                                y: item[category] || 0,
-                                name: '${item.user.first_name} ${item.user.last_name}'
-                            })),
+                        data: users.map(user => {
+                            const userData = formattedData.data.find(item => item.user === user);
+                           return userData ? (userData[category] || 0) : 0;
+                        }),
                         color: categoryColors[category]
                     }));
-
-
 
                     Highcharts.chart('container4', {
                         chart: {
                             type: 'column'
                         },
                         title: {
-                            text: 'Leaves per Category per Year',
-                            align: 'center'
+                            text: 'Number of Leaves per Year per Category',
+                            align: 'left'
                         },
                         xAxis: {
-                            categories: formattedData.years
+                            categories: users
                         },
                         yAxis: {
                             min: 0,
                             title: {
                                 text: 'Number of Leaves'
                             },
-                            // stackLabels: {
-                            //     enabled: true
-                            // }
+                            stackLabels: {
+                                enabled: true
+                            }
                         },
                         legend: {
                             align: 'left',
@@ -255,8 +252,7 @@
                             verticalAlign: 'top',
                             y: 70,
                             floating: true,
-                            backgroundColor:
-                                Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                            backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
                             borderColor: '#CCC',
                             borderWidth: 1,
                             shadow: false
@@ -280,6 +276,8 @@
                     });
                 });
             </script>
+
+
 
 
 @endsection

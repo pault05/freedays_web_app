@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class FreeDaysRequest extends Model
 {
@@ -26,6 +27,8 @@ class FreeDaysRequest extends Model
 
     protected $dates = ['deleted_at'];
 
+
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -37,5 +40,25 @@ class FreeDaysRequest extends Model
     public function files() : HasMany {
         return $this->hasMany(FreeDaysReqFile::class, 'free_days_request_id');
     }
+
+    public function freeDaysRequests(){
+        return $this->hasMany(FreeDaysRequest::class);
+    }
+
+    public function scopeApplySecurity(Builder $query, $companyId): void
+    {
+        //userIds
+        $query->whereHas('user',function ($query) use ($companyId){
+            $query->where('company_id',$companyId);
+        });
+    }
+
+
+    public function scopeApproved(Builder $query) : void
+    {
+        $query->where('status','Approved');
+    }
+
+
 
 }

@@ -1,27 +1,28 @@
 <?php
+
 namespace App\Http\Controllers;
 use App\Models\FreeDaysRequest;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Category;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use App\Models\OfficialHoliday;
-class AdminStatisticsController extends Controller
-{
+
+class AdminStatisticsController extends Controller{
     public function index()
     {
-        //$userId = auth()->user()->id;
 
-        $userCompany = auth()->user()->company_id;
+        $companyId = auth()->user()->company_id;
 
-        $statistics = $this->getStatistics(auth()->user()->id);
-        $requestsByCategory = $this->getUserByStatistics();
-        $daysPerYear = $this->getDaysPerYear();
-        $daysPerMonth = $this->getDaysPerMonth();
-        $formattedData = $this->getFormattedData();
+        $statistics = $this->getStatistics($companyId);
+        $requestsByCategory = $this->getUserByStatistics($companyId);
+        $daysPerYear = $this->getDaysPerYear($companyId);
+        $daysPerMonth = $this -> getDaysPerMonth($companyId);
+        $formattedData = $this ->getFormattedData( $companyId);
 
 
-        return view('admin_statistics', [
+        return view('admin_statistics',[
             'statistics' => $statistics,
             'requestsByCategory' => $requestsByCategory,
             'daysPerYear' => $daysPerYear,
@@ -33,128 +34,72 @@ class AdminStatisticsController extends Controller
 
     }
 
-    private function getStatistics($userId)
+    private function getStatistics($companyId)
     {
-        $freeDayRequests = FreeDaysRequest::where('user_id', $userId)
-            ->where('status','approved')
+        $freeDayRequets = FreeDaysRequest::approved()
+            ->applySecurity($companyId)
             ->with('category')
             ->get();
 
-        $data = $freeDayRequests->map(function ($request) {
+        $data = $freeDayRequets->map(function($request){
             $start = Carbon::parse($request->starting_date);
             $end = Carbon::parse($request->ending_date);
-            $daysOff = $end->diffInDays($start) + 1;
+            $daysOff = $end->diffInDays($start)+1;
 
             return [
-                'month' => $start->format('F Y'),
+                'month'=> $start->format('F Y'),
                 'days' => $daysOff,
             ];
         });
 
-        return $data->groupBy('month')->map(function ($items) {
+        return $data->groupBy('month')->map(function($items){
             return $items->sum('days');
         });
     }
 
-    private function getUserByStatistics()
+    private function getUserByStatistics($companyId)
     {
-        $freeDaysRequests = FreeDaysRequest::where('status','approved')
+        $freeDaysRequests = FreeDaysRequest::approved()
+            ->applySecurity($companyId)
             ->with('category')
             ->get();
 
-        return $freeDaysRequests->groupBy('category.name')->map(function ($items) {
+        return $freeDaysRequests->groupBy('category.name')->map(function($items){
             return $items->count();
         });
     }
 
-    private function getDaysPerYear()
-    {
-        $allFreeDays = FreeDaysRequest::where('status','approved')
+    private function getDaysPerYear($companyId){
+        $allFreeDays = FreeDaysRequest::approved()
+            ->applySecurity($companyId)
             ->with('category')
             ->get();
 
-        return $allFreeDays->groupBy(function ($request) {
+        return $allFreeDays->groupBy(function($request){
             return Carbon::parse($request['starting_date'])->year;
-        })->map(function ($yearRequests) {
+        })->map(function ($yearRequests){
             return $yearRequests->sum('days');
         })->toArray();
     }
-//    private function getDaysPerYear()
-//    {
-//        $allFreeDays = FreeDaysRequest::with('category')->get();
-//
-//        $daysPerYear = $allFreeDays->flatMap(function ($request) {
-//            $start = Carbon::parse($request->starting_date);
-//            $end = Carbon::parse($request->ending_date);
-//            $daysOff = $end->diffInDays($start) + 1;
-//
-//            $years = [];
-//            for ($year = $start->year; $year <= $end->year; $year++) {
-//                $startOfYear = Carbon::create($year, 1, 1);
-//                $endOfYear = Carbon::create($year, 12, 31);
-//
-//                $startOfPeriod = $start->greaterThan($startOfYear) ? $start : $startOfYear;
-//                $endOfPeriod = $end->lessThan($endOfYear) ? $end : $endOfYear;
-//                $daysInYear = $endOfPeriod->diffInDays($startOfPeriod) + 1;
-//
-//                // Aggregate days in the year
-//                if (isset($years[$year])) {
-//                    $years[$year] += $daysInYear;
-//                } else {
-//                    $years[$year] = $daysInYear;
-//                }
-//            }
-//
-//            return $years;
-//        })->reduce(function ($carry, $item) {
-//            foreach ($item as $year => $days) {
-//                if (isset($carry[$year])) {
-//                    $carry[$year] += $days;
-//                } else {
-//                    $carry[$year] = $days;
-//                }
-//            }
-//            return $carry;
-//        }, []);
-//
-//        return $daysPerYear;
-//    }
 
 
-//    private function getDaysPerMonth($userId){
-//        $freeDaysRequests = FreeDaysRequest::with('category')->get();
-//
-//        $daysPerMonth = $freeDaysRequests->map(function($request){
-//            $start = Carbon::parse($request->starting_date);
-//            $end = Carbon::parse($request->ending_date);
-//            $daysOff = $end->diffInDays($start)+1;
-//
-//
-//            return [
-//                'month'=> $start->format('F'),
-//                'days' => $daysOff,
-//            ];
-//        })->groupBy('month')->map(function($items){
-//            return $items->sum('days');
-//        });
-//
-//        $months = collect(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']);
-//        return $months->mapWithKeys(function ($month) use ($daysPerMonth){
-//            return [$month => $daysPerMonth->get($month,0)];
-//        });
-//    }
-    private function formattedMonth($date)
-    {
-        return $date->format('F Y');
-    }
 
     private function isWorkingDay(Carbon $date, array $officialHolidays): bool
     {
         return !$date->isWeekend() && !in_array($date->format('Y-m-d'), $officialHolidays);
     }
-    private function getDaysPerMonth()
+
+    private function formattedMonth($date)
     {
-        $freeDaysRequests = FreeDaysRequest::where('status','approved')->get();
+        return $date->format('F Y');
+    }
+    private function getDaysPerMonth($companyId)
+    {
+        $companyId = auth()->user()->company_id;
+        $freeDaysRequests = FreeDaysRequest::approved()
+            ->applySecurity($companyId)
+            ->get();
+
         $daysPerMonth = collect();
 
         $officialHolidays = OfficialHoliday::pluck('date')->map(function ($date){
@@ -218,36 +163,44 @@ class AdminStatisticsController extends Controller
         });
     }
 
-
-    private function getFormattedData()
+    private function getFormattedData($companyId)
     {
+        $years = FreeDaysRequest::selectRaw('YEAR(starting_date) as year')
+            ->approved()
+            ->applySecurity($companyId)
+            ->distinct()
+            ->pluck('year');
+
         $categories = Category::all();
-        $users = \App\Models\User::all();
+        $users = User::where('company_id', $companyId)->get();
         $chartData = [];
 
-        $categoryColors = $categories->pluck('color','name');
+        foreach ($years as $year) {
+            foreach ($users as $user) {
 
-        foreach ($users as $user) {
-            $userData = ['user' => $user->name];
+                $userData = ['user' => "{$user->first_name} {$user->last_name}", 'year' => $year];
 
-            foreach ($categories as $category) {
-                $count = FreeDaysRequest::where('user_id', $user->id)
+                foreach ($categories as $category) {
+                    $count = FreeDaysRequest::where('user_id', $user->id)
+                        ->applySecurity($companyId)
                         ->where('category_id', $category->id)
-                        ->where('status','approved')
+                        ->whereYear('starting_date', $year)
                         ->count();
 
                     $userData[$category->name] = $count;
                 }
                 $chartData[] = $userData;
             }
-
-            return [
-                'categories' => $categories->pluck('name'),
-                'users' => $users->pluck('name'),
-                'categoryColors' => $categoryColors,
-                'data' => $chartData
-            ];
         }
 
-}
+        return [
+            'years' => $years,
+            'categories' => $categories->pluck('name')->toArray(),
+            'categoryColors' => $categories->pluck('color','name')->toArray(),
+            'data' => $chartData,
+            //fn este pentru functie anonima
+            'users' => $users->map(fn($user) => "{$user->first_name} {$user->last_name}")->toArray()
+        ];
+    }
 
+}

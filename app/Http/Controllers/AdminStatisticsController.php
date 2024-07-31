@@ -78,10 +78,13 @@ class AdminStatisticsController extends Controller{
         return $allFreeDays->groupBy(function($request){
             return Carbon::parse($request['starting_date'])->year;
         })->map(function ($yearRequests){
-            return $yearRequests->sum('days');
+            return $yearRequests->sum(function($request){
+                $start = Carbon::parse($request->starting_date);
+                $end = Carbon::parse($request->ending_date);
+                return $end->diffInDays($start) + 1;
+            });
         })->toArray();
     }
-
 
 
     private function isWorkingDay(Carbon $date, array $officialHolidays): bool
@@ -95,7 +98,6 @@ class AdminStatisticsController extends Controller{
     }
     private function getDaysPerMonth($companyId)
     {
-        $companyId = auth()->user()->company_id;
         $freeDaysRequests = FreeDaysRequest::approved()
             ->applySecurity($companyId)
             ->get();

@@ -150,63 +150,80 @@
                 });
             </script>
 
+
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                    const daysPerYear = @json($daysPerYear);
-                    const data = Object.entries(daysPerYear).map(([year, days]) => [year, days]);
+                    const formattedData = @json($formattedData);
+                    const users = formattedData.users;
+                    const years = formattedData.years;
+                    const categories = formattedData.categories;
+
+                    const seriesData = users.map(user => {
+                        return {
+                            name: user,
+                            data: years.map(year => {
+                                const userData = formattedData.data.find(d => d.user === user && d.year == year) || {};
+                                return categories.reduce((sum, category) => sum + (userData[category] || 0), 0);
+                            })
+                        };
+                    });
 
                     Highcharts.chart('container3', {
                         chart: {
-                            type: 'column',
-                            options3d: {
-                                enabled: true,
-                                alpha: 15,
-                                beta: 15,
-                                depth: 50,
-                                viewDistance: 25
-                            }
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Number of leaves per year, portioned by users',
+                            align: 'center'
                         },
                         xAxis: {
-                            //type: 'category'
-                            categories: data.map(([year])=>year),
+                            categories: years,
                             title: {
                                 text: 'Year'
                             }
                         },
                         yAxis: {
+                            min: 0,
                             title: {
-                                text: 'Days off'
+                                text: 'Total leave days'
+                            },
+                            stackLabels: {
+                                enabled: true,
+                                style: {
+                                    fontWeight: 'bold',
+                                    color: (Highcharts.defaultOptions.title.style && Highcharts.defaultOptions.title.style.color) || 'gray'
+                                }
                             }
                         },
-                        tooltip: {
-                            headerFormat: '<b>{point.key}</b><br>',
-                            pointFormat: 'Days off: {point.y}'
-                        },
-                        title: {
-                            text: 'Number of leaves per year',
-                            align: 'center'
-                        },
-                        subtitle: {
-                            text: '3D chart'
-                        },
                         legend: {
-                            enabled: false
+                            align: 'right',
+                            x: -30,
+                            verticalAlign: 'top',
+                            y: 25,
+                            floating: true,
+                            backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                            borderColor: '#CCC',
+                            borderWidth: 1,
+                            shadow: false
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{point.x}</b><br/>',
+                            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
                         },
                         plotOptions: {
                             column: {
-                                depth: 25
+                                stacking: 'normal',
+                                dataLabels: {
+                                    enabled: true
+                                }
                             }
                         },
-                        credits: {
-                            enabled: false
-                        },
-                        series: [{
-                            data: data.map(([year,days]) => days),
-                            name: 'Total days off'
-                        }]
+                        series: seriesData
                     });
                 });
+
             </script>
+
 
 
             <script>
@@ -232,7 +249,7 @@
                         },
                         title: {
                             text: 'Number of Leaves per Year per Category',
-                            align: 'left'
+                            align: 'center'
                         },
                         xAxis: {
                             categories: users

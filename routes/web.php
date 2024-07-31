@@ -7,7 +7,7 @@ use App\Http\Controllers\FreeDaysRequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserProfileController;
-use App\Mail\FreeDayRequest;
+use App\Mail\FreeDayRequestMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;

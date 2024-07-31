@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use AllowDynamicProperties;
 use App\Models\FreeDaysRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,16 +12,30 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class FreeDayRequest extends Mailable
+class FreeDayRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $user;
+    public $freeDayRequest;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public FreeDaysRequest $freeDaysRequest)
+    public function __construct($freeDayRequest, $user)
     {
-        //
+        $this->freeDayRequest = $freeDayRequest;
+        $this->user = $user;
+    }
+
+    public function build()
+    {
+        return $this->view('emails.free-day-request')
+                    ->subject('Your free day request')
+                    ->with([
+                       'freeDaysRequest' => $this->freeDayRequest,
+                       'user' => $this->user
+                    ]);
     }
 
     /**
@@ -29,8 +44,8 @@ class FreeDayRequest extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Free Day Request',
             from: 'vacationvault@gmail.com',
+            subject: 'Free Day Request',
         );
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\FreeDayRequest;
+use App\Mail\FreeDayRequestMail;
 use App\Models\File;
 use App\Models\FreeDaysReqFile;
 use App\Models\FreeDaysRequest;
@@ -99,7 +99,7 @@ class FreeDaysRequestController extends Controller
         ->where('company_id', $user_company_id)
         ->pluck('email')->toArray();
 
-        Mail::to($user_mail)->cc($admins)->send(new FreeDayRequest($freeDayRequest));
+        Mail::to($user_mail)->cc($admins)->send(new FreeDayRequestMail($freeDayRequest, $user));
 
         return redirect()->back()->with('success', 'The request has been sent successfully!');
     }

@@ -4,9 +4,7 @@
     <div
         class="holidays-main-container d-flex flex-column align-items-center justify-content-center p-3 h-auto rounded w-100"
         style="min-height: 100vh;">
-        <div class="card bg-primary shadow rounded p-3 mb-5 text-light w-50 text-center">
-            <h1 style="text-shadow: 2px 2px 4px black">Official Holidays</h1>
-        </div>
+
 
         <form action="{{ route('official-holiday.store') }}" method="POST"
               class="card shadow-sm rounded mt-3 p-5 mb-5 col-12">

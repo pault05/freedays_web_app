@@ -8,11 +8,6 @@
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
-    <div class="container-main d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Statistics</h1>
-        </div>
-
 
         <div class="container">
             <div class="row">
@@ -147,6 +142,10 @@
                 });
             </script>
 
+            {{--        <!-- debug -->--}}
+            {{--        <pre>--}}
+            {{--    {{ print_r($daysPerYear, true) }}--}}
+            {{--</pre>--}}
 
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
@@ -206,76 +205,74 @@
                 });
             </script>
 
-    <script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const formattedData = @json($formattedData);
+                    const categories = formattedData.categories;
+                    const users = formattedData.users;
+                    const categoryColors = @json($formattedData['categoryColors']);
 
-            document.addEventListener('DOMContentLoaded', function () {
-            const formattedData = @json($formattedData);
-
-            const categories = formattedData.categories;
-            const user = formattedData.data[0].user;
-            const categoryColors = formattedData.categoryColors;
-
-            const seriesData = categories.map(category => ({
-            name: category,
-            data: [formattedData.data[0][category] || 0],
-            color: categoryColors[category]
-        }));
-
-            Highcharts.chart('container4', {
-            chart: {
-            type: 'column'
-        },
-            title: {
-            text: 'Number of Leaves per Category',
-            align: 'center'
-        },
-            xAxis: {
-            categories: [user]
-        },
-            yAxis: {
-            min: 0,
-            title: {
-            text: 'Number of Leaves'
-        },
-            stackLabels: {
-            enabled: true
-        }
-        },
-            legend: {
-            align: 'left',
-            x: 70,
-            verticalAlign: 'top',
-            y: 70,
-            floating: true,
-            backgroundColor:
-            Highcharts.defaultOptions.legend.backgroundColor || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false
-        },
-            tooltip: {
-            headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-        },
-            plotOptions: {
-            column: {
-            stacking: 'normal',
-            dataLabels: {
-            enabled: true
-        }
-        }
-        },
-            credits: {
-            enabled: false
-        },
-            series: seriesData
-        });
-        });
-    </script>
+                    const seriesData = formattedData.data.map((userData) => ({
+                        name: userData.user,
+                        data: categories.map(category =>  ({
+                            y: userData[category] || 0,
+                            color: categoryColors[category]
+                        }))
+                    }));
 
 
 
-
+                    Highcharts.chart('container4', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Leaves per Category per Year',
+                            align: 'center'
+                        },
+                        xAxis: {
+                            categories: catergories
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Number of Leaves'
+                            },
+                            // stackLabels: {
+                            //     enabled: true
+                            // }
+                        },
+                        legend: {
+                            align: 'left',
+                            x: 70,
+                            verticalAlign: 'top',
+                            y: 70,
+                            floating: true,
+                            backgroundColor:
+                                Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                            borderColor: '#CCC',
+                            borderWidth: 1,
+                            shadow: false
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{point.x}</b><br/>',
+                            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                                dataLabels: {
+                                    enabled: true
+                                }
+                            }
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        series: seriesData
+                    });
+                });
+            </script>
 
 
 @endsection

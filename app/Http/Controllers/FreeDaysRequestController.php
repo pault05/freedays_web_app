@@ -92,15 +92,14 @@ class FreeDaysRequestController extends Controller
         }
 
         $user_mail = $user->email;
-
         $user_company_id = $user->company_id;
 
         $admins = DB::table('users')
         ->where('is_admin', 1)
         ->where('company_id', $user_company_id)
-        ->get(['first_name', 'last_name']);
+        ->pluck('email')->toArray();
 
-        Mail::to($user_mail, $admins)->send(new FreeDayRequest($freeDayRequest));
+        Mail::to($user_mail)->cc($admins)->send(new FreeDayRequest($freeDayRequest));
 
         return redirect()->back()->with('success', 'The request has been sent successfully!');
     }

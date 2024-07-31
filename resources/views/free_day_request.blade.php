@@ -115,10 +115,6 @@
         var halfDayContainer = $('#half-day-container');
         var errorMessage = $('#error-message');
 
-        console.log('Start Date:', startDate);
-        console.log('End Date:', endDate);
-        console.log('Official Holidays:', officialHolidays);
-
         if (startDate && endDate) {
             var start = moment(startDate, 'YYYY-MM-DD');
             var end = moment(endDate, 'YYYY-MM-DD');
@@ -141,8 +137,6 @@
                 var isHoliday = officialHolidays.some(function(holiday) {
                     return holiday.isSame(currentDate, 'day');
                 });
-
-                console.log('Current Date:', currentDate.format('YYYY-MM-DD'), 'Is Holiday:', isHoliday);
 
                 if (currentDate.day() !== 0 && currentDate.day() !== 6 && !isHoliday) {
                     totalDays++;
@@ -188,7 +182,7 @@
 
     $.get('{{ route('sarbatoare') }}', function(data) {
         officialHolidays = data.map(function(holiday) {
-            return moment(holiday.date, 'YYYY-MM-DD'); 
+            return moment(holiday.date, 'YYYY-MM-DD');
         });
     });
 </script>

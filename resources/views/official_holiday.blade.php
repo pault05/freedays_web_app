@@ -70,6 +70,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // document.getElementById('deleteAllBtn').addEventListener('submit', (e) => {
         //     let confirmDelete = confirm('This action will delete all table data. Do you want to proceed?');
@@ -99,19 +100,46 @@
 
         $(document).on('click', '.btn-delete', function(event) {
             event.preventDefault();
+
             var $button = $(this);
             var actionUrl = $button.closest('form').attr('action');
-                $.ajax({
-                    url: actionUrl,
-                    type: 'POST',
-                    data: {
-                        _method: 'DELETE',
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        $('#datatable').DataTable().ajax.reload();
-                    }
-                });
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: actionUrl,
+                        type: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            }).then(() => {
+                                $('#datatable').DataTable().ajax.reload();
+                            });
+                        },
+                        error: function(response) {
+                            Swal.fire({
+                                title: "Error!",
+                                text: "There was an error deleting your file.",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endsection

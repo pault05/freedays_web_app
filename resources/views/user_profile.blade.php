@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-6">
                                     <label for="selected_color" class="form-label text-start w-100">Profile
                                         Color</label>
                                     <input type="color" class="form-control" value="{{ $user['color'] }}"
@@ -123,20 +123,21 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <label for="role" class="form-label text-start w-100">Role</label>
+                                <div class="col-6">
+                                    <input type="hidden" id="role_text" name="role_text" value="{{ auth()->user()->is_admin ? 'Admin' : 'User' }}">
+                                    <label for="role" class="form-label text-start">Role</label>
                                     <div class="dropdown ms-1">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="role" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="role" name="role" data-bs-toggle="dropdown" aria-expanded="false" disabled>
                                             {{ $user['is_admin'] ? 'Admin' : 'User' }}
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                                            <li><a class="dropdown-item" href="#">Admin</a></li>
-                                            <li><a class="dropdown-item" href="#">User</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="setRole('Admin')">Admin</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="setRole('User')">User</a></li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <div class="text-center mt-4">
+                                <div class="text-center mt-4 col-12">
                                     <div class="row mb-2">
                                         <div class="col-md-6">
                                             <button type="button" class="btn btn-primary btn-rounded w-100"
@@ -144,6 +145,8 @@
                                             </button>
                                         </div>
                                         <script>
+
+
                                             document.getElementById('edit-btn').onclick = function () {
                                                 document.getElementById('firstName').removeAttribute('readonly');
                                                 document.getElementById('lastName').removeAttribute('readonly');
@@ -155,6 +158,7 @@
                                                 @if(auth()->user()->is_admin)
                                                 document.getElementById('position').removeAttribute('readonly');
                                                 document.getElementById('free_days').removeAttribute('readonly');
+                                                document.getElementById('role').removeAttribute('disabled');
                                                 @endif
                                                 @endauth
 
@@ -162,6 +166,12 @@
                                                 document.getElementById('save-btn').style.display = 'block';
                                                 document.getElementById('cancel-btn').style.display = 'block';
                                             }
+
+                                            function setRole(role) {
+                                                document.getElementById('role').textContent = role;
+                                                document.getElementById('role_text').value = role;
+                                            }
+
                                         </script>
                                         <div class="col-md-6">
                                             <button type="button" class="btn btn-secondary btn-rounded w-100"
@@ -191,6 +201,11 @@
                                             </button>
                                         </div>
                                         <script>
+                                            document.getElementById('save-btn').onclick = function (){
+                                                var roleText = document.getElementById('role').textContent.trim();
+                                                document.getElementById('role_text').value = roleText;
+                                            }
+
                                             document.getElementById('cancel-btn').onclick = function () {
                                                 document.getElementById('firstName').setAttribute('readonly', 'readonly');
                                                 document.getElementById('lastName').setAttribute('readonly', 'readonly');
@@ -202,6 +217,7 @@
                                                 @if(auth()->user()->is_admin)
                                                 document.getElementById('position').setAttribute('readonly', 'readonly');
                                                 document.getElementById('free_days').setAttribute('readonly', 'readonly');
+                                                document.getElementById('role').setAttribute('disabled','disabled');
                                                 @endif
                                                 @endauth
 
@@ -230,6 +246,8 @@
                                         <form id="change-password-form" method="POST"
                                               action="/user-profile/change-password/{{ $user['id'] }}">
                                             @csrf
+                                            <input type="hidden" name="user_id" id="reset_user_id" value="{{$user['id']}}">
+
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <label for="new_password">New Password</label>

@@ -139,7 +139,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
+
+
+
+                                <div class="col-md-5">
                                     <label for="free_days" class="form-label text-start w-100">Free days*</label>
                                     <input type="number" class="form-control " id="free_days" name="free_days" required min="0" step="1">
                                     <div class="invalid-feedback">
@@ -147,11 +150,24 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-md-5">
                                     <label for="hired_at" class="form-label text-start w-100">Hired date</label>
                                     <input type="date" class="form-control " id="hired_at" name="hired_at">
                                     <div class="invalid-feedback">
                                         Please enter the date of hired.
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <input type="hidden" id="role_text" name="role_text" value="{{ auth()->user()->is_admin ? 'Admin' : 'User' }}">
+                                    <label for="role" class="form-label text-start">Role</label>
+                                    <div class="dropdown ms-1">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="role" name="role" data-bs-toggle="dropdown" aria-expanded="false">Admin
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                            <li><a class="dropdown-item" href="#" onclick="setRole('Admin')">Admin</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="setRole('User')">User</a></li>
+                                        </ul>
                                     </div>
                                 </div>
 
@@ -171,6 +187,8 @@
                                         The passwords are not the same.
                                     </div>
                                 </div>
+
+
 
                                 <script>
                                     var password = document.getElementById("password");
@@ -192,11 +210,23 @@
                             <hr class="my-4">
 
 
-                            <button class="w-100 btn btn-primary btn-lg" type="submit">Create User Profile</button>
+                            <button class="w-100 btn btn-primary btn-lg" id="createButton" type="submit">Create User Profile</button>
                         </form>
                     </div>
                 </div>
         </div>
+
+        <script>
+            function setRole(role) {
+                document.getElementById('role').textContent = role;
+                document.getElementById('role_text').value = role;
+            }
+
+            document.getElementById('createButton').onclick = function (){
+                var roleText = document.getElementById('role').textContent.trim();
+                document.getElementById('role_text').value = roleText;
+            }
+        </script>
         <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="checkout.js"></script></dic>
     </div>

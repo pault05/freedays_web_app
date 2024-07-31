@@ -15,7 +15,7 @@ class AccountCreationController extends Controller
     }
 
     public function store(Request $request){
-
+//            dd($request->all());
             $first_name = $request->input('first_name');
             $last_name = $request->input('last_name');
             $email = $request->input('email');
@@ -25,6 +25,7 @@ class AccountCreationController extends Controller
             $free_days = $request->input('free_days');
             $hired_at = $request->input('hired_at');
             $password = $request->input('password');
+            $is_admin = $request->role_text === 'Admin';
 
             $user = new User();
             $user->create([
@@ -33,7 +34,7 @@ class AccountCreationController extends Controller
                 'email' => $email,
                 'position' => $position,
                 'phone' => $phone,
-                'is_admin' => false,
+                'is_admin' => $is_admin,
                 'company_id' => $company_id,
                 'free_days' => $free_days,
                 'created_at' => now(),

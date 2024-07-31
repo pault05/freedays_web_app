@@ -1,10 +1,8 @@
 @extends('Components.login-layout')
 
 @section('content')
-    <link media="all" type="text/css" rel="stylesheet" href="https://cloud.spinoffice-crm.com/ubold_light/css/common_style.css?ver=20240731.1">
-    <link media="all" type="text/css" rel="stylesheet" href="https://cloud.spinoffice-crm.com/ubold_light/css/ubold.css?ver=20240731.1">
-    <link href="../../public/css/login.css" rel="stylesheet">
-    <body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+{{--    <link media="all" type="text/css" rel="stylesheet" href="https://cloud.spinoffice-crm.com/ubold_light/css/ubold.css?ver=20240731.1">--}}
 
     <div id="wrapper">
         <div class="account-pages mt-5 mb-5">
@@ -36,7 +34,6 @@
                                         <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
                                     </div>
                                     <button class="btn btn-primary btn-block" type="submit">Log In</button>
-                                    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
                                 </form>
                             </div> <!-- end card-body -->
                         </div>

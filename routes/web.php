@@ -16,10 +16,10 @@ use App\Http\Controllers\OfficialHolidayController;
 Route::get('/', function () {
     return view('login');
 });
-
+Route::middleware(['back'])->group(function () {
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
-
+});
 Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::get('/account-creation', [AccountCreationController::class, 'index']);
     Route::post('/account-creation', [AccountCreationController::class, 'store']);

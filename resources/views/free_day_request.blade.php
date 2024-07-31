@@ -12,12 +12,6 @@
         </div>
     @endif
 
-    <div class="d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-                <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Free Day Request</h1>
-            </div>
-
-
     <br>
 
     <div class="card p-5 shadow mb-5 w-100">

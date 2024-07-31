@@ -27,7 +27,7 @@
                 <div class="row d-flex justify-content-start">
                     <div class="col-12 col-sm-6 col-md-4 mb-3 ">
                         <label for="days-left">Days off left</label>
-                        <p class="ms-1">{{ 21 - $request_leave['approved'] }}</p>
+                        <p class="ms-1">{{ $daysOffLeft }}</p>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-start">

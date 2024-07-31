@@ -122,9 +122,14 @@ class UserProfileController extends Controller
 {
     public function index($id)
     {
+        $authUser = Auth::user();
+
+        if($authUser->id != $id && !$authUser->is_admin)
+        {
+            return view('/home');
+        }
 
         $user = User::findOrFail($id);
-
         return view('user_profile', ['user' => $user]);
     }
 

@@ -7,14 +7,20 @@ use App\Http\Controllers\FreeDaysRequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserProfileController;
+use App\Mail\FreeDayRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
 
+Route::get('test', function () {
+   \Illuminate\Support\Facades\Mail::to('paul@gmail.com')->send(new FreeDayRequest());
+
+   return 'Done';
+});
+
 Route::get('/', function () {
     return view('login');
 });
-
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);

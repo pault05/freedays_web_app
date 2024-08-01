@@ -16,6 +16,8 @@
 
     <div class="card p-5 shadow mb-5 w-100">
 
+        {{--TODO: free days left in DATABASE--}}
+
         <div class="container mt-3">
             <form id="leave-form" action="/free-day-request/save" method="POST"  enctype="multipart/form-data">
                 <div class="row d-flex justify-content-start">

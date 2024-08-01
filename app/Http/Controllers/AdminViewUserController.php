@@ -38,8 +38,8 @@ class AdminViewUserController extends Controller
 
 
     public function getData()
-    {
-        $data = User::all();
+    {   $company_id = Auth::user()->company_id;
+        $data = User::where('company_id', $company_id)->get();
         return DataTables::of($data)->addColumn('name', function ($request) {
             return $request->first_name . ' ' . $request->last_name;
         })

@@ -1,47 +1,59 @@
 @extends('Components.layout')
 
 @section('content')
+    <style>
+        @media (max-width: 767.98px) {
+            .holidays-main-container .row .col-md-6 {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+
+    <br>
     <div
-        class="holidays-main-container d-flex flex-column align-items-center justify-content-center p-3 h-auto rounded w-100"
-        style="min-height: 100vh;">
+        class="holidays-main-container d-flex flex-column align-items-center justify-content-center p-3 h-auto rounded w-100">
+        <div class="row w-100">
+            <div class="col-lg-9 col-md-6 col-sm-12 mt-ms-2">
+                <div class="card p-3 shadow h-100">
+                    <table class="display" id="datatable">
+                        <thead>
+                        <tr>
+                            <th>Holiday Name</th>
+                            <th>Date</th>
+                            <th style="width: 15%;">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-
-        <form action="{{ route('official-holiday.store') }}" method="POST"
-              class="card shadow-sm rounded mt-3 p-5 mb-5 col-12">
-            @csrf
-            <div class="mb-3">
-                <label for="holiday-name" class="form-label">Holiday Name</label>
-                <input id="holiday-name" name="name" type="text" class="form-control form-control-lg"
-                       placeholder="Enter Holiday Name" required>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12 mb-3">
-                    <label for="date" class="form-label">Holiday Date</label>
-                    <input id="date" name="date" type="date" class="form-control form-control-lg" required>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-ms-2">
+                <form action="{{ route('official-holiday.store') }}" method="POST"
+                      class="card shadow-sm rounded p-5 h-100">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="holiday-name" class="form-label">Holiday Name</label>
+                        <input id="holiday-name" name="name" type="text" class="form-control form-control-lg"
+                               placeholder="Enter Holiday Name" required>
+                    </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="date" class="form-label">Holiday Date</label>
+                            <input id="date" name="date" type="date" class="form-control form-control-lg" required>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                    </div>
+                </form>
             </div>
-        </form>
-
-        <div class="card p-3 shadow mt-5 col-12" style="min-height: 300px">
-            <table class="display" id="datatable">
-                <thead>
-                    <tr>
-                        <th>Holiday Name</th>
-                        <th>Date</th>
-                        <th style="width: 15%;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

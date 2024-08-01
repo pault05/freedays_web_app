@@ -163,7 +163,8 @@
                     { data: 'category_name', name: 'category_name' },
                     { data: 'status', name: 'status' },
                     { data: 'actions', name: 'actions'}
-                ]
+                ],
+                "order": []
             });
         });
 

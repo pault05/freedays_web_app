@@ -74,7 +74,7 @@
                         yAxis: {
                             min: 0,
                             title: {
-                                text: 'days'
+                                text: 'Days'
                             }
                         },
                         plotOptions: {
@@ -142,10 +142,6 @@
                 });
             </script>
 
-            {{--        <!-- debug -->--}}
-            {{--        <pre>--}}
-            {{--    {{ print_r($daysPerYear, true) }}--}}
-            {{--</pre>--}}
 
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
@@ -172,7 +168,7 @@
                         },
                         yAxis: {
                             title: {
-                                text: 'Days off'
+                                text: 'Days'
                             }
                         },
                         tooltip: {
@@ -182,9 +178,6 @@
                         title: {
                             text: 'Number of leaves per year',
                             align: 'center'
-                        },
-                        subtitle: {
-                            text: '3D chart'
                         },
                         legend: {
                             enabled: false
@@ -208,39 +201,46 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const formattedData = @json($formattedData);
+
                     const categories = formattedData.categories;
-                    const users = formattedData.users;
-                    const categoryColors = @json($formattedData['categoryColors']);
+                    const users = [formattedData.data[0].user];
+                    const categoryColors = formattedData.categoryColors;
+                    const years = formattedData.years;
 
-                    const seriesData = formattedData.data.map((userData) => ({
-                        name: userData.user,
-                        data: categories.map(category =>  ({
-                            y: userData[category] || 0,
-                            color: categoryColors[category]
-                        }))
+                    const seriesData = categories.map(category => ({
+                        name: category,
+                        data: years.map(year => {
+                            const userData = formattedData.data.find(item => item.year === year);
+                            return userData ? (userData[category] || 0) : 0;
+                        }),
+                        color: categoryColors[category]
                     }));
-
-
 
                     Highcharts.chart('container4', {
                         chart: {
                             type: 'column'
                         },
                         title: {
-                            text: 'Leaves per Category per Year',
+                            text: 'Number of Leaves per Year per Category',
                             align: 'center'
                         },
                         xAxis: {
-                            categories: catergories
+                            categories: years,
+                            title: {
+                                text: 'Year'
+                            },
+                            accessibility: {
+                                description: 'Years'
+                            }
                         },
                         yAxis: {
                             min: 0,
                             title: {
                                 text: 'Number of Leaves'
                             },
-                            // stackLabels: {
-                            //     enabled: true
-                            // }
+                            stackLabels: {
+                                enabled: true
+                            }
                         },
                         legend: {
                             align: 'left',
@@ -248,8 +248,7 @@
                             verticalAlign: 'top',
                             y: 70,
                             floating: true,
-                            backgroundColor:
-                                Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                            backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
                             borderColor: '#CCC',
                             borderWidth: 1,
                             shadow: false
@@ -262,7 +261,10 @@
                             column: {
                                 stacking: 'normal',
                                 dataLabels: {
-                                    enabled: true
+                                    enabled: true,
+                                    formatter: function () {
+                                        return this.y > 0 ? this.y : null;
+                                    }
                                 }
                             }
                         },

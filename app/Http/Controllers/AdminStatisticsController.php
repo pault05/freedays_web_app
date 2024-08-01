@@ -132,26 +132,14 @@ class AdminStatisticsController extends Controller{
                     }
                     $currentDay->addDay();
                 }
-//                if($monthEnd < $end) {
-//                    $daysInMonth = round($start->diffInDays($monthEnd) + 1);
-//                    //sa adaugi si pentru luna urmatoare
-//                } else {
-//                    $daysInMonth = round($start->diffInDays($end) + 1);
-//                }
+
 
                 $formattedMonth = $this->formattedMonth($start);
                 $currentDays = $daysPerMonth->get($formattedMonth, 0);
                 $daysPerMonth->put($formattedMonth, $currentDays + $daysInMonth);
 
-                // merge pe luna urmatoare
                 $start->addMonth()->startOfMonth();
 
-//                //$month = $start->format('F Y');
-//                $formattedMonth = $this->formattedMonth($start);
-//                $currentDays = $daysPerMonth->get($formattedMonth, 0);
-//               // dd($currentDays, $formattedMonth, $currentDays, $daysInMonth);
-//                $daysPerMonth->put($formattedMonth, $currentDays + $daysInMonth);
-//                $start->addMonth()->startOfMonth();
             }
         }
 
@@ -200,7 +188,6 @@ class AdminStatisticsController extends Controller{
             'categories' => $categories->pluck('name')->toArray(),
             'categoryColors' => $categories->pluck('color','name')->toArray(),
             'data' => $chartData,
-            //fn este pentru functie anonima
             'users' => $users->map(fn($user) => "{$user->first_name} {$user->last_name}")->toArray()
         ];
     }

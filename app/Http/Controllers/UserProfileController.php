@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
 use League\CommonMark\Node\Inline\AbstractInline;
 use Psy\Readline\Hoa\Console;
+use const http\Client\Curl\AUTH_ANY;
 
 class UserProfileController extends Controller
 {
@@ -27,6 +28,10 @@ class UserProfileController extends Controller
 
     public function save(Request $request,$id){
 
+        $authUser = Auth::user();
+        $user = User::findOrFail($id);
+        if (($authUser->is_admin && $authUser->company_id === $user->company_id ) || ($authUser->id === $user->id))
+        {
 //        dd($request->all());
         // Validarea datelor primite
         $request->validate([
@@ -40,7 +45,7 @@ class UserProfileController extends Controller
         ]);
 
         // Preluarea utilizatorului
-        $user = User::findOrFail($id);
+
 
         // Actualizarea atributelor
         $user->first_name = $request->input('first_name');
@@ -63,30 +68,23 @@ class UserProfileController extends Controller
         return redirect()->route('user-profile', ['id' => $user->id]);
 
 
+    }else{
+            redirect('/home');
+        }
     }
 
     public function changePassword(Request $request, $id){
-//        return true;
-
-
-//        dd($request->all());
-
-//        $id=$request->input('user_id');
-////        dd($id);
-//        dd($request->all());
         $user = User::findOrFail($id);
         $new_password = $request->input('newPassword');
 
         $user->password = Hash::make($new_password);
-//        $2y$12$ZQyS2IluIk3mSRIKwSiWmeLdC0MNRgFbvm5W6tOEFx91Lr9uFphtm
-//$12$HJ0gBoPw0xDrepPXDQa3bun7aujngfiUFJHmKYH66COgq9pCnFQ6O
+
         if($user->save()) {
             return true;
         }  else {
             return false;
         }
-////        dd($user->password);
-//        return redirect()->back();
+
     }
 
 }

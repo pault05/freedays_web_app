@@ -22,17 +22,6 @@ class AdminViewUserController extends Controller
      */
     public function index(Request $request)
     {
-//        $company_id = Auth::user()->company_id;
-//        $sortBy = $request->get('sort_by', 'first_name'); // implicit sortare după 'first_name'
-//        $sortOrder = $request->get('sort_order', 'asc'); // implicit ordine ascendentă
-//
-//        // Filtrare pe baza company_id și sortare
-//        $adminViewUser = User::where('company_id', $company_id)
-//            ->orderBy($sortBy, $sortOrder)
-//            ->paginate(10);
-//
-//        return view('admin_view_user', compact('adminViewUser', 'sortBy', 'sortOrder'));
-
         return view('admin_view_user');
     }
 
@@ -93,8 +82,6 @@ class AdminViewUserController extends Controller
 
     public function delete($id)
     {
-//        dd($request->all());
-//        $id=$request->input('user_id_delete');
         // Găsește utilizatorul
         $user = User::findOrFail($id);
 

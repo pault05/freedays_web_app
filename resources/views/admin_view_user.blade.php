@@ -2,13 +2,14 @@
 
 @section('content')
 
-    <div class="card p-3 shadow w-100">
+    <br>
+    <div class="card p-5 shadow w-100 mb-5">
         <table class="display" id="datatable">
             <thead>
             <tr>
-                                    <th style="width: 17%">Name</th>
+                                    <th style="width: 15%">Name</th>
                                     <th style="width: 18%">Position</th>
-                                    <th style="width: 13%">Email</th>
+                                    <th style="width: 15%">Email</th>
                                     <th style="width: 10%">Phone</th>
                                     <th style="width: 6%">Role</th>
                                     <th style="width: 8%">Nr. Free Days</th>
@@ -85,7 +86,7 @@
                                 success: function(response) {
                                     Swal.fire({
                                         title: "Deleted!",
-                                        text: "Your file has been deleted.",
+                                        text: "User has been deleted.",
                                         icon: "success"
                                     }).then(() => {
                                         $('#datatable').DataTable().ajax.reload();
@@ -95,7 +96,7 @@
                                     // alert(actionUrl);
                                     Swal.fire({
                                         title: "Error!",
-                                        text: "There was an error deleting your file.",
+                                        text: "There was an error deleting user.",
                                         icon: "error"
                                     });
                                 }

@@ -2,8 +2,6 @@
 
 @section('content')
 
-{{--    <link media="all" type="text/css" rel="stylesheet" href="https://cloud.spinoffice-crm.com/ubold_light/css/ubold.css?ver=20240731.1">--}}
-
     <div id="wrapper">
         <div class="account-pages mt-5 mb-5">
             <div class="container">

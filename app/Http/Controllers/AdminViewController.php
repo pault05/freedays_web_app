@@ -75,7 +75,7 @@ class AdminViewController extends Controller
 
                 return '<div style="display: flex; align-items: center;">' . $approveButton . $denyButton . '</div>';
             })
-            ->rawColumns(['status', 'actions']) //pt a randa continut html
+            ->rawColumns(['status', 'actions'])
             ->make(true);
     }
 

@@ -3,6 +3,25 @@
 @section('content')
 
     <br>
+    <div class="fixed-button-container">
+        <a id="fixedButton" class="btn btn-primary" href="/account-creation" ><img src="https://img.icons8.com/?size=100&id=3&format=png&color=1A1A1A" alt=""></a>
+    </div>
+    <style>
+        #fixedButton img{
+            width: 40px;
+            height: 40px;
+        }
+        .fixed-button-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000; /* Asigură-te că butonul va fi deasupra altor elemente */
+        }
+        #fixedButton {
+            padding: 10px 10px;
+            font-size: 16px;
+        }
+    </style>
     <div class="card p-5 shadow w-100 mb-5">
         <table class="display" id="datatable">
             <thead>

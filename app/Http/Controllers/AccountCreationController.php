@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AccountCreationController extends Controller
 {
-    // acc creation serban din post in get
     public function index()
     {
         return view('account_creation');

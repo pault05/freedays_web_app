@@ -166,7 +166,7 @@
             var $button = $(this);
             var actionUrl = $button.closest('form').attr('action');
             var method = 'GET';
-            alert(actionUrl);
+           // alert(actionUrl);
 
             $.ajax({
                 url: actionUrl,

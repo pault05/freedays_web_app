@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>New Free Day Request</title>
+    <title>Free Day Request Status</title>
 </head>
 <body>
-<h1>New Free Day Request</h1>
+<h1>Your free day request status.</h1>
 <p>Dear {{ $user->first_name }},</p>
 
-<p>You have received a new mail</p>
+<p>You have received a new mail regarding your free day request.</p>
 
  <li>Your request day for date {{ $day->starting_date }} - {{ $day->ending_date }} is <strong> {{ $stats }}</strong>.</li>
 <h2>Days Off Left</h2>

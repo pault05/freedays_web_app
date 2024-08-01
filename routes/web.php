@@ -7,7 +7,6 @@ use App\Http\Controllers\FreeDaysRequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserProfileController;
-use App\Mail\FreeDayRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
@@ -68,3 +67,4 @@ Route::middleware(['auth', 'back'])->group(function () {
 });
 
 
+//TODO: code cleanup (comments)

@@ -1,8 +1,8 @@
 @extends('components.layout')
 
 @section('content')
-
-        <div class="card p-3 shadow w-100 mt-5">
+    <br>
+        <div class="card p-5 shadow w-100 mb-5">
             <table class="display" id="datatable">
                 <thead>
                     <tr>

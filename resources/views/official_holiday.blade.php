@@ -11,7 +11,7 @@
 
     <br>
     <div
-        class="holidays-main-container d-flex flex-column align-items-center justify-content-center p-3 h-auto rounded w-100">
+        class=" card holidays-main-container d-flex flex-column align-items-center justify-content-center p-5 h-auto rounded w-100">
         <div class="row w-100">
             <div class="col-lg-9 col-md-6 col-sm-12 mt-ms-2">
                 <div class="card p-3 shadow h-100">

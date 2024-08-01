@@ -3,11 +3,8 @@
 @extends('components.layout')
 
 @section('content')
+    <br>
     <div class="container-main d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">User Profile</h1>
-        </div>
-        <!-- /.card -->
 
         <div class="card p-5 shadow w-100">
 

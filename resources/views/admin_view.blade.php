@@ -2,7 +2,7 @@
 
 @section('content')
 
-        <div class="card p-3 shadow w-100">
+        <div class="card p-3 shadow w-100 mt-5">
             <table class="display" id="datatable">
                 <thead>
 {{--                <div class="d-flex w-100 justify-content-center mb-3">--}}

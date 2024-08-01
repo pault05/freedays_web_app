@@ -30,6 +30,7 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
 //    Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');
 
     Route::get('/admin-view-user', [AdminViewUserController::class, 'index'])->name('admin-view-user.index');
+    Route::post('/admin-view-user/data', [AdminViewUserController::class, 'getData'])->name('admin-view-user.data');
     Route::delete('/admin-view-user/delete/{id}', [AdminViewUserController::class, 'delete'])->name('admin-view-user.delete');
 
     Route::get('/official-holiday', [OfficialHolidayController::class, 'index'])->name('official-holiday.index');

@@ -10,8 +10,7 @@
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
 </head>
 
-<body class="login-body-class">
-
+<body class="login-bg" >
     <div class="container">
         @yield('content')
     </div>

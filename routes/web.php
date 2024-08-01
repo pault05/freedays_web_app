@@ -7,8 +7,7 @@ use App\Http\Controllers\FreeDaysRequestController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserProfileController;
-use App\Mail\FreeDayRequestMail;
-use Illuminate\Support\Facades\Mail;
+use App\Mail\FreeDayRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
@@ -16,17 +15,17 @@ use App\Http\Controllers\OfficialHolidayController;
 Route::get('/', function () {
     return view('login');
 });
-
+Route::middleware(['back'])->group(function () {
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
-
+});
 Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::get('/account-creation', [AccountCreationController::class, 'index']);
     Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
     Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
-    Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
-    Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
+    Route::get('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
+    Route::get('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
     Route::post('/admin-view/data', [AdminViewController::class, 'getData'])->name('admin-view.data');
 //    Route::get('/admin-view/search', [AdminViewController::class, 'search'])->name('admin-view.search');
 //    Route::get('/admin-view/filter', [AdminViewController::class, 'filter'])->name('admin-view.filter');

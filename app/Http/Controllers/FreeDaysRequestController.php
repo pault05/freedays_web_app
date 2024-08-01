@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use App\Mail\FreeDayStatusMail;
+
 
 
 class FreeDaysRequestController extends Controller
@@ -50,7 +52,9 @@ class FreeDaysRequestController extends Controller
             'approved' => $approved
         ];
 
-        return view('free_day_request', compact('request_leave', 'categories'));
+        $daysOffLeft = 21 - $approved;
+
+        return view('free_day_request', compact('request_leave', 'categories', 'daysOffLeft'));
     }
 
 

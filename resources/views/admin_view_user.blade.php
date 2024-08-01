@@ -3,10 +3,6 @@
 
 @section('content')
 
-    <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary"
-         style="margin: 0 auto; display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;">
-        <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black; color: white;">Admin View Users</h1>
-    </div>
 
     <div>
         <form action="/account-creation">
@@ -84,7 +80,6 @@
                         <td>
                             <div class="buttons d-flex">
                                 <form action="{{ route('user-profile', $view->id) }}" method="GET">
-                                    @csrf
                                     <button class="btn-sm btnApprove" type="submit"
                                             style="width: 35%; border: none; background-color: transparent;"><img
                                             style="width: 100%"

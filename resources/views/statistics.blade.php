@@ -8,22 +8,6 @@
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
-    <!--<script src="https://code.highcharts.com/themes/dark-unica.js"></script> -->
-
-    <div class="container-main d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Statistics</h1>
-        </div>
-
-
-        <style>
-            /*.card {*/
-            /*    border-radius: 8px;*/
-            /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);*/
-            /*    height: 100%;*/
-            /*    width: 100%;*/
-            /*}*/
-        </style>
 
         <div class="container">
             <div class="row">

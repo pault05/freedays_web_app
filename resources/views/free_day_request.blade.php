@@ -12,12 +12,6 @@
         </div>
     @endif
 
-    <div class="d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-                <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Free Day Request</h1>
-            </div>
-
-
     <br>
 
     <div class="card p-5 shadow mb-5 w-100">
@@ -27,14 +21,14 @@
                 <div class="row d-flex justify-content-start">
                     <div class="col-12 col-sm-6 col-md-4 mb-3 ">
                         <label for="days-left">Days off left</label>
-                        <p class="ms-1">{{ 21 - $request_leave['approved'] }}</p>
+                         <p class="ms-1">{{ $daysOffLeft }}</p>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-start">
                     @csrf
                     <div class="col-lg-3 col-sm-12 col-md-6 mb-2">
                         <label for="start-date">Start date</label>
-                            <input type="date" class="form-control" id="start-date" name="start-date">
+                            <input type="date" class="form-control" id="start-date" name="start-date" value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                         <label for="end-date">End Date</label>
@@ -125,9 +119,11 @@
                 $('#days').val('');
                 halfDayContainer.hide();
                 halfDay.prop('checked', false);
+                $('#submit').hide();
                 return;
             } else {
                 errorMessage.hide();
+                $('#submit').show();
             }
 
             var totalDays = 0;

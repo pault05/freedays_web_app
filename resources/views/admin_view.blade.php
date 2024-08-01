@@ -2,12 +2,6 @@
 
 @section('content')
 
-    <div class="container-main d-flex flex-column justify-content-center align-items-center">
-        <div class="card p-3 shadow-sm mb-5 w-50 mt-3 bg-primary">
-            <h1 class="text-center w-auto" style="text-shadow: 2px 2px 4px black;color: white">Admin View Requests</h1>
-        </div>
-        <!-- /.card -->
-
         <div class="card p-3 shadow w-100">
             <table class="display" id="datatable">
                 <thead>
@@ -172,14 +166,12 @@
             event.preventDefault();
             var $button = $(this);
             var actionUrl = $button.closest('form').attr('action');
-            var method = 'POST';
+            var method = 'GET';
+           // alert(actionUrl);
 
             $.ajax({
                 url: actionUrl,
                 type: method,
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
                 success: function(response) {
                     $('#datatable').DataTable().ajax.reload();
                 }

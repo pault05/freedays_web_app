@@ -6,8 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\AdminView;
 use App\Models\FreeDaysRequest;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use App\Mail\FreeDayStatusMail;
+
 
 class AdminViewController extends Controller
 {
@@ -86,15 +89,15 @@ class AdminViewController extends Controller
                 return '<span class="badge status-label" style="background-color: ' . $statusColor . ';">' . $request->status . '</span>';
             })
             ->addColumn('actions', function ($request) {
-                $approveButton = '<form action="' . route('admin-view.approve', $request->id) . '" method="POST">
-                                    ' . csrf_field() . '
+                $approveButton = '<form action="' . route('admin-view.approve', $request->id) . '" method="GET">
+                                    
                                     <button type="submit" class="btn btn-approve btn-sm" id="btnApprove" style="border: none; background-color: transparent;">
                                         <img src="https://img.icons8.com/?size=100&id=g7mUWNettfwZ&format=png&color=40C057" alt="" style="width: 35px" class="action-icons">
                                     </button>
                                   </form>';
 
-                $denyButton = '<form action="' . route('admin-view.deny', $request->id) . '" method="POST">
-                                    ' . csrf_field() . '
+                $denyButton = '<form action="' . route('admin-view.deny', $request->id) . '" method="GET">
+                                    
                                     <button type="submit" class="btn btn-deny btn-sm" id="btnDeny" style="border: none; background-color: transparent">
                                         <img src="https://img.icons8.com/?size=100&id=63688&format=png&color=000000" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
                                     </button>
@@ -108,18 +111,36 @@ class AdminViewController extends Controller
 
     public function approve($id)
     {
+        $user = Auth::user();
         $request = FreeDaysRequest::findOrFail($id);
         $request->status = 'Approved';
         $request->save();
 
-        return redirect()->back()->with('success', 'Success');
+        $user = $request->user;
+        $stats = $request->status;
+      
+        if ($user && $user->email) {
+            Mail::to($user->email)->send(new FreeDayStatusMail($user, $stats, $request));
+            // dd( $request->status);
+        }
+
+        return redirect('/admin-view')->with('success', 'Success');
     }
 
     public function deny($id)
     {
+        $user = Auth::user();
         $request = FreeDaysRequest::findOrFail($id);
         $request->status = 'Denied';
         $request->save();
+
+        $user = $request->user;
+
+        $stats = $request->status;
+
+         if ($user && $user->email) {
+            Mail::to($user->email)->send(new FreeDayStatusMail($user, $stats, $request));
+        }
 
         return redirect()->back()->with('success', 'Success');
     }

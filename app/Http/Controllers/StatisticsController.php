@@ -133,26 +133,15 @@ class StatisticsController extends Controller{
                     }
                     $currentDay->addDay();
                 }
-//                if($monthEnd < $end) {
-//                    $daysInMonth = round($start->diffInDays($monthEnd) + 1);
-//                    //sa adaugi si pentru luna urmatoare
-//                } else {
-//                    $daysInMonth = round($start->diffInDays($end) + 1);
-//                }
+
 
                 $formattedMonth = $this->formattedMonth($start);
                 $currentDays = $daysPerMonth->get($formattedMonth, 0);
                 $daysPerMonth->put($formattedMonth, $currentDays + $daysInMonth);
 
-                // merge pe luna urmatoare
+
                 $start->addMonth()->startOfMonth();
 
-//                //$month = $start->format('F Y');
-//                $formattedMonth = $this->formattedMonth($start);
-//                $currentDays = $daysPerMonth->get($formattedMonth, 0);
-//               // dd($currentDays, $formattedMonth, $currentDays, $daysInMonth);
-//                $daysPerMonth->put($formattedMonth, $currentDays + $daysInMonth);
-//                $start->addMonth()->startOfMonth();
             }
         }
 
@@ -170,25 +159,31 @@ class StatisticsController extends Controller{
     {
         $user = User::find($userId);
         $categories = Category::all();
+        $years = $this->getDaysPerYear($userId, $companyId);
+
         $chartData = [];
 
-        $userData = ['user' => "{$user->first_name} {$user->last_name}"];
+        foreach ($years as $year => $totalYears) {
+
+            $userData = ['year' => $year, 'user' => "{$user->first_name} {$user->last_name}"];
 
 
             foreach ($categories as $category) {
                 $count = FreeDaysRequest::where('user_id', $user->id)
                     ->applySecurity($companyId)
                     ->where('category_id', $category->id)
-                    //->whereYear('starting_date', $year)
+                    ->whereYear('starting_date', $year)
                     ->count();
 
                 $userData[$category->name] = $count;
             }
             $chartData[] = $userData;
+        }
 
         return [
             'categories' => $categories->pluck('name'),
             'categoryColors' => $categories->pluck('color','name')->toArray(),
+            'years' => array_keys($years),
             'data' => $chartData
         ];
     }

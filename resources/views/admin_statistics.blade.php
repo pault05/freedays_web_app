@@ -8,14 +8,8 @@
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
-    <!--<script src="https://code.highcharts.com/themes/dark-unica.js"></script>-->
 
 <br>
-
-{{--        <style>--}}
-{{--            @import "https://code.highcharts.com/dashboards/css/dashboards.css";--}}
-{{--        </style>--}}
-
 
         <div class="container">
             <div class="row">
@@ -148,60 +142,45 @@
             </script>
 
 
+
             <script>
-                document.addEventListener('DOMContentLoaded', function () {
+                document.addEventListener('DOMContentLoaded', function() {
                     const formattedData = @json($formattedData);
                     const users = formattedData.users;
                     const years = formattedData.years;
-                    const categories = formattedData.categories;
 
-                    const seriesData = users.map(user => {
-                        return {
-                            name: user,
-                            data: years.map(year => {
-                                const userData = formattedData.data.find(d => d.user === user && d.year == year) || {};
-                                return categories.reduce((sum, category) => sum + (userData[category] || 0), 0);
-                            })
-                        };
-                    });
+                    const seriesData = users.map(user => ({
+                        name: user,
+                        data: years.map(year => {
+                            const userData = formattedData.data.find(d => d.user === user && d.year == year) || {};
+                            const totalLeaves = formattedData.categories.reduce((sum, category) => sum + (userData[category] || 0), 0);
+                            return totalLeaves;
+                        })
+                    }));
 
                     Highcharts.chart('container3', {
                         chart: {
                             type: 'column'
                         },
                         title: {
-                            text: 'Number of leaves per year, portioned by users',
+                            text: 'Number of leaves per year',
                             align: 'center'
                         },
                         xAxis: {
                             categories: years,
+                            crosshair: true,
                             title: {
                                 text: 'Year'
+                            },
+                            accessibility: {
+                                description: 'Years'
                             }
                         },
                         yAxis: {
                             min: 0,
                             title: {
-                                text: 'Total leave days'
-                            },
-                            stackLabels: {
-                                enabled: true,
-                                style: {
-                                    fontWeight: 'bold',
-                                    color: (Highcharts.defaultOptions.title.style && Highcharts.defaultOptions.title.style.color) || 'gray'
-                                }
+                                text: 'Number of leaves'
                             }
-                        },
-                        legend: {
-                            align: 'right',
-                            x: -30,
-                            verticalAlign: 'top',
-                            y: 25,
-                            floating: true,
-                            backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
-                            borderColor: '#CCC',
-                            borderWidth: 1,
-                            shadow: false
                         },
                         tooltip: {
                             headerFormat: '<b>{point.x}</b><br/>',
@@ -209,17 +188,25 @@
                         },
                         plotOptions: {
                             column: {
-                                stacking: 'normal',
+                                pointPadding: 0.2,
+                                borderWidth: 0,
                                 dataLabels: {
-                                    enabled: true
+                                    enabled: true,
+                                    formatter: function () {
+                                        return this.y > 0 ? this.y : '0';
+                                    }
                                 }
                             }
+                        },
+                        credits: {
+                            enabled: false
                         },
                         series: seriesData
                     });
                 });
-
             </script>
+
+
 
 
 

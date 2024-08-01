@@ -165,14 +165,12 @@
             event.preventDefault();
             var $button = $(this);
             var actionUrl = $button.closest('form').attr('action');
-            var method = 'POST';
+            var method = 'GET';
+            alert(actionUrl);
 
             $.ajax({
                 url: actionUrl,
                 type: method,
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
                 success: function(response) {
                     $('#datatable').DataTable().ajax.reload();
                 }

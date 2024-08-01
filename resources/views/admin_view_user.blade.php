@@ -80,7 +80,6 @@
                         <td>
                             <div class="buttons d-flex">
                                 <form action="{{ route('user-profile', $view->id) }}" method="GET">
-                                    @csrf
                                     <button class="btn-sm btnApprove" type="submit"
                                             style="width: 35%; border: none; background-color: transparent;"><img
                                             style="width: 100%"

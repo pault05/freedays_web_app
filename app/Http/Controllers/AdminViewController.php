@@ -75,7 +75,7 @@ class AdminViewController extends Controller
                 
                 $extraButton = '';
                 if($request->status == 'Pending') {
-                    $extraButton = '<a href="' . route('free-day-request.edit', ['id' => $request->id]) . '" class="btn btn-edit btn-sm" id="btnEdit" style="border: none; background-color: transparent">
+                    $extraButton = '<a href="' . route('free-day-edit', ['id' => $request->id]) . '" class="btn btn-edit btn-sm" id="btnEdit" style="border: none; background-color: transparent">
                                      <img src="https://img.icons8.com/?size=100&id=4fglYvlz5T4Q&format=png&color=000000" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
                                  </a>';
                 }
@@ -124,8 +124,16 @@ class AdminViewController extends Controller
 
     public function editRequest($id)
     {
-        $request = FreeDaysRequest::find($id);
-        $approved = 0;
+        $freeDayRequest = FreeDaysRequest::find($id);
+        
+        if (!$freeDayRequest) {
+            return redirect()->back()->with('error', 'Request not found');
+        }
+    
+        $approved = 0; 
+        $user = Auth::user(); 
+    
+        // Logica pentru a calcula zilele aprobate
         if (isset($user->freeDays) && count($user->freeDays)) {
             foreach ($user->freeDays as $day) {
                 if ($day->status == 'Approved' && $day->category->is_subtractable == 1) {
@@ -134,33 +142,37 @@ class AdminViewController extends Controller
                     } else {
                         $approved += $day->days;
                     }
-
                 }
             }
         }
-        if (!$request) {
-            return redirect()->back()->with('error', 'Request not found');
-        }
-
+    
         $categories = Category::all();
-
-        $daysOffLeft = 21 - $approved;
-        return view('free_day_request', compact('request', 'daysOffLeft', 'categories'));
+        $daysOffLeft = 21 - $approved; 
+    
+        return view('free_day_request', compact('freeDayRequest', 'daysOffLeft', 'categories'));
     }
+    
     public function updateRequest(Request $request, $id)
     {
         $freeDayRequest = FreeDaysRequest::find($id);
+        
         if (!$freeDayRequest) {
             return redirect()->back()->with('error', 'Request not found');
         }
+    
         $validatedData = $request->validate([
-            'reason' => 'required|string|max:255',
-
+            'category_id' => 'sometimes|required|exists:categories,id',
+            'starting_date' => 'sometimes|required|date|',
+            'ending_date' => 'sometimes|required|date|after_or_equal:starting_date',
+            'description' => 'sometimes|nullable|string|max:255',
         ]);
-
-        $freeDayRequest->update($validatedData);
-
-        return redirect()->route('free-day-request.index')->with('success', 'Request updated successfully');
+    
+        $freeDayRequest->update(array_filter($validatedData));
+    
+        return redirect()->route('admin_view')->with('success', 'Request updated successfully');
     }
+    
+    
+    
    // Nu-l stergeti ca-l vreau amintire sa vad cat eram de ineficient
 }

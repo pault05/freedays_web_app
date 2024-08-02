@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\OfficialHolidayController;
 
+use App\Http\Controllers\FreeDaysRequestEditController;
+
 Route::get('/', function () {
     return view('login');
 });
@@ -45,8 +47,8 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
 
     Route::get('/admin-statistics', [AdminStatisticsController::class, 'index'])->name('admin-statistics');
 
-    Route::get('free-day-request/edit/{id}', [AdminViewController::class, 'editRequest'])->name('free-day-request.edit');
-    Route::put('free-day-request/{id}', [AdminViewController::class, 'updateRequest'])->name('free-day-request.update');
+    Route::post('/free-day-request/update/{id}', [AdminViewController::class, 'updateRequest'])->name('free-day-update');
+    Route::get('/free-days-request/edit/{id}', [FreeDaysRequestEditController::class, 'index'])->name('free_days_request.edit');
 
 
 });

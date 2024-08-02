@@ -119,15 +119,16 @@
             var start = moment(startDate, 'YYYY-MM-DD').startOf('day');
             var end = moment(endDate, 'YYYY-MM-DD').startOf('day');
 
-            if (start.isBefore(today)) {
-                errorMessage.text("You cannot choose dates from the past").show();
-                $('#days-left').val('');
-                $('#days').val('');
-                halfDayContainer.hide();
-                halfDay.prop('checked', false);
-                $('#submit').hide();
-                return;
-            } else if (start.isAfter(end)) {
+            // if (start.isBefore(today)) {
+                // errorMessage.text("You cannot choose dates from the past").show();
+                // $('#days-left').val('');
+                // $('#days').val('');
+                // halfDayContainer.hide();
+                // halfDay.prop('checked', false);
+                // $('#submit').hide();
+                // return;
+            // } else
+             if (start.isAfter(end)) {
                 errorMessage.text("Starting date cannot be bigger than ending date").show();
                 $('#days-left').val('');
                 $('#days').val('');

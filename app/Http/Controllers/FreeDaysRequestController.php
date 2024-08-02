@@ -59,7 +59,7 @@ class FreeDaysRequestController extends Controller
 
 
     public function save(Request $request){
-    
+
         $validatedData = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'start-date' => 'required|date',
@@ -67,7 +67,7 @@ class FreeDaysRequestController extends Controller
             'half-day' => 'nullable|boolean',
             'days' => 'required|numeric|min:1',
             'description' => 'nullable|string|max:100',
-            'proof' => 'nullable|file|mimes:jpg,png,pdf|max:5000'
+            'proof' => 'nullable|file|mimes:jpg,png,pdf,doc,docx|max:5000'
         ]);
 
         $user = Auth::user();

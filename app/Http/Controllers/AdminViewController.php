@@ -76,7 +76,7 @@ class AdminViewController extends Controller
                 $extraButton = '';
                 if($request->status == 'Pending') {
                     $extraButton = '<a href="' . route('free-day-edit', ['id' => $request->id]) . '" class="btn btn-edit btn-sm" id="btnEdit" style="border: none; background-color: transparent">
-                                     <img src="https://img.icons8.com/?size=100&id=4fglYvlz5T4Q&format=png&color=000000" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
+                                     <img src="https://img.icons8.com/?size=100&id=6697&format=png&color=228BE6" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
                                  </a>';
                 }
                           return '<div style="display: flex; align-items: center;">' . $approveButton . $denyButton . $extraButton . '</div>';
@@ -169,7 +169,7 @@ class AdminViewController extends Controller
     
         $freeDayRequest->update(array_filter($validatedData));
     
-        return redirect()->route('admin_view')->with('success', 'Request updated successfully');
+        return redirect()->route('admin-view.index')->with('success', 'Request updated successfully');
     }
     
     

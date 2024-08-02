@@ -9,7 +9,7 @@
     <div class="card p-5 shadow mb-5 w-100">
 
         <div class="container mt-3">
-            <form id="leave-form" action="/free-day-request/save" method="POST" enctype="multipart/form-data">
+            <form id="leave-form" action="/free-day-request/update/{{ $requestLeave->id }}" method="POST" enctype="multipart/form-data">
                 <div class="row d-flex justify-content-start">
                     <div class="col-12 col-sm-6 col-md-4 mb-3 ">
                         <label for="days-left">Days off left</label>
@@ -20,11 +20,11 @@
                     @csrf
                     <div class="col-lg-3 col-sm-12 col-md-6 mb-2">
                         <label for="start-date">Start date</label>
-                        <input type="date" class="form-control" id="start-date" name="start-date" value="{{ $request_leave['starting_date'] ?? date('Y-m-d') }}">
+                        <input type="date" class="form-control" id="start-date" name="starting_date" value="{{ $requestLeave['starting_date'] ?? date('Y-m-d') }}">
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                         <label for="end-date">End Date</label>
-                        <input type="date" class="form-control" id="end-date" name="end-date" value="{{ $request_leave['ending_date'] ?? date('Y-m-d') }}">
+                        <input type="date" class="form-control" id="end-date" name="ending_date" value="{{ $requestLeave['ending_date'] ?? date('Y-m-d') }}">
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                         <label for="days-left">Selected leave days</label>
@@ -35,7 +35,7 @@
                     </div>
                     <div id="half-day-container" class="col-sm-12 col-md-6 col-lg-3 form-check mt-2 mb-2" style="display: none">
                         <br>
-                        <input type="checkbox" class="form-check-input" name="half-day" id="half-day">
+                        <input type="checkbox" class="form-check-input" name="half_day" id="half-day">
                         <input type="hidden" id="half-day-state" name="half-day-state" value="0">
                         <label class="form-check-label" for="half-day">Half day</label>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="col-sm-12">
                         <select class="form-control" name="category_id" style="width: 92%">
                             @foreach($categories as $category)
-                                <option @if($request_leave['category_id'] == $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option @if($requestLeave['category_id'] == $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -57,7 +57,7 @@
                 <div class="row d-flex justify-content-start mb-2 mt-3">
                     <div class="col">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" name="description" rows="3" placeholder="Description" style="width:92%">{{ $request_leave['description'] }}</textarea>
+                        <textarea class="form-control" name="description" rows="3" placeholder="Description" style="width:92%">{{ $requestLeave['description'] }}</textarea>
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@
                 <div class="row ms-5 mt-5">
                     <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">
                         <a href="/home" type="button" class="btn btn-primary" style="margin-right:13%">Back</a>
-                        <form id="leave-form" action="{{ route('free-day-update', $freeDayRequest->id) }}" method="POST" enctype="multipart/form-data">
+                        <form id="leave-form" action="{{ route('free-day-update', $requestLeave->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                             <button type="submit" class="btn btn-primary">Update</button>
                         </form>

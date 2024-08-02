@@ -62,7 +62,7 @@ class FreeDaysRequestController extends Controller
     
         $validatedData = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'start-date' => 'required|date|after_or_equal:today',
+            'start-date' => 'required|date',
             'end-date' => 'required|date|after_or_equal:start-date',
             'half-day' => 'nullable|boolean',
             'days' => 'required|numeric|min:1',

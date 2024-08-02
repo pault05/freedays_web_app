@@ -30,11 +30,11 @@
                     @csrf
                     <div class="col-lg-3 col-sm-12 col-md-6 mb-2">
                         <label for="start-date">Start date</label>
-                            <input type="date" class="form-control" id="start-date" name="start-date" value="<?= ($request->starting_date) ?? date('Y-m-d'); ?>">
+                            <input type="date" class="form-control" id="start-date" name="start-date" value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                         <label for="end-date">End Date</label>
-                            <input type="date" class="form-control" id="end-date" name="end-date" value="<?= ($request->ending_date) ?? date('Y-m-d'); ?>">
+                            <input type="date" class="form-control" id="end-date" name="end-date">
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                         <label for="days-left">Selected leave days</label>
@@ -59,7 +59,7 @@
                             <div class="col-sm-12">
                                 <select class="form-control" name="category_id" style="width: 92%">
                                     @foreach($categories as $category)
-                                        <option @if($request && ($request->category_id == $category->id)) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,7 +94,8 @@
 
                 <div class="row ms-5 mt-5">
                     <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">
-                        <a href="/free_day_request_edit" type="button" class="btn btn-primary" style="margin-right:13%">Edit</a>
+                    <a href="/home" type="button" class="btn btn-primary" style="margin-right:13%">Edit</a>
+
                         <a href="/home" type="button" class="btn btn-primary" style="margin-right:13%">Back</a>
                         <button type="submit" class="btn btn-primary" form="leave-form" id="submit">Submit</button>
                     </div>

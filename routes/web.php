@@ -24,7 +24,9 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::get('/account-creation', [AccountCreationController::class, 'index']);
     Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
-    Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
+    Route::get('/admin-view', [AdminViewController::class, 'index']);
+
+    //Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
     Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
     Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
     Route::post('/admin-view/data', [AdminViewController::class, 'getData'])->name('admin-view.data');

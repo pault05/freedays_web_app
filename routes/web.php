@@ -48,7 +48,7 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::get('/admin-statistics', [AdminStatisticsController::class, 'index'])->name('admin-statistics');
 
     Route::post('/free-day-request/update/{id}', [AdminViewController::class, 'updateRequest'])->name('free-day-update');
-    Route::get('/free-days-request/edit/{id}', [FreeDaysRequestEditController::class, 'index'])->name('free_days_request.edit');
+    Route::get('/free-days-request/edit/{id}', [FreeDaysRequestEditController::class, 'index'])->name('free-day-edit');
 
 
 });

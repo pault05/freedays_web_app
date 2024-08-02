@@ -14,6 +14,8 @@ use App\Http\Controllers\OfficialHolidayController;
 Route::get('/', function () {
     return view('login');
 });
+
+
 Route::middleware(['back'])->group(function () {
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
@@ -22,7 +24,9 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::get('/account-creation', [AccountCreationController::class, 'index']);
     Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
-    Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
+    Route::get('/admin-view', [AdminViewController::class, 'index']);
+
+    //Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
     Route::get('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
     Route::get('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
     Route::post('/admin-view/data', [AdminViewController::class, 'getData'])->name('admin-view.data');
@@ -41,6 +45,10 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
 
     Route::get('/admin-statistics', [AdminStatisticsController::class, 'index'])->name('admin-statistics');
 
+    Route::get('free-day-request/edit/{id}', [AdminViewController::class, 'editRequest'])->name('free-day-request.edit');
+    Route::put('free-day-request/{id}', [AdminViewController::class, 'updateRequest'])->name('free-day-request.update'); 
+
+
 });
 
 
@@ -49,6 +57,7 @@ Route::middleware(['auth', 'back'])->group(function () {
     Route::post('/free-day-request/save', [FreeDaysRequestController::class, 'save']);
     Route::get('/free-day-request', [FreeDaysRequestController::class, 'index']);
     Route::post('/free-day-request', [FreeDaysRequestController::class, 'save']);
+
     Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -57,7 +66,7 @@ Route::middleware(['auth', 'back'])->group(function () {
     Route::post('/user-profile/{id}', [UserProfileController::class, 'save'])->name('user-profile.save');
     Route::post('/user-profile/change-password/{id}', [UserProfileController::class, 'changePassword'])->name('user-profile.change-password');
 
-    Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays'])->name('sarbatoare');
+    Route::get('/holidays', [OfficialHolidayController::class, 'getHolidays'])->name('excludeHolidays');
 
     Route::get('/statistics',[StatisticsController::class,'index'])->name('statistics');
 

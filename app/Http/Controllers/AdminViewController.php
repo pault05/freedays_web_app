@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Mail\FreeDayStatusMail;
-
+use App\Models\Category;
 
 class AdminViewController extends Controller
 {
 
     public function index()
-    {
+    {   
         return view('admin_view');
     }
 
@@ -73,7 +73,11 @@ class AdminViewController extends Controller
                                     </button>
                                </form>';
 
-                return '<div style="display: flex; align-items: center;">' . $approveButton . $denyButton . '</div>';
+                 $extraButton = '<a href="' . route('free-day-request.edit', ['id' => $request->id]) . '" class="btn btn-edit btn-sm" id="btnEdit" style="border: none; background-color: transparent">
+                                     <img src="https://img.icons8.com/?size=100&id=4fglYvlz5T4Q&format=png&color=000000" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
+                                 </a>';
+                          return '<div style="display: flex; align-items: center;">' . $approveButton . $denyButton . $extraButton . '</div>';
+
             })
             ->rawColumns(['status', 'actions'])
             ->make(true);
@@ -115,4 +119,45 @@ class AdminViewController extends Controller
         return redirect()->back()->with('success', 'Success');
     }
 
+    public function editRequest($id)
+    {
+        $request = FreeDaysRequest::find($id);
+        $approved = 0;
+        if (isset($user->freeDays) && count($user->freeDays)) {
+            foreach ($user->freeDays as $day) {
+                if ($day->status == 'Approved' && $day->category->is_subtractable == 1) {
+                    if ($day->half_day) {
+                        $approved += 0.5;
+                    } else {
+                        $approved += $day->days;
+                    }
+
+                }
+            }
+        }
+        if (!$request) {
+            return redirect()->back()->with('error', 'Request not found');
+        }
+
+        $categories = Category::all();
+    
+        $daysOffLeft = 21 - $approved;
+        return view('free_day_request', compact('request', 'daysOffLeft', 'categories'));
+    }
+    public function updateRequest(Request $request, $id)
+    {
+        $freeDayRequest = FreeDaysRequest::find($id);
+        if (!$freeDayRequest) {
+            return redirect()->back()->with('error', 'Request not found');
+        }
+        $validatedData = $request->validate([
+            'reason' => 'required|string|max:255',
+
+        ]);
+
+        $freeDayRequest->update($validatedData);
+
+        return redirect()->route('free-day-request.index')->with('success', 'Request updated successfully');
+    }
+   // Nu-l stergeti ca-l vreau amintire sa vad cat eram de ineficient
 }

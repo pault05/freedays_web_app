@@ -94,7 +94,7 @@
 
                 <div class="row ms-5 mt-5">
                     <div class="d-flex justify-content-end" style="margin-left: 89%; width: 3%">
-                        <a href="/free_day_request_edit" type="button" class="btn btn-primary" style="margin-right:13%">Edit</a>
+                        <a href="/home" type="button" class="btn btn-primary" style="margin-right:13%"></a>
                         <a href="/home" type="button" class="btn btn-primary" style="margin-right:13%">Back</a>
                         <button type="submit" class="btn btn-primary" form="leave-form" id="submit">Submit</button>
                     </div>

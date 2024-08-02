@@ -46,7 +46,7 @@
             });
         });
 
-        $(document).on('click', '.btn-approve, .btn-deny', function(event) {
+        $(document).on('click', '.btn-approve, .btn-deny, ', function(event) {
             event.preventDefault();
             var $button = $(this);
             var actionUrl = $button.closest('form').attr('action');

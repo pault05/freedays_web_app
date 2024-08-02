@@ -74,14 +74,23 @@ class UserProfileController extends Controller
     }
 
     public function changePassword(Request $request, $id){
+
+        $authUser = Auth::user();
         $user = User::findOrFail($id);
-        $new_password = $request->input('newPassword');
 
-        $user->password = Hash::make($new_password);
+        if (($authUser->is_admin && $authUser->company_id === $user->company_id ) || ($authUser->id === $user->id)){
+            $new_password = $request->input('newPassword');
 
-        if($user->save()) {
-            return true;
-        }  else {
+            $user->password = Hash::make($new_password);
+
+            if($user->save()) {
+                return true;
+            }  else {
+                return false;
+            }
+        }
+
+        else{
             return false;
         }
 

@@ -145,6 +145,12 @@
                             const newPassword = Swal.getPopup().querySelector('#newPassword').value;
                             const confirmPassword = Swal.getPopup().querySelector('#confirmPassword').value;
 
+                            function isStrongPassword(password) {
+                                // Minimum 8 characters, at least one uppercase letter, one lowercase letter, and one number
+                                const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                                return strongPasswordRegex.test(password);
+                            }
+
                             if (!newPassword || !confirmPassword) {
                                 Swal.showValidationMessage('Please enter all fields');
                                 return false;
@@ -152,6 +158,11 @@
 
                             if (newPassword !== confirmPassword) {
                                 Swal.showValidationMessage('New passwords do not match');
+                                return false;
+                            }
+
+                            if (!isStrongPassword(newPassword)) {
+                                Swal.showValidationMessage('Password is not strong enough. It must be at least 8 characters long, and include an uppercase letter, a lowercase letter, and a number.');
                                 return false;
                             }
 

@@ -52,7 +52,6 @@
             var $form = $button.closest('form');
             var actionUrl = $form.attr('action');
             var method = $form.attr('method');
-
             $.ajax({
                 url: actionUrl,
                 type: method,

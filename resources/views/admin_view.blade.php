@@ -46,16 +46,17 @@
             });
         });
 
-        $(document).on('click', '.btn-approve, .btn-deny, ', function(event) {
+        $(document).on('click', '.btn-approve, .btn-deny', function(event) {
             event.preventDefault();
             var $button = $(this);
-            var actionUrl = $button.closest('form').attr('action');
-            var method = 'GET';
-           // alert(actionUrl);
+            var $form = $button.closest('form');
+            var actionUrl = $form.attr('action');
+            var method = $form.attr('method');
 
             $.ajax({
                 url: actionUrl,
                 type: method,
+                data: $form.serialize(),
                 success: function(response) {
                     $('#datatable').DataTable().ajax.reload();
                 }

@@ -1,4 +1,4 @@
-@extends('Components.login-layout')
+@extends('components.login-layout')
 
 @section('content')
 
@@ -12,7 +12,8 @@
                                 <div class="text-center w-75 m-auto">
                                     <a href='/login'>
                                         <h4 class="text-secondary">
-                                            <img class="mb-4 img-fluid" src={{asset("/images/login_logo.png")}} alt="" width="293" height="52">
+                                            <img class="mb-4 img-fluid" src={{asset("/images/login_logo.png")}} alt=""
+                                                 width="293" height="52">
                                         </h4>
                                     </a>
                                     <p class="text-muted mb-4 mt-3">Log in to your account</p>
@@ -23,13 +24,15 @@
                                     @csrf
                                     <div class="form-group mb-3" style="padding: 2px">
                                         <label for="email">Email address</label>
-                                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email"
+                                        <input type="email" class="form-control" id="floatingInput"
+                                               placeholder="name@example.com" name="email"
                                                value="{{old('email')}}" required>
                                     </div>
                                     <x-form-error name="email"/>
                                     <div class="form-group mb-3" style="padding: 2px">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+                                        <input type="password" class="form-control" id="floatingPassword"
+                                               placeholder="Password" name="password" required>
                                     </div>
                                     <button class="btn btn-primary btn-block" type="submit">Log In</button>
                                 </form>

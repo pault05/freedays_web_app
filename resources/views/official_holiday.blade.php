@@ -1,4 +1,4 @@
-@extends('Components.layout')
+@extends('components.layout')
 
 @section('content')
     <style>
@@ -11,7 +11,7 @@
 
     <br>
     <div
-        class=" card holidays-main-container d-flex flex-column align-items-center justify-content-center p-5 h-auto rounded w-100">
+            class=" card holidays-main-container d-flex flex-column align-items-center justify-content-center p-5 h-auto rounded w-100">
         <div class="row w-100">
             <div class="col-lg-9 col-md-6 col-sm-12 mt-ms-2">
                 <div class="card p-3 shadow h-100">
@@ -58,12 +58,12 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        jQuery(document).ready(function(){
+        jQuery(document).ready(function () {
             jQuery('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{route('official-holiday.data')}}",
-                columns:[
+                columns: [
                     {data: 'name', name: 'name'},
                     {data: 'date', name: 'date'},
                     {data: 'actions', name: 'actions'}
@@ -71,7 +71,7 @@
             });
         });
 
-        $(document).on('click', '.btn-delete', function(event) {
+        $(document).on('click', '.btn-delete', function (event) {
             event.preventDefault();
 
             var $button = $(this);
@@ -94,7 +94,7 @@
                             _method: 'DELETE',
                             _token: '{{ csrf_token() }}'
                         },
-                        success: function(response) {
+                        success: function (response) {
                             Swal.fire({
                                 title: "Deleted!",
                                 text: "Your file has been deleted.",
@@ -103,7 +103,7 @@
                                 $('#datatable').DataTable().ajax.reload();
                             });
                         },
-                        error: function(response) {
+                        error: function (response) {
                             Swal.fire({
                                 title: "Error!",
                                 text: "There was an error deleting your file.",

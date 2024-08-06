@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
            $this->call([
               CategorySeeder::class,
            ]);
-        User::factory(30)->create();
+        User::factory(100)->create();
         OfficialHoliday::factory(10)->create();
-        FreeDaysRequest::factory(10)->create();
+        FreeDaysRequest::factory(100)->create();
         File::factory(10)->create();
         UserFile::factory(10)->create();
         FreeDaysReqFile::factory()->count(10)->create();

@@ -17,6 +17,7 @@ class AdminViewController extends Controller
 
     public function index()
     {
+
         return view('admin_view');
     }
 
@@ -24,14 +25,33 @@ class AdminViewController extends Controller
         $adminCompanyId = auth()->user()->company_id;
 
 
-        $data = FreeDaysRequest::with('user', 'category')
+        $query = FreeDaysRequest::with('user', 'category')
             ->whereHas('user', function ($query) use ($adminCompanyId) {
                 $query->where('company_id', $adminCompanyId);
             })
             ->withTrashed()
-            ->orderBy('created_at', 'desc')
-            ->get();
-        return DataTables::of($data)
+            ->orderBy('created_at', 'desc');
+
+//        if ($searchValue = request('columns')[1]['search']['value']) {
+//            $query->whereHas('user', function ($q) use ($searchValue) {
+//                $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$searchValue}%"]); //chatgpt saves the day
+//            });
+//        }
+//
+//        if ($searchValue = request('columns')[4]['search']['value']) {
+//            $query->whereHas('category', function ($q) use ($searchValue) {
+//                $q->where('name', 'like', "%{$searchValue}%");
+//            });
+//        }
+//
+//        if ($searchValue = request('columns')[5]['search']['value']) {
+//            $query->where('status', "{$searchValue}");
+//        }
+
+//        $data = $query->get();
+        $dataTables = DataTables::of($query);
+
+        return $dataTables
             ->addColumn('id', function ($request) {
                 return $request->id;
             })
@@ -47,6 +67,11 @@ class AdminViewController extends Controller
             ->addColumn('category_name', function ($request) {
                 return $request->category->name;
             })
+            ->filterColumn('category_name', function($query, $keyword){
+                $query->whereHas('category', function($q) use ($keyword){
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
+            })
             ->editColumn('status', function ($request) {
                 $statusColor = '';
                 if ($request->status == 'Approved') {
@@ -56,7 +81,9 @@ class AdminViewController extends Controller
                 } else {
                     $statusColor = '#d39e00';
                 }
-                return '<span class="badge status-label" style="background-color: ' . $statusColor . ';">' . $request->status . '</span>';
+                return $request->status;
+//                '<span class="badge status-label" style="background-color: ' . $statusColor . ';">' .
+                // . '</span>'
             })
             ->addColumn('actions', function ($request) {
                 $approveButton = '<form action="' . route('admin-view.approve', $request->id) . '" method="POST">
@@ -72,7 +99,7 @@ class AdminViewController extends Controller
                                         <img src="https://img.icons8.com/?size=100&id=63688&format=png&color=000000" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
                                     </button>
                                </form>';
-                
+
                 $extraButton = '';
                 if($request->status == 'Pending') {
                     $extraButton = '<a href="' . route('free-day-edit', ['id' => $request->id]) . '" class="btn btn-edit btn-sm" id="btnEdit" style="border: none; background-color: transparent">
@@ -125,14 +152,14 @@ class AdminViewController extends Controller
     public function editRequest($id)
     {
         $freeDayRequest = FreeDaysRequest::find($id);
-        
+
         if (!$freeDayRequest) {
             return redirect()->back()->with('error', 'Request not found');
         }
-    
-        $approved = 0; 
-        $user = Auth::user(); 
-    
+
+        $approved = 0;
+        $user = Auth::user();
+
         // Logica pentru a calcula zilele aprobate
         if (isset($user->freeDays) && count($user->freeDays)) {
             foreach ($user->freeDays as $day) {
@@ -145,34 +172,34 @@ class AdminViewController extends Controller
                 }
             }
         }
-    
+
         $categories = Category::all();
-        $daysOffLeft = 21 - $approved; 
-    
+        $daysOffLeft = 21 - $approved;
+
         return view('free_day_request', compact('freeDayRequest', 'daysOffLeft', 'categories'));
     }
-    
+
     public function updateRequest(Request $request, $id)
     {
         $freeDayRequest = FreeDaysRequest::find($id);
-        
+
         if (!$freeDayRequest) {
             return redirect()->back()->with('error', 'Request not found');
         }
-    
+
         $validatedData = $request->validate([
             'category_id' => 'sometimes|required|exists:categories,id',
             'starting_date' => 'sometimes|required|date|',
             'ending_date' => 'sometimes|required|date|after_or_equal:starting_date',
             'description' => 'sometimes|nullable|string|max:255',
         ]);
-    
+
         $freeDayRequest->update(array_filter($validatedData));
-    
+
         return redirect()->route('admin-view.index')->with('success', 'Request updated successfully');
     }
-    
-    
-    
+
+
+
    // Nu-l stergeti ca-l vreau amintire sa vad cat eram de ineficient
 }

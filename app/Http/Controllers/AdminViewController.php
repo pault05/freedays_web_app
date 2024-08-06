@@ -17,8 +17,14 @@ class AdminViewController extends Controller
 
     public function index()
     {
+        $adminCompanyId = auth()->user()->company_id;
 
-        return view('admin_view');
+        $users = User::where('company_id', $adminCompanyId)
+            ->whereHas('freeDays')
+            ->get();
+        $categories = Category::all();
+
+        return view('admin_view', compact('users', 'categories'));
     }
 
     public function getData(){
@@ -67,11 +73,6 @@ class AdminViewController extends Controller
             ->addColumn('category_name', function ($request) {
                 return $request->category->name;
             })
-            ->filterColumn('category_name', function($query, $keyword){
-                $query->whereHas('category', function($q) use ($keyword){
-                    $q->where('name', 'like', "%{$keyword}%");
-                });
-            })
             ->editColumn('status', function ($request) {
                 $statusColor = '';
                 if ($request->status == 'Approved') {
@@ -84,6 +85,19 @@ class AdminViewController extends Controller
                 return $request->status;
 //                '<span class="badge status-label" style="background-color: ' . $statusColor . ';">' .
                 // . '</span>'
+            })
+            ->filterColumn('user_name', function($query, $keyword) {
+                $query->whereHas('user', function($q) use ($keyword) {
+                    $q->where('id', $keyword);
+                });
+            })
+            ->filterColumn('category_name', function($query, $keyword) {
+                $query->whereHas('category', function($q) use ($keyword) {
+                    $q->where('id', $keyword);
+                });
+            })
+            ->filterColumn('status', function($query, $keyword) {
+                $query->where('status', 'like', "%{$keyword}%");
             })
             ->addColumn('actions', function ($request) {
                 $approveButton = '<form action="' . route('admin-view.approve', $request->id) . '" method="POST">

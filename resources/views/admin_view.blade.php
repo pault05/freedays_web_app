@@ -31,8 +31,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
-        jQuery(document).ready(function() { //initializare tabel datatable
-            jQuery('#datatable').DataTable({
+        jQuery(document).ready(function() {
+            var table = jQuery('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -52,43 +52,90 @@
                     { data: 'actions', name: 'actions'}
                 ],
                 "order": [],
-                // initComplete: function(){  //filtrare datatable
-                //     let filteredColumns = [1, 4, 5];
-                //     this.api().columns().every(function(index){
-                //         if(filteredColumns.includes(index)) {
-                //             let column = this;
-                //
-                //             let select = document.createElement('select');
-                //             select.add(new Option(''));
-                //             column.footer().replaceChildren(select);
-                //
-                //             select.addEventListener('change', function () {
-                //                 column.search(select.value, {exact: true}).draw();
-                //             });
-                //
-                //             column.data().unique().sort()
-                //                 .each(function (d, j) {
-                //                     select.add(new Option(d));
-                //                 });
-                //         }
-                //     });
-                // }
-            });
-        });
+                initComplete: function() {
+                    let filteredColumns = [1, 4, 5];
 
-        $(document).on('click', '.btn-approve, .btn-deny', function(event) { //prevenire resubmit
-            event.preventDefault();
-            var $button = $(this);
-            var $form = $button.closest('form');
-            var actionUrl = $form.attr('action');
-            var method = $form.attr('method');
-            $.ajax({
-                url: actionUrl,
-                type: method,
-                data: $form.serialize(),
-                success: function(response) {
-                    $('#datatable').DataTable().ajax.reload();
+                    let users = @json($users);
+                    let categories = @json($categories);
+
+                    this.api().columns().every(function(index) {
+                        if (filteredColumns.includes(index)) {
+                            let column = this;
+                            let select = document.createElement('select');
+                            select.add(new Option(''));
+
+                            if (index === 1) {
+                                users.forEach(user => {
+                                    let option = new Option(user.first_name + ' ' + user.last_name, user.id);
+                                    select.add(option);
+                                });
+                            } else if (index === 4) {
+                                categories.forEach(category => {
+                                    let option = new Option(category.name, category.id);
+                                    select.add(option);
+                                });
+                            } else {
+                                column.data().unique().sort().each(function(d, j) {
+                                    select.add(new Option(d));
+                                });
+                            }
+
+                            select.addEventListener('change', function() {
+                                let val = this.value;
+                                if (val === '') {
+                                    column.search('').draw();
+                                } else {
+                                    column.search(val).draw();
+                                }
+                            });
+
+                            column.footer().innerHTML = '';
+                            column.footer().appendChild(select);
+                        }
+                    });
                 }
+            });
+
+            // initComplete: function(){  //filtrare datatable
+            //     let filteredColumns = [1, 4, 5];
+            //     this.api().columns().every(function(index){
+            //         if(filteredColumns.includes(index)) {
+            //             let column = this;
+            //
+            //             let select = document.createElement('select');
+            //             select.add(new Option(''));
+            //             column.footer().replaceChildren(select);
+            //
+            //             // select.addEventListener('change', function () {
+            //             //     column.search(select.value, {exact: true}).draw();
+            //             // });
+            //
+            //             column.data().unique().sort()
+            //                 .each(function (d, j) {
+            //                     select.add(new Option(d));
+            //                 });
+            //         }
+            //     });
+            // }
+
+            jQuery('#filter_user_name, #filter_category_name, #filter_status').on('keyup change', function() {
+                table.draw();
+            });
+
+            $(document).on('click', '.btn-approve, .btn-deny', function(event) {
+                event.preventDefault();
+                var $button = $(this);
+                var $form = $button.closest('form');
+                var actionUrl = $form.attr('action');
+                var method = $form.attr('method');
+                $.ajax({
+                    url: actionUrl,
+                    type: method,
+                    data: $form.serialize(),
+                    success: function(response) {
+                        $('#datatable').DataTable().ajax.reload();
+                    }
+                });
             });
         });
     </script>

@@ -23,11 +23,12 @@ class AdminViewController extends Controller
             ->whereHas('freeDays')
             ->get();
         $categories = Category::all();
+        $statuses = FreeDaysRequest::distinct()->pluck('status');
 
-        return view('admin_view', compact('users', 'categories'));
+        return view('admin_view', compact('users', 'categories', 'statuses'));
     }
 
-    public function getData(){
+    public function getData(Request $request){
         $adminCompanyId = auth()->user()->company_id;
 
 
@@ -35,56 +36,53 @@ class AdminViewController extends Controller
             ->whereHas('user', function ($query) use ($adminCompanyId) {
                 $query->where('company_id', $adminCompanyId);
             })
-            ->withTrashed()
-            ->orderBy('created_at', 'desc');
+            ->withTrashed();
+        if($request->filled('from_date') && $request->filled('end_date')){
+            $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('from_date'))->startOfDay();
+            $endDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->endOfDay();
+            $query->whereBetween('starting_date', [$startDate, $endDate])->orWhereBetween('ending_date', [$startDate, $endDate]);
+        }
 
-//        if ($searchValue = request('columns')[1]['search']['value']) {
-//            $query->whereHas('user', function ($q) use ($searchValue) {
-//                $q->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$searchValue}%"]); //chatgpt saves the day
-//            });
-//        }
-//
-//        if ($searchValue = request('columns')[4]['search']['value']) {
-//            $query->whereHas('category', function ($q) use ($searchValue) {
-//                $q->where('name', 'like', "%{$searchValue}%");
-//            });
-//        }
-//
-//        if ($searchValue = request('columns')[5]['search']['value']) {
-//            $query->where('status', "{$searchValue}");
-//        }
-
-//        $data = $query->get();
         $dataTables = DataTables::of($query);
 
         return $dataTables
             ->addColumn('id', function ($request) {
                 return $request->id;
             })
+            ->orderColumn('id', function ($query, $order) { // bun fix, am stat o ora si ca nu mai mergeau sortarile
+                $query->orderBy('id', $order);
+            })
             ->addColumn('user_name', function ($request) {
                 return $request->user->first_name.' '.$request->user->last_name;
+            })
+            ->orderColumn('user_name', function($query, $order) {
+                $query->join('users', 'free_days_requests.user_id', '=', 'users.id')
+                    ->orderByRaw('CONCAT(users.first_name, " ", users.last_name) ' . $order);
             })
             ->addColumn('starting_date', function ($request) {
                 return \Carbon\Carbon::parse($request->starting_date)->format('d-m-Y');
             })
+            ->orderColumn('starting_date', function ($query, $order) {
+                $query->orderBy('starting_date', $order);
+            })
             ->addColumn('ending_date', function ($request) {
                 return \Carbon\Carbon::parse($request->ending_date)->format('d-m-Y');
+            })
+            ->orderColumn('ending_date', function ($query, $order) {
+                $query->orderBy('ending_date', $order);
             })
             ->addColumn('category_name', function ($request) {
                 return $request->category->name;
             })
+            ->orderColumn('category_name', function($query, $order) {
+                $query->join('categories', 'free_days_requests.category_id', '=', 'categories.id')
+                    ->orderBy('categories.name', $order);
+            })
             ->editColumn('status', function ($request) {
-                $statusColor = '';
-                if ($request->status == 'Approved') {
-                    $statusColor = '#28a745';
-                } elseif ($request->status == 'Denied') {
-                    $statusColor = '#bd2130';
-                } else {
-                    $statusColor = '#d39e00';
-                }
                 return $request->status;
-//                '<span class="badge status-label" style="background-color: ' . $statusColor . ';">' .
-                // . '</span>'
+            })
+            ->orderColumn('status', function($query, $order){
+                $query->orderBy('status', $order);
             })
             ->filterColumn('user_name', function($query, $keyword) {
                 $query->whereHas('user', function($q) use ($keyword) {
@@ -97,7 +95,7 @@ class AdminViewController extends Controller
                 });
             })
             ->filterColumn('status', function($query, $keyword) {
-                $query->where('status', 'like', "%{$keyword}%");
+                $query->where('status', $keyword);
             })
             ->addColumn('actions', function ($request) {
                 $approveButton = '<form action="' . route('admin-view.approve', $request->id) . '" method="POST">

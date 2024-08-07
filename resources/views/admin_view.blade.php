@@ -59,6 +59,7 @@
             var table = jQuery('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
+                searching: true,
                 ajax: {
                     url: "{{ route('admin-view.data') }}",
                     data:function(data){

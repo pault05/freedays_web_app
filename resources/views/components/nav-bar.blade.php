@@ -21,6 +21,11 @@
                             Free Day Request
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 {{request()->is('user-view') ? 'active': '' }}" href="/user-view">
+                           My Requests
+                        </a>
+                    </li>
                 @endif
 
                 @auth

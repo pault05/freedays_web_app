@@ -100,7 +100,7 @@
                 ],
                 "order": [[2, 'asc']],
                 initComplete: function() {
-                    let filteredColumns = [1, 4, 5];
+                    let filteredColumns = [1, 5, 6];
 
                     let users = @json($users);
                     let categories = @json($categories);
@@ -129,7 +129,7 @@
                                     let option = new Option(user.first_name + ' ' + user.last_name, user.id);
                                     select.add(option);
                                 });
-                            } else if (index === 4) {
+                            } else if (index === 5) {
                                 categories.sort((a, b)=>{
                                     let catOne = `${a.name}`.toLowerCase();
                                     let catTwo = `${b.name}`.toLowerCase();
@@ -145,7 +145,7 @@
                                     let option = new Option(category.name, category.id);
                                     select.add(option);
                                 });
-                            } else if (index === 5){
+                            } else if (index === 6){
                                 statuses.sort();
                                 statuses.forEach(status =>{
                                     let option  = new Option(status, status);

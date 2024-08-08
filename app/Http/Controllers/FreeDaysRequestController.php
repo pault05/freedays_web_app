@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use App\Mail\FreeDayStatusMail;
-use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\DataTables;
 
 
 class FreeDaysRequestController extends Controller
@@ -62,13 +62,16 @@ class FreeDaysRequestController extends Controller
 
         $requests = FreeDaysRequest::with('category')->where('user_id', $userId)->get();
 
-        return view('user_view', compact('requests'));
+        $categories = Category::all();
+        $statuses = FreeDaysRequest::distinct()->pluck('status');
+
+        return view('user_view', compact('requests', 'categories', 'statuses'));
     }
 
     public function getData(){
         $userId = auth()->user()->id;
 
-        $query = FreeDaysRequest::with('category')->where('user_id', $userId)->get();
+        $query = FreeDaysRequest::with('category')->where('user_id', $userId);
 
         $dataTables = DataTables::of($query);
 
@@ -79,15 +82,30 @@ class FreeDaysRequestController extends Controller
             ->addColumn('ending_date', function ($request){
                 return $request->ending_date;
             })
+            ->addColumn('description', function ($request){
+                return $request->description;
+            })
             ->addColumn('category_name', function ($request){
                 return $request->category->name;
             })
             ->addColumn('status', function ($request){
                 return $request->status;
             })
-            ->addColumn('description', function ($request){
-                return $request->description;
+            ->filterColumn('category_name', function($query, $keyword){
+                $query->whereHas('category', function($q) use ($keyword){
+                    $q->where('id', $keyword);
+                });
             })
+            ->filterColumn('status', function($query, $keyword){
+                $query->where('status', $keyword);
+            })
+            ->addColumn('actions', function($request){
+                $extraButton = '<a href="' . route('free-day-edit', ['id' => $request->id]) . '" class="btn btn-edit btn-sm" id="btnEdit" style="border: none; background-color: transparent">
+                                     <img src="https://img.icons8.com/?size=100&id=6697&format=png&color=228BE6" alt="" style="width: 30px; border: none; background-color: transparent" class="action-icons">
+                                 </a>';
+                return '<div style="display: flex; align-items: center;">' . $extraButton . '</div>';
+            })
+            ->rawColumns(['actions'])
             ->make(true);
     }
 

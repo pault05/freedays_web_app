@@ -37,15 +37,15 @@ class AdminViewController extends Controller
                 $query->where('company_id', $adminCompanyId);
             })->withTrashed();
 
-        if($request->filled('from_date') && $request->filled('end_date')){
-            $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('from_date'))->startOfDay();
-            $endDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->endOfDay();
-            $query->whereBetween('starting_date', [$startDate, $endDate])->orWhereBetween('ending_date', [$startDate, $endDate]);
-        }
-
-        $query->whereHas('user', function ($query) use ($adminCompanyId) { //daca faceam asta doar inainte de dates, nu se aplica (duh)
-            $query->where('company_id', $adminCompanyId);
-        });
+//        if($request->filled('from_date') && $request->filled('end_date')){
+//            $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('from_date'))->startOfDay();
+//            $endDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->endOfDay();
+//            $query->whereBetween('starting_date', [$startDate, $endDate])->orWhereBetween('ending_date', [$startDate, $endDate]);
+//        }
+//
+//        $query->whereHas('user', function ($query) use ($adminCompanyId) { //daca faceam asta doar inainte de dates, nu se aplica (duh)
+//            $query->where('company_id', $adminCompanyId);
+//        });
 
 //        $searchValue = $request->input('search.value');
 //        if (!empty($searchValue)) {
@@ -60,15 +60,34 @@ class AdminViewController extends Controller
 //                    });
 //            });
 //        }
+
         $dataTables = DataTables::of($query);
 
         return $dataTables
-//            ->filter(function ($query) use ($request) {
-//                if ($request->has('search') && !empty($request->input('search')['value'])) {
-//                    $searchValue = $request->input('search')['value'];
-//                    $query->where('status', 'like', "%$searchValue%");
-//                }
-//            }, true)
+            ->filter(function ($query) use ($request) {
+                if ($request->filled('from_date') && $request->filled('end_date')) {
+                    $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('from_date'))->startOfDay(); // rezolvat cautare si dates
+                    $endDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->endOfDay();
+                    $query->where(function($q) use ($startDate, $endDate) {
+                        $q->whereBetween('starting_date', [$startDate, $endDate])
+                            ->orWhereBetween('ending_date', [$startDate, $endDate]);
+                    });
+                }
+
+                $searchValue = $request->input('search.value');
+                if (!empty($searchValue)) {
+                    $query->where(function ($q) use ($searchValue) {
+                        $q->where('status', 'like', "%$searchValue%")
+                            ->orWhereHas('user', function ($q) use ($searchValue) {
+                                $q->where('first_name', 'like', "%$searchValue%")
+                                    ->orWhere('last_name', 'like', "%$searchValue%");
+                            })
+                            ->orWhereHas('category', function ($q) use ($searchValue) {
+                                $q->where('name', 'like', "%$searchValue%");
+                            });
+                    });
+                }
+            })
             ->addColumn('id', function ($request) {
                 return $request->id;
             })

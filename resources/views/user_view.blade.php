@@ -68,7 +68,7 @@
                             return `<span class="badge status-label" style="background-color: ${color};">${data}</span>`
                         }
                     },
-                    {data: 'actions', name: 'actions'}
+                    {data: 'actions', name: 'actions', orderable:false}
                 ],
                 "order":[[0, 'asc']],
                 initComplete: function(){

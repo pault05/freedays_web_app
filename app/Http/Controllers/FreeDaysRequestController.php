@@ -68,7 +68,7 @@ class FreeDaysRequestController extends Controller
         return view('user_view', compact('requests', 'categories', 'statuses'));
     }
 
-    public function getData(){
+    public function getData(Request $request){
         $userId = auth()->user()->id;
 
         $query = FreeDaysRequest::with('category')->where('user_id', $userId);
@@ -76,20 +76,44 @@ class FreeDaysRequestController extends Controller
         $dataTables = DataTables::of($query);
 
         return $dataTables
+            ->filter(function($query) use ($request){
+                $searchValue = $request->input('search.value');
+                if (!empty($searchValue)) {
+                    $query->where(function ($q) use ($searchValue) {
+                        $q->where('description', 'like', "%$searchValue%");
+                    });
+                }
+            })
             ->addColumn('starting_date', function ($request){
                 return $request->starting_date;
+            })
+            ->orderColumn('starting_date', function($query, $order){
+                $query->orderBy('starting_date', $order);
             })
             ->addColumn('ending_date', function ($request){
                 return $request->ending_date;
             })
+            ->orderColumn('ending_date', function($query, $order){
+                $query->orderBy('ending_date', $order);
+            })
             ->addColumn('description', function ($request){
                 return $request->description;
+            })
+            ->orderColumn('description', function($query, $order){
+                $query->orderBy('description', $order);
             })
             ->addColumn('category_name', function ($request){
                 return $request->category->name;
             })
+            ->orderColumn('category_name', function($query, $order) {
+                $query->join('categories', 'free_days_requests.category_id', '=', 'categories.id')
+                    ->orderBy('categories.name', $order);
+            })
             ->addColumn('status', function ($request){
                 return $request->status;
+            })
+            ->orderColumn('status', function($query, $order){
+                $query->orderBy('status', $order);
             })
             ->filterColumn('category_name', function($query, $keyword){
                 $query->whereHas('category', function($q) use ($keyword){

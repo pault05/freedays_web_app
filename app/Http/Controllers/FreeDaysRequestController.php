@@ -57,6 +57,14 @@ class FreeDaysRequestController extends Controller
         return view('free_day_request', compact('request_leave', 'categories', 'daysOffLeft'));
     }
 
+    public function userRequests(){
+        $userId = auth()->user()->id;
+
+        $requests = FreeDaysRequest::with('category')->where('user_id', $userId)->get();
+
+        return view('user_view', compact('requests'));
+    }
+
 
     public function save(Request $request){
 

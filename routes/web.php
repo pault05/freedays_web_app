@@ -27,7 +27,6 @@ Route::middleware(['auth', 'admin', 'back'])->group(function () {
     Route::post('/account-creation', [AccountCreationController::class, 'store']);
 
     Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
-
     // Route::get('/admin-view', [AdminViewController::class, 'index'])->name('admin-view.index');
     Route::post('/admin-view/approve/{id}', [AdminViewController::class, 'approve'])->name('admin-view.approve');
     Route::post('/admin-view/deny/{id}', [AdminViewController::class, 'deny'])->name('admin-view.deny');
@@ -63,6 +62,9 @@ Route::middleware(['auth', 'back'])->group(function () {
     Route::get('/free-days-request-json', [FreeDaysRequestController::class, 'getFreeDays']);
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/user-view', [FreeDaysRequestController::class, 'userRequests'])->name('user.requests');
+
 
     Route::get('/user-profile/{id}', [UserProfileController::class, 'index'])->name('user-profile');
     Route::post('/user-profile/{id}', [UserProfileController::class, 'save'])->name('user-profile.save');

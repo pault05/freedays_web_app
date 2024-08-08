@@ -35,7 +35,7 @@ class AdminViewController extends Controller
         $query = FreeDaysRequest::with('user', 'category')
             ->whereHas('user', function ($query) use ($adminCompanyId) {
                 $query->where('company_id', $adminCompanyId);
-            })->withTrashed();
+            });
 
 //        if($request->filled('from_date') && $request->filled('end_date')){
 //            $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $request->input('from_date'))->startOfDay();
@@ -78,6 +78,7 @@ class AdminViewController extends Controller
                 if (!empty($searchValue)) {
                     $query->where(function ($q) use ($searchValue) {
                         $q->where('status', 'like', "%$searchValue%")
+                            ->orWhere('description', 'like', "%$searchValue%")
                             ->orWhereHas('user', function ($q) use ($searchValue) {
                                 $q->where('first_name', 'like', "%$searchValue%")
                                     ->orWhere('last_name', 'like', "%$searchValue%");
@@ -112,6 +113,9 @@ class AdminViewController extends Controller
             })
             ->orderColumn('ending_date', function ($query, $order) {
                 $query->orderBy('ending_date', $order);
+            })
+            ->addColumn('description', function ($request){
+                return $request->description;
             })
             ->addColumn('category_name', function ($request) {
                 return $request->category->name;

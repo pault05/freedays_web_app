@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use App\Mail\FreeDayStatusMail;
-
+use Yajra\DataTables\Facades\DataTables;
 
 
 class FreeDaysRequestController extends Controller
@@ -63,6 +63,32 @@ class FreeDaysRequestController extends Controller
         $requests = FreeDaysRequest::with('category')->where('user_id', $userId)->get();
 
         return view('user_view', compact('requests'));
+    }
+
+    public function getData(){
+        $userId = auth()->user()->id;
+
+        $query = FreeDaysRequest::with('category')->where('user_id', $userId)->get();
+
+        $dataTables = DataTables::of($query);
+
+        return $dataTables
+            ->addColumn('starting_date', function ($request){
+                return $request->starting_date;
+            })
+            ->addColumn('ending_date', function ($request){
+                return $request->ending_date;
+            })
+            ->addColumn('category_name', function ($request){
+                return $request->category->name;
+            })
+            ->addColumn('status', function ($request){
+                return $request->status;
+            })
+            ->addColumn('description', function ($request){
+                return $request->description;
+            })
+            ->make(true);
     }
 
 

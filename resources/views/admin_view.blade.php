@@ -20,6 +20,7 @@
                         <th>User Name</th>
                         <th>Starting Date</th>
                         <th>Ending Date</th>
+                        <th>Description</th>
                         <th>Category</th>
                         <th style="width: 100px;">Status</th>
                         <th>Actions</th>
@@ -28,6 +29,7 @@
                 <tfoot>
                     <th style="width: 9%"></th>
                     <th>User Name</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th>Category</th>
@@ -76,6 +78,7 @@
                     { data: 'user_name', name: 'user_name' },
                     { data: 'starting_date', name: 'starting_date' },
                     { data: 'ending_date', name: 'ending_date' },
+                    { data: 'description', name:'description'},
                     { data: 'category_name', name: 'category_name' },
                     { data: 'status', name: 'status',
                         render: function(data, type, row){

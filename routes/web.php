@@ -64,6 +64,7 @@ Route::middleware(['auth', 'back'])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/user-view', [FreeDaysRequestController::class, 'userRequests'])->name('user.requests');
+    Route::post('/user-view/data', [FreeDaysRequestController::class, 'getData'])->name('user-view.data');
 
 
     Route::get('/user-profile/{id}', [UserProfileController::class, 'index'])->name('user-profile');

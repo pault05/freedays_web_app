@@ -89,9 +89,6 @@ class AdminViewController extends Controller
                     });
                 }
             })
-            ->addColumn('id', function ($request) {
-                return $request->id;
-            })
             ->orderColumn('id', function ($query, $order) { // bun fix, am stat o ora si ca nu mai mergeau sortarile
                 $query->orderBy('id', $order);
             })

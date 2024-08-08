@@ -16,7 +16,6 @@
             <table class="display" id="datatable">
                 <thead>
                     <tr>
-                        <th style="width: 9%">Request ID</th>
                         <th>User Name</th>
                         <th>Starting Date</th>
                         <th>Ending Date</th>
@@ -27,7 +26,6 @@
                     </tr>
                 </thead>
                 <tfoot>
-                    <th style="width: 9%"></th>
                     <th>User Name</th>
                     <th></th>
                     <th></th>
@@ -74,7 +72,6 @@
                     }
                 },
                 columns: [
-                    { data: 'id', name: 'id' },
                     { data: 'user_name', name: 'user_name' },
                     { data: 'starting_date', name: 'starting_date' },
                     { data: 'ending_date', name: 'ending_date' },

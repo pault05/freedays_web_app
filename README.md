@@ -1,3 +1,18 @@
+Aceasta aplicatie web a fost creata in cadrul practicii de vara, in 2024, in cadrul firmei iStrom.
+
+Am utilizat limbaje de programare precum PHP, HTML, Javascript, framework-ul Laravel si tehnologii precum Wampp Server si Herd.
+
+Site-ul web are functionalitati precum:
+
+autentificare user
+calendar concediu
+admin dashboard
+alerte e-mail
+middleware
+management angajati, useri
+etc
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
